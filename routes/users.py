@@ -1,13 +1,15 @@
 from flask import Blueprint, jsonify, request
 import secrets
+import os
 
-from sqlalchemy import insert, select
+from sqlalchemy import insert, select, update
 from werkzeug.security import generate_password_hash, check_password_hash
 from sqlalchemy.orm.exc import NoResultFound
 from flask_jwt_extended import create_access_token, create_refresh_token, get_jwt_identity, jwt_required
 
 from utils.connector import conn
 from models.users import Users
+from modules.bucket_user import bucket
 
 user_bp = Blueprint('user', __name__)
 
@@ -96,6 +98,31 @@ def get_current_user():
     curr_user = get_jwt_identity()
     return jsonify({'uid': curr_user['uid'], 'email': curr_user['email']}), 200
 
-# @user_bp.route('/upload_picture/<uid>', methods=["POST"])
-# @jwt_required()
-# def upload_user_pict(uid):
+
+@user_bp.route('/upload_picture/<uid>', methods=["POST"])
+@jwt_required()
+def upload_user_pict(uid):
+    form = request.files["profile_picture"]
+    image_ext = os.path.splitext(form.filename)[1]
+    if image_ext not in [".jpg", ".jpeg", ".png"]:
+        return jsonify({"status": "error", "message": "format gambar harus jpg atau png atau jpeg"})
+    prev_pict = conn.session.scalars(
+        select(Users).where(Users.uid == uid)).one()
+    if prev_pict.profile_picture is not None:
+        prev_pict_name = prev_pict.profile_picture.split("/")[-1]
+        file_ref = bucket.blob('profile_pict/' + prev_pict_name)
+        file_ref.delete()
+
+    form.filename = secrets.token_hex(4) + image_ext
+    image_ref = bucket.blob('profile_pict/' + form.filename)
+    image_ref.upload_from_file(form, content_type="image")
+    public_url = image_ref.public_url
+    try:
+        conn.session.execute(update(Users).where(Users.uid == uid).values(
+            profile_picture=public_url
+        ))
+        conn.session.commit()
+        return jsonify({"status": "OK", "message": "profile picture telah diperbaharui"}), 200
+    except Exception as e:
+        conn.session.rollback()
+        return jsonify({"status": "error", "message": f"Sepertinya ada error pada sisi kami, err: {e}"}), 500
