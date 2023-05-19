@@ -1,0 +1,5 @@
+runtime: python311
+
+env_variables:
+  JWT_SECRET_KEY: "6dcc9951a30568db5f221e3ee7e8c455"
+  SQLALCHEMY_DATABASE_URI: "mysql+pymysql://root:@localhost:3306/animal-snap"
