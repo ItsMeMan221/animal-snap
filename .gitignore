@@ -2,3 +2,4 @@ flask-env
 __pycache__
 .vscode
 credentials.json
+app.yaml
