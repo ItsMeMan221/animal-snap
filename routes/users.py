@@ -126,3 +126,25 @@ def upload_user_pict(uid):
     except Exception as e:
         conn.session.rollback()
         return jsonify({"status": "error", "message": f"Sepertinya ada error pada sisi kami, err: {e}"}), 500
+
+
+@user_bp.route('/delete_profile_picture/<uid>', methods=["POST"])
+@jwt_required()
+def delete_profile_picture(uid):
+    check_pict = conn.session.scalars(
+        select(Users).where(Users.uid == uid)).one()
+    try:
+        if check_pict.profile_picture:
+            pict_name = check_pict.profile_picture("/")[-1]
+            file_ref = bucket.blob('profile_pict/' + pict_name)
+            file_ref.delete()
+            conn.session.execute(update(Users).where(
+                Users.uid == uid).values(profile_picture=None))
+            conn.session.commit()
+            return jsonify({"status": "OK", "message": "profile picture telah dihapus"}), 200
+    except NoResultFound:
+        conn.session.rollback()
+        return jsonify({"status": "error", "message": "User ini tidak ada"}), 404
+    except Exception as e:
+        conn.session.rollback()
+        return jsonify({"status": "error", "message": f"Sepertinya ada error pada sisi kami, err: {e}"}), 500
