@@ -11,6 +11,8 @@ class Animals(conn.Model):
     habitat_id = conn.Column(conn.Integer, conn.ForeignKey('habitats.id'))
     donasi_id = conn.Column(conn.Integer, conn.ForeignKey('donasi.id'))
     class_id = conn.Column(conn.Integer, conn.ForeignKey('class.id'))
+    status_id = conn.Column(conn.Integer, conn.ForeignKey('class.id'))
     habitat = conn.relationship("Habitat")
     donasi = conn.relationship("Donasi")
     class_ = conn.relationship("Class")
+    status = conn.relationship("Status")
