@@ -8,6 +8,8 @@ from utils.token_jwt import jwt
 
 from routes.errors import error_bp
 from routes.users import user_bp
+from routes.classify import classify_bp
+
 
 app = Flask(__name__)
 
@@ -27,6 +29,7 @@ jwt.init_app(app)
 
 app.register_blueprint(error_bp)
 app.register_blueprint(user_bp)
+app.register_blueprint(classify_bp)
 
 
 @app.after_request

@@ -3,3 +3,4 @@ __pycache__
 .vscode
 credentials.json
 app.yaml
+model.h5

@@ -128,12 +128,12 @@ def upload_user_pict(uid):
         return jsonify({"status": "error", "message": f"Sepertinya ada error pada sisi kami, err: {e}"}), 500
 
 
-@user_bp.route('/delete_profile_picture/<uid>', methods=["POST"])
+@user_bp.route('/delete_profile_picture/<uid>', methods=["DELETE"])
 @jwt_required()
 def delete_profile_picture(uid):
-    check_pict = conn.session.scalars(
-        select(Users).where(Users.uid == uid)).one()
     try:
+        check_pict = conn.session.scalars(
+            select(Users).where(Users.uid == uid)).one()
         if check_pict.profile_picture:
             pict_name = check_pict.profile_picture("/")[-1]
             file_ref = bucket.blob('profile_pict/' + pict_name)
@@ -148,3 +148,16 @@ def delete_profile_picture(uid):
     except Exception as e:
         conn.session.rollback()
         return jsonify({"status": "error", "message": f"Sepertinya ada error pada sisi kami, err: {e}"}), 500
+
+
+@user_bp.route("/profile/<uid>", methods=["GET"])
+@jwt_required()
+def get_profile(uid):
+    try:
+        user = conn.session.scalars(
+            select(Users).where(Users.uid == uid)).one()
+        return jsonify({"email": user.email, "nama": user.nama, "profile_picture": user.profile_picture}), 200
+    except NoResultFound:
+        return jsonify({"status": "error", "message": "Gagal mengambil profile anda"}), 400
+    except Exception as e:
+        return jsonify({"status": "error", "message": f"Internal error: {e}"}), 500

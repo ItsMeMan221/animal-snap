@@ -1,4 +1,5 @@
 from utils.connector import conn
+from .users import Users
 
 
 class UserClassify(conn.Model):

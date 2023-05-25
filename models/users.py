@@ -1,5 +1,4 @@
 from utils.connector import conn
-from sqlalchemy.orm import relationship
 
 
 class Users(conn.Model):
@@ -12,4 +11,4 @@ class Users(conn.Model):
     email = conn.Column(conn.String(255), unique=True, nullable=False)
     password = conn.Column(conn.String(255), unique=True, nullable=False)
     profile_picture = conn.Column(conn.String(255))
-    user_classify = relationship('UserClassify', back_populates='user')
+    # user_classify = conn.relationship('UserClassify', back_populates='user')
