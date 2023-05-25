@@ -161,3 +161,38 @@ def get_profile(uid):
         return jsonify({"status": "error", "message": "Gagal mengambil profile anda"}), 400
     except Exception as e:
         return jsonify({"status": "error", "message": f"Internal error: {e}"}), 500
+
+
+@user_bp.route("/change_pass/<uid>", methods=["PUT"])
+@jwt_required()
+def change_pass(uid):
+    forms = request.json
+    user = conn.session.scalars(
+        select(Users).where(Users.uid == uid)).one()
+
+    # Old Password Validation
+    if "password" not in forms:
+        return jsonify({"status": "error", "message": "Mohon isi field password"}), 400
+    if not check_password_hash(user.password, forms["password"]):
+        return jsonify({"status": "error", "message": "Credential anda salah"}), 401
+
+    # New Password Validation
+    if "new_pass" not in forms:
+        return jsonify({"status": "error", "message": "Mohon isi field password baru"}), 400
+    if len(forms["new_pass"]) < 8:
+        return jsonify({"status": "error", "message": "Password minimal 8 karakter"}), 400
+
+    # Retype Password Validation
+    if forms["re_pass"] != forms["new_pass"]:
+        return jsonify({"status": "error", "message": "Mohon isi field sesuai dengan password baru"}), 400
+
+    try:
+        new_pass = generate_password_hash(forms["new_pass"])
+        conn.session.execute(
+            update(Users).where(Users.uid == uid).values(password=new_pass)
+        )
+        conn.session.commit()
+        return jsonify({"status": "OK", "message": "Password telah diubah"}), 200
+    except Exception as e:
+        conn.session.rollback()
+        return jsonify({"status": "error", "message": f"Sepertinya ada error pada sisi kami, err: {e}"}), 500
