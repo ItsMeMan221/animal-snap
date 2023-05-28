@@ -16,10 +16,10 @@ model = keras.models.load_model("model.h5")
 def norm_img(file):
     data = np.asarray(file)
     data = data / 255.0
-    data = np.expand_dims(data, axis=-1)  # Add a channel dimension
+    data = np.expand_dims(data, axis=-1)
     data = tf.image.resize(data, [299, 299])
-    data = tf.concat([data, data, data], axis=-1)  # Convert grayscale to RGB
-    data = tf.expand_dims(data, axis=0)  # Add a batch dimension
+    data = tf.concat([data, data, data], axis=-1)
+    data = tf.expand_dims(data, axis=0)
     return data
 
 
@@ -31,9 +31,9 @@ def predict(x):
     return label
 
 
-@classify_bp.route("", methods=["POST"])
+@classify_bp.route("/<uid>", methods=["POST"])
 @jwt_required()
-def classify():
+def classify(uid):
     files = request.files.get('picture')
     files_ext = os.path.splitext(files.filename)[1]
 

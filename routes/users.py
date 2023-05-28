@@ -33,6 +33,11 @@ def register_user():
     if len(forms["password"]) < 8:
         return jsonify({"status": "error", "message": "Password minimal 8 karakter"}), 400
 
+    if "re_pass" not in forms:
+        return jsonify({"status": "error", "message": "Isi field ulangi password! "}), 400
+    if forms["password"] != forms["re_pass"]:
+        return jsonify({"status": "error", "message": "Nilai kedua password harus sama"}), 400
+
     # Nama validation
     if "nama" not in forms:
         return jsonify({"status": "error", "message": "Mohon isi field nama"}), 400
@@ -135,7 +140,7 @@ def delete_profile_picture(uid):
         check_pict = conn.session.scalars(
             select(Users).where(Users.uid == uid)).one()
         if check_pict.profile_picture:
-            pict_name = check_pict.profile_picture("/")[-1]
+            pict_name = check_pict.profile_picture.split("/")[-1]
             file_ref = bucket.blob('profile_pict/' + pict_name)
             file_ref.delete()
             conn.session.execute(update(Users).where(
