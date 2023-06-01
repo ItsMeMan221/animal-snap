@@ -10,7 +10,7 @@ from routes.errors import error_bp
 from routes.users import user_bp
 from routes.classify import classify_bp
 from routes.habitat import habitat_bp
-
+from routes.animal import animal_bp
 app = Flask(__name__)
 
 with open('app.yaml') as yaml_file:
@@ -31,6 +31,7 @@ app.register_blueprint(error_bp)
 app.register_blueprint(user_bp)
 app.register_blueprint(classify_bp)
 app.register_blueprint(habitat_bp)
+app.register_blueprint(animal_bp)
 
 
 @app.after_request
