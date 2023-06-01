@@ -25,6 +25,8 @@ from modules.bucket_user import bucket
 
 from sqlalchemy import insert, select, text
 
+import math
+
 classify_bp = Blueprint('classify', __name__, url_prefix='/classify')
 model = load_model("model.h5")
 
@@ -155,7 +157,7 @@ def get_classify_result(id_classify):
         }
         return jsonify(response), 200
     except NoResultFound as e:
-        return jsonify({"status": "error", "message": "Hewan tidak ada!"}), 400
+        return jsonify({"status": "error", "message": "Hewan tidak ada!"}), 204
     except Exception as e:
         return jsonify({"status": "error", "message": f"Internal error : {e}"}), 500
 
@@ -164,12 +166,21 @@ def get_classify_result(id_classify):
 @classify_bp.route("/history/<uid>", methods=["GET"])
 @jwt_required()
 def history_classify(uid):
+    page = int(request.args.get("page", 1))
+    limit = 5
     # Getting the master value
     try:
         histories_query = conn.text(
             "SELECT UC.id, UC.date_classified, UC.animal_image, A.nama nama_hewan, S.nama status_hewan FROM user_classify UC LEFT JOIN animals A ON A.id = UC.animal_id LEFT JOIN status S ON S.id = A.status_id WHERE UC.user_id = :uid")
         histories = conn.session.execute(
             histories_query, {"uid": uid}).fetchall()
+        # Begin pagination
+        total_rec = len(histories)
+        total_page = math.ceil(total_rec/limit)
+        offset_value = (page - 1) * limit
+
+        paginated_historties = histories[offset_value:offset_value + limit]
+
         response = [
             {
                 "id_classification": history.id,
@@ -178,10 +189,16 @@ def history_classify(uid):
                 "nama_hewan": history.nama_hewan,
                 "status_hewan": history.status_hewan
             }
-            for history in histories]
+            for history in paginated_historties]
         if response == []:
-            return jsonify({"status": "OK", "message": 'Tidak ada history klasifikasi'}), 200
-        return jsonify(response), 200
+            return jsonify({"status": "OK", "message": 'Tidak ada history klasifikasi'}), 204
+
+        return jsonify({
+            "total_records": total_rec,
+            "total_page": total_page,
+            "current_page": page,
+            "data": response
+        }), 200
 
     except Exception as e:
         return jsonify({"status": "error", "message": f"Internal error : {e}"}), 500
