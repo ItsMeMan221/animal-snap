@@ -6,6 +6,8 @@ from sqlalchemy import insert, select, update
 from werkzeug.security import generate_password_hash, check_password_hash
 from sqlalchemy.orm.exc import NoResultFound
 from flask_jwt_extended import create_access_token, create_refresh_token, get_jwt_identity, jwt_required
+from datetime import datetime
+
 
 from utils.connector import conn
 from models.users import Users
@@ -46,11 +48,14 @@ def register_user():
 
     # Register User
     try:
+        date_joined = datetime.now()
+        date_joined = date_joined.strftime("%d-%m-%Y")
         conn.session.execute(insert(Users).values(
             uid=uid,
             nama=forms["nama"],
             email=forms["email"],
             password=generate_password_hash(forms["password"]),
+            date_joined=date_joined
         ))
         conn.session.commit()
         return jsonify({"status": "OK", "message": f"User {forms['email']} telah berhasil teregristrasi"}), 201
@@ -82,6 +87,8 @@ def login():
         return jsonify({
             'token': token,
             'refresh_token': refresh_token,
+            'uid': user.uid,
+            'email': user.email
         }), 200
     except NoResultFound:
         return jsonify({"status": "error", "message": "Credential belum pernah terdaftar"}), 401
@@ -161,7 +168,7 @@ def get_profile(uid):
     try:
         user = conn.session.scalars(
             select(Users).where(Users.uid == uid)).one()
-        return jsonify({"email": user.email, "nama": user.nama, "profile_picture": user.profile_picture}), 200
+        return jsonify({"email": user.email, "nama": user.nama, "profile_picture": user.profile_picture, "date_joined": user.date_joined}), 200
     except NoResultFound:
         return jsonify({"status": "error", "message": "Gagal mengambil profile anda"}), 400
     except Exception as e:
