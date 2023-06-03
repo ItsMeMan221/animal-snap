@@ -1,5 +1,5 @@
 
-from flask import Blueprint, jsonify, request
+from flask import Blueprint, jsonify
 
 from flask_jwt_extended import jwt_required
 from sqlalchemy import select

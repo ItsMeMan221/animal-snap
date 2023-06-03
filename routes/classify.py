@@ -1,12 +1,7 @@
-import tensorflow as tf
-from tensorflow import keras
-
-from tensorflow.keras.preprocessing import image
 from tensorflow.keras.models import load_model
 
 import numpy as np
 
-import io
 from PIL import Image
 import os
 
@@ -23,7 +18,7 @@ from utils.connector import conn
 from models.user_classify import UserClassify
 from modules.bucket_user import bucket
 
-from sqlalchemy import insert, select, text
+from sqlalchemy import insert, select
 
 import math
 
@@ -114,7 +109,6 @@ def get_classify_result(id_classify):
         res_habitat = []
         donasi_id = animal.donasi_id
         habitat_id = animal.habitat_id
-        print(donasi_id)
 
         if donasi_id is not None and donasi_id != "":
             # String donasi to array
@@ -134,7 +128,6 @@ def get_classify_result(id_classify):
             habitat_id = habitat_id.split(",")
             # query each of id
             for i in habitat_id:
-                print(i)
                 query_habitat = conn.text(
                     "SELECT nama, gambar, deskripsi FROM habitat WHERE id = :id_habitat")
                 habitat = conn.session.execute(

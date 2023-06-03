@@ -1,5 +1,5 @@
 
-from flask import Blueprint, jsonify, request
+from flask import Blueprint, jsonify
 
 from flask_jwt_extended import jwt_required
 from sqlalchemy import select
@@ -45,7 +45,6 @@ def get_animal_by_id(id):
         res_habitat = []
         donasi_id = animal.donasi_id
         habitat_id = animal.habitat_id
-        print(donasi_id)
 
         if donasi_id is not None and donasi_id != "":
             # String donasi to array
@@ -65,7 +64,6 @@ def get_animal_by_id(id):
             habitat_id = habitat_id.split(",")
             # query each of id
             for i in habitat_id:
-                print(i)
                 query_habitat = conn.text(
                     "SELECT nama, gambar, deskripsi FROM habitat WHERE id = :id_habitat")
                 habitat = conn.session.execute(
