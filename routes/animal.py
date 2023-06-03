@@ -27,6 +27,8 @@ def get_all_animals():
         ), 200
     except Exception as e:
         return jsonify({"status": "error", "message": f"Sepertinya ada kesalahan dari kami {e}"}), 500
+    finally:
+        conn.session.close()
 
 
 @animal_bp.route("/<id>", methods=["GET"])
@@ -88,3 +90,5 @@ def get_animal_by_id(id):
         return jsonify({"status": "error", "message": "Hewan tidak ada!"}), 400
     except Exception as e:
         return jsonify({"status": "error", "message": f"Internal error : {e}"}), 500
+    finally:
+        conn.session.close()

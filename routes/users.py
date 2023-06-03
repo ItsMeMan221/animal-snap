@@ -62,6 +62,8 @@ def register_user():
     except Exception as e:
         conn.session.rollback()
         return jsonify({"status": "error", "message": f"Sepertinya ada error pada sisi kami, err: {e}"}), 500
+    finally:
+        conn.session.close()
 
 
 @user_bp.route("/login", methods=["POST"])
@@ -94,6 +96,8 @@ def login():
         return jsonify({"status": "error", "message": "Credential belum pernah terdaftar"}), 401
     except Exception as e:
         return jsonify({"status": "Internal error", "message": f"Sepertinya ada error pada sisi kami, err: {e}"}), 500
+    finally:
+        conn.session.close()
 
 
 @user_bp.route('/refresh_token', methods=["POST"])
@@ -160,6 +164,8 @@ def delete_profile_picture(uid):
     except Exception as e:
         conn.session.rollback()
         return jsonify({"status": "error", "message": f"Sepertinya ada error pada sisi kami, err: {e}"}), 500
+    finally:
+        conn.session.close()
 
 
 @user_bp.route("/profile/<uid>", methods=["GET"])
@@ -173,6 +179,8 @@ def get_profile(uid):
         return jsonify({"status": "error", "message": "Gagal mengambil profile anda"}), 400
     except Exception as e:
         return jsonify({"status": "error", "message": f"Internal error: {e}"}), 500
+    finally:
+        conn.session.close()
 
 
 @user_bp.route("/change_pass/<uid>", methods=["PUT"])
@@ -208,3 +216,5 @@ def change_pass(uid):
     except Exception as e:
         conn.session.rollback()
         return jsonify({"status": "error", "message": f"Sepertinya ada error pada sisi kami, err: {e}"}), 500
+    finally:
+        conn.session.close()

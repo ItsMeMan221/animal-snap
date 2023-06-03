@@ -27,6 +27,8 @@ def get_all_habitat():
         ), 200
     except Exception as e:
         return jsonify({"status": "error", "message": f"Sepertinya ada kesalahan dari kami {e}"}), 500
+    finally:
+        conn.session.close()
 
 
 @habitat_bp.route("/<id>", methods=["GET"])
@@ -44,3 +46,5 @@ def get_habitat_by_id(id):
         return jsonify({"status": "error", "message": "Habitat tidak ada!"}), 400
     except Exception as e:
         return jsonify({"status": "error", "message": f"Sepertinya ada kesalahan dari kami {e}"}), 500
+    finally:
+        conn.session.close()

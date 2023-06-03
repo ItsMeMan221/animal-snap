@@ -84,6 +84,8 @@ def classify(uid):
     except Exception as e:
         conn.session.rollback()
         return jsonify({"status": "error", "message": f"Internal error : {e}"}), 500
+    finally:
+        conn.session.close()
 
 
 @classify_bp.route("/<id_classify>", methods=["GET"])
@@ -153,6 +155,8 @@ def get_classify_result(id_classify):
         return jsonify({"status": "error", "message": "Hewan tidak ada!"}), 204
     except Exception as e:
         return jsonify({"status": "error", "message": f"Internal error : {e}"}), 500
+    finally:
+        conn.session.close()
 
 
 # History Classify
@@ -195,3 +199,5 @@ def history_classify(uid):
 
     except Exception as e:
         return jsonify({"status": "error", "message": f"Internal error : {e}"}), 500
+    finally:
+        conn.session.close()
