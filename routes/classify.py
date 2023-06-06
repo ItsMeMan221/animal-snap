@@ -1,4 +1,5 @@
-from tensorflow.keras.models import load_model
+import tensorflow as tf
+import tensorflow_hub as hub
 
 import numpy as np
 
@@ -23,12 +24,15 @@ from sqlalchemy import insert, select
 import math
 
 classify_bp = Blueprint('classify', __name__, url_prefix='/classify')
-model = load_model("model.h5")
+
+custom_objects = {"KerasLayer": hub.KerasLayer}
+
+model = tf.keras.models.load_model("model.h5", custom_objects=custom_objects)
 
 
 def norm_img(file):
     data = Image.open(file)
-    data = data.resize((32, 32))
+    data = data.resize((224, 224))
     data = np.array(data)
     data = data / 255.0
     data = np.expand_dims(data, axis=0)
@@ -79,7 +83,7 @@ def classify(uid):
             animal_image=public_url
         ))
         conn.session.commit()
-        return jsonify({"status": "OK", "id": classified_id}), 201
+        return jsonify({"status": "OK", "id": classified_id, "animal_predict": animal_id}), 201
 
     except Exception as e:
         conn.session.rollback()
