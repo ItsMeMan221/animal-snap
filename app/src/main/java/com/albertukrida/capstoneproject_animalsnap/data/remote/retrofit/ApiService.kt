@@ -45,6 +45,12 @@ interface ApiService {
         @Path("uid") uid: String
     ): Call<DataResponse>
 
+    @PUT("change_name/{uid}")
+    fun changeName(
+        @Path("uid") uid: String,
+        @Body data: DataClassChangeName
+    ): Call<DataResponse>
+
     @PUT("change_pass/{uid}")
     fun changePassword(
         @Path("uid") uid: String,

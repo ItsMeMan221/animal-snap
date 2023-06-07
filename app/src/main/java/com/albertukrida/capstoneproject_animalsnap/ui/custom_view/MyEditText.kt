@@ -125,9 +125,9 @@ class MyEditText : AppCompatEditText, View.OnTouchListener {
 
         if(text != null && "$text".isNotEmpty()){
             // validate name
-            if(id == R.id.ed_register_name &&"$text".length < 4){
+            if((id == R.id.ed_register_name || id == R.id.ed_name) &&"$text".length < 4){
                 error = resources.getString(R.string.name_error2)
-            } else if(id == R.id.ed_register_name && !patternName.matcher(text.toString()).matches()){
+            } else if((id == R.id.ed_register_name || id == R.id.ed_name) && !patternName.matcher(text.toString()).matches()){
                 error = resources.getString(R.string.name_error1)
             }
             // validate email

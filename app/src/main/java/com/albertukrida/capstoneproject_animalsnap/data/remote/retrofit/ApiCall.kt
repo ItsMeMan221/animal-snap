@@ -236,12 +236,11 @@ class ApiCall(private val context: Context) {
         })
     }
 
-    fun changePassword(oldPass: String, newPass: String, rePass: String) {
-        val fAuth = FirebaseAuth.getInstance()
+    fun changeName(name: String, binding: FragmentProfileBinding) {
         alertDialog = pdLoading.show(builder)
-        val dataChangePass = DataClassChangePassword(oldPass, newPass, rePass)
+        val dataChangeName = DataClassChangeName(name)
 
-        val client = ApiConfig.getApiService().changePassword(userModel.userId!!, dataChangePass)
+        val client = ApiConfig.getApiService().changeName(userModel.userId!!, dataChangeName)
         client.enqueue(object : Callback<DataResponse> {
             override fun onResponse(
                 call: Call<DataResponse>,
@@ -250,20 +249,10 @@ class ApiCall(private val context: Context) {
                 if (response.isSuccessful) {
                     val responseBody = response.body()
                     if (responseBody != null) {
-                        fAuth.currentUser!!.updatePassword(newPass).addOnSuccessListener {
-                            alertDialog.dismiss()
-                            userModel.password = newPass
-                            Utils(context).successDialog(context.resources.getString(R.string.change_pass_success))
-                        }
-                        .addOnFailureListener { e: Exception ->
-                            alertDialog.dismiss()
-                            if(e.message == "timeout"){
-                                Utils(context).errorDialog(context.resources.getString(R.string.error_network))
-                            }else {
-                                Utils(context).errorDialog("Error! " + e.message)
-                            }
-                            Utils(context).errorDialog("Error! " + e.message)
-                        }
+                        alertDialog.dismiss()
+                        binding.tvName.text = name
+                        // success dialog
+                        Utils(context).successDialog(responseBody.message)
                     }
                 } else {
                     alertDialog.dismiss()
@@ -281,5 +270,47 @@ class ApiCall(private val context: Context) {
                 Utils(context).errorDialog(t.message.toString())
             }
         })
+    }
+
+    fun changePassword(oldPass: String, newPass: String, rePass: String) {
+        alertDialog = pdLoading.show(builder)
+        val fAuth = FirebaseAuth.getInstance()
+        fAuth.currentUser!!.updatePassword(newPass).addOnSuccessListener {
+            userModel.password = newPass
+
+            val dataChangePass = DataClassChangePassword(oldPass, newPass, rePass)
+            val client = ApiConfig.getApiService().changePassword(userModel.userId!!, dataChangePass)
+            client.enqueue(object : Callback<DataResponse> {
+                override fun onResponse(
+                    call: Call<DataResponse>,
+                    response: Response<DataResponse>
+                ) {
+                    if (response.isSuccessful) {
+                        val responseBody = response.body()
+                        if (responseBody != null) {
+                            alertDialog.dismiss()
+                            Utils(context).successDialog(context.resources.getString(R.string.change_pass_success))
+                        }
+                    } else {
+                        alertDialog.dismiss()
+                        try {
+                            val data = response.errorBody()?.string()
+                            val jObjError = data?.let { JSONObject(it) }
+                            Utils(context).errorDialog(jObjError?.getString("message").toString())
+                        } catch (e: Exception) {
+                            Utils(context).errorDialog("Error! " + e.message)
+                        }
+                    }
+                }
+                override fun onFailure(call: Call<DataResponse>, t: Throwable) {
+                    alertDialog.dismiss()
+                    Utils(context).errorDialog(t.message.toString())
+                }
+            })
+        }
+        .addOnFailureListener { e: Exception ->
+            alertDialog.dismiss()
+            Utils(context).errorDialog("Error! " + e.message)
+        }
     }
 }

@@ -54,6 +54,9 @@ class ProfileFragment : Fragment() {
         binding.ivCircleProfileImage.setOnClickListener{ changeProfilePictureDialog() }
         binding.ivSquareProfileImage.setOnClickListener{ changeProfilePictureDialog() }
 
+        // change name listener
+        binding.ivEditProfile.setOnClickListener{ changeNameDialog() }
+
         // change password listener
         binding.btnChangePass.setOnClickListener{ oldPasswordDialog() }
 
@@ -223,6 +226,28 @@ class ProfileFragment : Fragment() {
             ApiCall(mContext).changePassword(txtOldPassword, txtNewPassword, txtConfirmNewPassword)
             newPasswordDialog.dismiss()
         }
+    }
+
+    private fun changeNameDialog(){
+        val changeNameDialog: android.app.AlertDialog =
+            android.app.AlertDialog.Builder(mView.context)
+                .setView(R.layout.dialog_change_name)
+                .setTitle("Change Display Name?")
+                .create()
+        changeNameDialog.show()
+
+        assert(fAuth.currentUser != null)
+
+        val changeName = changeNameDialog.findViewById<EditText>(R.id.ed_name)
+        val btnNext = changeNameDialog.findViewById<TextView>(R.id.btn_next)
+        val btnCancel = changeNameDialog.findViewById<TextView>(R.id.btn_cancel)
+
+        btnNext.setOnClickListener {
+            val txtChangeName = changeName.text.toString()
+            ApiCall(mContext).changeName(txtChangeName, binding)
+            changeNameDialog.dismiss()
+        }
+        btnCancel.setOnClickListener { changeNameDialog.dismiss() }
     }
 
     private fun logout(){
