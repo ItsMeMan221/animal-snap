@@ -167,6 +167,8 @@ def upload_user_pict(uid):
     except Exception as e:
         conn.session.rollback()
         return jsonify({"status": "error", "message": f"Sepertinya ada error pada sisi kami, err: {str(e)}"}), 500
+    finally:
+        conn.session.close()
 
 
 @user_bp.route('/delete_profile_picture/<uid>', methods=["DELETE"])
