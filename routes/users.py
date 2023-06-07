@@ -258,3 +258,21 @@ def change_pass(uid):
         return jsonify({"status": "error", "message": f"Sepertinya ada error pada sisi kami, err: {e}"}), 500
     finally:
         conn.session.close()
+
+
+@user_bp.route("/change_name/<uid>", methods=["PUT"])
+@jwt_required()
+def change_name(uid):
+    forms = request.json
+    if "name" not in forms:
+        return jsonify({"status": "error", "message": "Mohon isi field name"}), 400
+    try:
+        conn.session.execute(update(Users).where(
+            Users.uid == uid).values(nama=forms["name"]))
+        conn.session.commit()
+        return jsonify({"status": "OK", "message": "Nama telah diubah"}), 200
+    except Exception as e:
+        conn.session.rollback()
+        return jsonify({"status": "error", "message": f"Sepertinya ada error pada sisi kami, err: {e}"}), 500
+    finally:
+        conn.session.close()
