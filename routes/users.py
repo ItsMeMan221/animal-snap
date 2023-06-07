@@ -124,10 +124,19 @@ def upload_user_pict(uid):
         return jsonify({"status": "error", "message": "format gambar harus jpg atau png atau jpeg"})
     prev_pict = conn.session.scalars(
         select(Users).where(Users.uid == uid)).one()
+
+    # If there is Profile Picture
     if prev_pict.profile_picture is not None:
-        prev_pict_name = prev_pict.profile_picture.split("/")[-1]
-        file_ref = bucket.blob('profile_pict/' + prev_pict_name)
-        file_ref.delete()
+
+        # Splitting the path of an image
+        prev_pict_list = prev_pict.profile_picture.split("/")
+        if len(prev_pict_list) > 2:
+            prev_pict_hoster = prev_pict_list[2]
+            # Profile picture is in bucket
+            if prev_pict_hoster == 'storage.googleapis.com':
+                prev_pict_name = prev_pict.profile_picture.split("/")[-1]
+                file_ref = bucket.blob('profile_pict/' + prev_pict_name)
+                file_ref.delete()
 
     form.filename = secrets.token_hex(4) + image_ext
     image_ref = bucket.blob('profile_pict/' + form.filename)
@@ -150,10 +159,14 @@ def delete_profile_picture(uid):
     try:
         check_pict = conn.session.scalars(
             select(Users).where(Users.uid == uid)).one()
-        if check_pict.profile_picture:
-            pict_name = check_pict.profile_picture.split("/")[-1]
-            file_ref = bucket.blob('profile_pict/' + pict_name)
-            file_ref.delete()
+        if check_pict.profile_picture is not None:
+            check_pict_list = check_pict.profile_picture.split("/")
+            if len(check_pict_list) > 2:
+                check_pict_hoster = check_pict_list[2]
+                if check_pict_hoster == 'storage.googleapis.com':
+                    pict_name = check_pict.profile_picture.split("/")[-1]
+                    file_ref = bucket.blob('profile_pict/' + pict_name)
+                    file_ref.delete()
             conn.session.execute(update(Users).where(
                 Users.uid == uid).values(profile_picture=None))
             conn.session.commit()
@@ -161,6 +174,33 @@ def delete_profile_picture(uid):
     except NoResultFound:
         conn.session.rollback()
         return jsonify({"status": "error", "message": "User ini tidak ada"}), 404
+    except Exception as e:
+        conn.session.rollback()
+        return jsonify({"status": "error", "message": f"Sepertinya ada error pada sisi kami, err: {e}"}), 500
+    finally:
+        conn.session.close()
+
+
+@user_bp.route('/upload_avatar/<uid>', methods=["POST"])
+@jwt_required()
+def upload_avatar(uid):
+    try:
+        prev_pict = conn.session.scalars(
+            select(Users).where(Users.uid == uid)).one()
+        image_path = request.json
+        if "image_path" not in image_path:
+            return jsonify({"status": "error", "message": "image path tidak ditemukan"}), 400
+            # Check Prev Picture
+        if prev_pict.profile_picture is not None:
+            prev_pict_hoster = prev_pict.profile_picture.split("/")[2]
+            if prev_pict_hoster == "storage.googleapis.com":
+                pict_name = prev_pict.profile_picture.split("/")[-1]
+                file_ref = bucket.blob('profile_pict/' + pict_name)
+                file_ref.delete()
+        conn.session.execute(update(Users).where(
+            Users.uid == uid).values(profile_picture=image_path["image_path"]))
+        conn.session.commit()
+        return jsonify({"status": "OK", "message": "profile picture telah diperbaharui"})
     except Exception as e:
         conn.session.rollback()
         return jsonify({"status": "error", "message": f"Sepertinya ada error pada sisi kami, err: {e}"}), 500
