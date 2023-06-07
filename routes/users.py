@@ -13,6 +13,9 @@ from utils.connector import conn
 from models.users import Users
 from modules.bucket_user import bucket
 
+from PIL import Image
+from io import BytesIO
+
 user_bp = Blueprint('user', __name__)
 
 
@@ -119,38 +122,51 @@ def get_current_user():
 @jwt_required()
 def upload_user_pict(uid):
     form = request.files["profile_picture"]
-    image_ext = os.path.splitext(form.filename)[1]
+    image_ext = os.path.splitext(form.filename)[1].lower()
+    if form is None:
+        return jsonify({"status": "error", "message": "Pilih gambar anda"}), 400
+
     if image_ext not in [".jpg", ".jpeg", ".png"]:
-        return jsonify({"status": "error", "message": "format gambar harus jpg atau png atau jpeg"})
-    prev_pict = conn.session.scalars(
-        select(Users).where(Users.uid == uid)).one()
-
-    # If there is Profile Picture
-    if prev_pict.profile_picture is not None:
-
-        # Splitting the path of an image
-        prev_pict_list = prev_pict.profile_picture.split("/")
-        if len(prev_pict_list) > 2:
-            prev_pict_hoster = prev_pict_list[2]
-            # Profile picture is in bucket
-            if prev_pict_hoster == 'storage.googleapis.com':
-                prev_pict_name = prev_pict.profile_picture.split("/")[-1]
-                file_ref = bucket.blob('profile_pict/' + prev_pict_name)
-                file_ref.delete()
-
-    form.filename = secrets.token_hex(4) + image_ext
-    image_ref = bucket.blob('profile_pict/' + form.filename)
-    image_ref.upload_from_file(form, content_type="image")
-    public_url = image_ref.public_url
+        return jsonify({"status": "error", "message": "Format gambar harus jpg atau png atau jpeg"}), 400
     try:
+        prev_pict = conn.session.scalars(
+            select(Users).where(Users.uid == uid)).one()
+        # If there is Profile Picture
+        if prev_pict.profile_picture is not None:
+            # Splitting the path of an image
+            prev_pict_list = prev_pict.profile_picture.split("/")
+            if len(prev_pict_list) > 2:
+                prev_pict_hoster = prev_pict_list[2]
+                # Profile picture is in bucket
+                if prev_pict_hoster == 'storage.googleapis.com':
+                    prev_pict_name = prev_pict.profile_picture.split("/")[-1]
+                    file_ref = bucket.blob('profile_pict/' + prev_pict_name)
+                    file_ref.delete()
+
+        # Start to resize the image
+        image = Image.open(form)
+        resize_image = image.resize((400, 400))
+
+        # filename
+        filename = secrets.token_hex(4) + image_ext.lower()
+        path_file = 'profile_pict/' + filename
+
+        with BytesIO() as resize_image_byte:
+            resize_image.save(resize_image_byte, format=image.format)
+            resize_image_byte.seek(0)
+            image_ref = bucket.blob(path_file)
+            image_ref.upload_from_file(
+                resize_image_byte, content_type=f"image/{image.format.lower()}")
+
+        public_url = image_ref.public_url
         conn.session.execute(update(Users).where(Users.uid == uid).values(
             profile_picture=public_url
         ))
         conn.session.commit()
-        return jsonify({"status": "OK", "message": "profile picture telah diperbaharui"}), 200
+        return jsonify({"status": "OK", "message": "Profile picture telah diperbaharui"}), 200
     except Exception as e:
         conn.session.rollback()
-        return jsonify({"status": "error", "message": f"Sepertinya ada error pada sisi kami, err: {e}"}), 500
+        return jsonify({"status": "error", "message": f"Sepertinya ada error pada sisi kami, err: {str(e)}"}), 500
 
 
 @user_bp.route('/delete_profile_picture/<uid>', methods=["DELETE"])
@@ -192,11 +208,13 @@ def upload_avatar(uid):
             return jsonify({"status": "error", "message": "image path tidak ditemukan"}), 400
             # Check Prev Picture
         if prev_pict.profile_picture is not None:
-            prev_pict_hoster = prev_pict.profile_picture.split("/")[2]
-            if prev_pict_hoster == "storage.googleapis.com":
-                pict_name = prev_pict.profile_picture.split("/")[-1]
-                file_ref = bucket.blob('profile_pict/' + pict_name)
-                file_ref.delete()
+            prev_pict_list = prev_pict.profile_picture.split("/")
+            if len(prev_pict_list) > 2:
+                prev_pict_hoster = prev_pict.profile_picture.split("/")[2]
+                if prev_pict_hoster == "storage.googleapis.com":
+                    pict_name = prev_pict.profile_picture.split("/")[-1]
+                    file_ref = bucket.blob('profile_pict/' + pict_name)
+                    file_ref.delete()
         conn.session.execute(update(Users).where(
             Users.uid == uid).values(profile_picture=image_path["image_path"]))
         conn.session.commit()

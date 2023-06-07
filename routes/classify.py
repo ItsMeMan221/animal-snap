@@ -4,6 +4,7 @@ import tensorflow_hub as hub
 import numpy as np
 
 from PIL import Image
+from io import BytesIO
 import os
 
 from flask import Blueprint, request, jsonify
@@ -49,7 +50,7 @@ def predict_animal(data):
 @jwt_required()
 def classify(uid):
     files = request.files.get('picture')
-    files_ext = os.path.splitext(files.filename)[1]
+    files_ext = os.path.splitext(files.filename)[1].lower()
 
     if files is None or files.filename == '':
         return jsonify({"status": "error", "message": "Upload gambar anda"}), 400
@@ -68,10 +69,18 @@ def classify(uid):
         date_classified = date_classified.strftime("%d-%m-%Y")
 
         # Upload image to bucket
-        files.filename = secrets.token_hex(6) + files_ext
-        files_ref = bucket.blob('user_classify/' + files.filename)
+        image = Image.open(files)
+        resize_image = image.resize((400, 400))
+
+        with BytesIO() as output:
+            resize_image.save(output, format=image.format)
+            image_bytes = output.getvalue()
+
+        filename = secrets.token_hex(6) + files_ext
+        files_ref = bucket.blob('user_classify/' + filename)
         files.seek(0)
-        files_ref.upload_from_file(files, content_type="image")
+        files_ref.upload_from_file(
+            BytesIO(image_bytes), content_type=f"image/{image.format}")
         public_url = files_ref.public_url
 
         # Insert to database
