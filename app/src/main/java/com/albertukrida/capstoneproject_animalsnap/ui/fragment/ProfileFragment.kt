@@ -86,48 +86,39 @@ class ProfileFragment : Fragment() {
 
         val apiCall = ApiCall(mContext)
         profileIcon1.setOnClickListener {
-            apiCall.deleteProfPict()
-            apiCall.updateAvatar(mView, "profile_icon1.png")
+            apiCall.updateAvatar("profile_icon1.png", binding)
             changeProfPictDialog.dismiss()
         }
         profileIcon2.setOnClickListener {
-            apiCall.deleteProfPict()
-            apiCall.updateAvatar(mView, "profile_icon2.png")
+            apiCall.updateAvatar("profile_icon2.png", binding)
             changeProfPictDialog.dismiss()
         }
         profileIcon3.setOnClickListener {
-            apiCall.deleteProfPict()
-            apiCall.updateAvatar(mView, "profile_icon3.png")
+            apiCall.updateAvatar("profile_icon3.png", binding)
             changeProfPictDialog.dismiss()
         }
         profileIcon4.setOnClickListener {
-            apiCall.deleteProfPict()
-            apiCall.updateAvatar(mView, "profile_icon4.png")
+            apiCall.updateAvatar("profile_icon4.png", binding)
             changeProfPictDialog.dismiss()
         }
         profileIcon5.setOnClickListener{
-            apiCall.deleteProfPict()
-            apiCall.updateAvatar(mView, "profile_icon5.png")
+            apiCall.updateAvatar("profile_icon5.png", binding)
             changeProfPictDialog.dismiss()
         }
         profileIcon6.setOnClickListener {
-            apiCall.deleteProfPict()
-            apiCall.updateAvatar(mView, "profile_icon6.png")
+            apiCall.updateAvatar("profile_icon6.png", binding)
             changeProfPictDialog.dismiss()
         }
         profileIcon7.setOnClickListener {
-            apiCall.deleteProfPict()
-            apiCall.updateAvatar(mView, "profile_icon7.png")
+            apiCall.updateAvatar("profile_icon7.png", binding)
             changeProfPictDialog.dismiss()
         }
         profileIcon8.setOnClickListener {
-            apiCall.deleteProfPict()
-            apiCall.updateAvatar(mView, "profile_icon8.png")
+            apiCall.updateAvatar("profile_icon8.png", binding)
             changeProfPictDialog.dismiss()
         }
         profileIcon9.setOnClickListener {
-            apiCall.deleteProfPict()
-            apiCall.updateAvatar(mView, "profile_icon9.png")
+            apiCall.updateAvatar("profile_icon9.png", binding)
             changeProfPictDialog.dismiss()
         }
         btnNext.setOnClickListener {
@@ -147,6 +138,7 @@ class ProfileFragment : Fragment() {
             val data = result.data
             val imageUri = data!!.data
             getFile = Utils(mContext).uriToFile(imageUri!!)
+            getFile = Utils(mContext).centerCropImage(getFile as File)
             val file = Utils(mContext).reduceFileImage(getFile as File)
             val requestImageFile = file.asRequestBody("image/*".toMediaType())
             val imageMultipart = MultipartBody.Part.createFormData(

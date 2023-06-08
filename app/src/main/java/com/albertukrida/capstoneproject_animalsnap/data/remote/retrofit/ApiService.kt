@@ -22,6 +22,18 @@ interface ApiService {
     @POST("refresh_token")
     fun refreshToken(): Call<RefreshTokenResponse>
 
+    @Multipart
+    @POST("classify/{uid}")
+    fun postClassify(
+        @Path("uid") uid: String,
+        @Part file: MultipartBody.Part
+    ): Call<ClassifyResponse>
+
+    @GET("/classify/{classify_id}")
+    fun getClassifyResult(
+        @Path("classify_id") id: String
+    ): Call<ClassifyResultResponse>
+
     @GET("profile/{uid}")
     fun getProfile(
         @Path("uid") uid: String
@@ -38,11 +50,6 @@ interface ApiService {
     fun updateAvatar(
         @Path("uid") uid: String,
         @Body body: DataClassAvatar
-    ): Call<DataResponse>
-
-    @DELETE("delete_profile_picture/{uid}")
-    fun deleteProfPict(
-        @Path("uid") uid: String
     ): Call<DataResponse>
 
     @PUT("change_name/{uid}")

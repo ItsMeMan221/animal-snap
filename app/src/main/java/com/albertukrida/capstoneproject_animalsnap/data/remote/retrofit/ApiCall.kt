@@ -118,6 +118,69 @@ class ApiCall(private val context: Context) {
         })
     }
 
+    fun postClassify(imageMultipart: MultipartBody.Part) {
+        alertDialog = pdLoading.show(builder)
+        val client = ApiConfig.getApiService().postClassify(userModel.userId!!, imageMultipart)
+        client.enqueue(object : Callback<ClassifyResponse> {
+            override fun onResponse(
+                call: Call<ClassifyResponse>,
+                response: Response<ClassifyResponse>
+            ) {
+                if (response.isSuccessful) {
+                    val responseBody = response.body()
+                    if (responseBody != null) {
+                        getClassifyResult(alertDialog, responseBody.id)
+                    }
+                } else {
+                    alertDialog.dismiss()
+                    try {
+                        val data = response.errorBody()?.string()
+                        val jObjError = data?.let { JSONObject(it) }
+                        Toast.makeText(context, data, Toast.LENGTH_LONG).show()
+                        Utils(context).errorDialog(jObjError?.getString("message").toString())
+                    } catch (e: Exception) {
+                        Utils(context).errorDialog("Error! " + e.message)
+                    }
+                }
+            }
+            override fun onFailure(call: Call<ClassifyResponse>, t: Throwable) {
+                alertDialog.dismiss()
+                Utils(context).errorDialog(t.message.toString())
+            }
+        })
+    }
+
+    fun getClassifyResult(alertDialog: AlertDialog, id: String) {
+        val client = ApiConfig.getApiService().getClassifyResult(id)
+        client.enqueue(object : Callback<ClassifyResultResponse> {
+            override fun onResponse(
+                call: Call<ClassifyResultResponse>,
+                response: Response<ClassifyResultResponse>
+            ) {
+                if (response.isSuccessful) {
+                    val responseBody = response.body()
+                    if (responseBody != null) {
+                        alertDialog.dismiss()
+
+                    }
+                } else {
+                    alertDialog.dismiss()
+                    try {
+                        val data = response.errorBody()?.string()
+                        val jObjError = data?.let { JSONObject(it) }
+                        Utils(context).errorDialog(jObjError?.getString("msg").toString())
+                    } catch (e: Exception) {
+                        Utils(context).errorDialog("Error! " + e.message)
+                    }
+                }
+            }
+            override fun onFailure(call: Call<ClassifyResultResponse>, t: Throwable) {
+                alertDialog.dismiss()
+                Utils(context).errorDialog(t.message.toString())
+            }
+        })
+    }
+
     fun getProfile(binding: FragmentProfileBinding) {
         alertDialog = pdLoading.show(builder)
         val client = ApiConfig.getApiService().getProfile(userModel.userId!!)
@@ -192,7 +255,7 @@ class ApiCall(private val context: Context) {
         })
     }
 
-    fun updateAvatar(view: View, avatar: String) {
+    fun updateAvatar(avatar: String, binding: FragmentProfileBinding) {
         alertDialog = pdLoading.show(builder)
         val dataAvatar = DataClassAvatar(avatar)
 
@@ -206,8 +269,9 @@ class ApiCall(private val context: Context) {
                     val responseBody = response.body()
                     if (responseBody != null) {
                         alertDialog.dismiss()
+                        Utils(context).updateProfPict(avatar, binding)
                         // success dialog
-                        Utils(context).successDialogProf(responseBody.message, view)
+                        Utils(context).successDialog(responseBody.message)
                     }
                 } else {
                     alertDialog.dismiss()
@@ -225,14 +289,6 @@ class ApiCall(private val context: Context) {
                 alertDialog.dismiss()
                 Utils(context).errorDialog(t.message.toString())
             }
-        })
-    }
-
-    fun deleteProfPict() {
-        val client = ApiConfig.getApiService().deleteProfPict(userModel.userId!!)
-        client.enqueue(object : Callback<DataResponse> {
-            override fun onResponse( call: Call<DataResponse>, response: Response<DataResponse>) { }
-            override fun onFailure(call: Call<DataResponse>, t: Throwable) { }
         })
     }
 

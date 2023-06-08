@@ -1,9 +1,12 @@
 package com.albertukrida.capstoneproject_animalsnap.helper
 
+import android.app.Activity
 import android.content.ContentResolver
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.Canvas
+import android.graphics.RectF
 import android.net.Uri
 import android.os.Environment
 import android.text.method.HideReturnsTransformationMethod
@@ -15,6 +18,7 @@ import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.core.content.ContextCompat
 import com.albertukrida.capstoneproject_animalsnap.R
 import com.albertukrida.capstoneproject_animalsnap.databinding.ActivityLoginBinding
 import com.albertukrida.capstoneproject_animalsnap.databinding.FragmentProfileBinding
@@ -25,6 +29,7 @@ import com.squareup.picasso.Picasso
 import java.io.*
 import java.text.SimpleDateFormat
 import java.util.*
+
 
 private const val MAXIMAL_SIZE = 1000000
 private const val FILENAME_FORMAT = "dd-MMM-yyyy"
@@ -256,5 +261,61 @@ class Utils(private val context: Context) {
         } while (streamLength > MAXIMAL_SIZE)
         bitmap.compress(Bitmap.CompressFormat.JPEG, compressQuality, FileOutputStream(file))
         return file
+    }
+
+    fun getFileWidth(file: File): Int {
+        val options = BitmapFactory.Options()
+        options.inJustDecodeBounds = true
+        BitmapFactory.decodeFile(file.path, options)
+        return options.outWidth
+    }
+
+    fun centerCropImage(file: File): File? {
+        try {
+            val width = getFileWidth(file)
+            // Decode the input file into a Bitmap
+            val options = BitmapFactory.Options()
+            options.inJustDecodeBounds = true
+            BitmapFactory.decodeFile(file.path, options)
+
+            // Calculate the scale factor to maintain the aspect ratio and center crop
+            var scaleFactor = 1
+            if (options.outWidth > width || options.outHeight > width) {
+                val widthScale = options.outWidth.toFloat() / width.toFloat()
+                val heightScale = options.outHeight.toFloat() / width.toFloat()
+                scaleFactor = widthScale.coerceAtLeast(heightScale).toInt()
+            }
+
+            // Calculate the final dimensions for center cropping
+            val scaledWidth = options.outWidth / scaleFactor
+            val scaledHeight = options.outHeight / scaleFactor
+            val left = (scaledWidth - width) / 2
+            val top = (scaledHeight - width) / 2
+
+            // Decode the input file into a scaled Bitmap with the desired dimensions
+            options.inJustDecodeBounds = false
+            options.inSampleSize = scaleFactor
+            val bitmap = BitmapFactory.decodeFile(file.path, options)
+
+            // Create a cropped bitmap using the calculated dimensions
+            val croppedBitmap = Bitmap.createBitmap(bitmap, left, top, width, width)
+
+            // Create a new File to save the cropped image
+            val croppedFile = File(file.parent, "cropped_image.jpg")
+
+            // Compress the cropped bitmap to a file
+            val outputStream = FileOutputStream(croppedFile)
+            croppedBitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream)
+            outputStream.close()
+
+            // Recycle the bitmaps to release memory
+            bitmap.recycle()
+            croppedBitmap.recycle()
+
+            return croppedFile
+        } catch (e: IOException) {
+            e.printStackTrace()
+            return null
+        }
     }
 }
