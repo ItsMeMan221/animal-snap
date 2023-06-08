@@ -87,7 +87,7 @@ def get_animal_by_id(id):
         }
         return jsonify(response), 200
     except NoResultFound as e:
-        return jsonify({"status": "error", "message": "Hewan tidak ada!"}), 400
+        return jsonify({"status": "error", "message": "Hewan tidak ada!"}), 404
     except Exception as e:
         return jsonify({"status": "error", "message": f"Internal error : {e}"}), 500
     finally:

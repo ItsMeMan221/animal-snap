@@ -55,8 +55,8 @@ def classify(uid):
     if files is None or files.filename == '':
         return jsonify({"status": "error", "message": "Upload gambar anda"}), 400
 
-    if files_ext not in [".jpg", ".jpeg", ".png"]:
-        return jsonify({"status": "error", "message": "format gambar harus jpg atau png atau jpeg"}), 400
+    if files_ext not in [".jpg", ".jpeg"]:
+        return jsonify({"status": "error", "message": "format gambar harus jpg atau jpeg"}), 400
 
     try:
         image_to_predict = norm_img(files)
@@ -165,7 +165,7 @@ def get_classify_result(id_classify):
         }
         return jsonify(response), 200
     except NoResultFound as e:
-        return jsonify({"status": "error", "message": "Hewan tidak ada!"}), 204
+        return jsonify({"status": "error", "message": "Hewan tidak ada!"}), 404
     except Exception as e:
         return jsonify({"status": "error", "message": f"Internal error : {e}"}), 500
     finally:

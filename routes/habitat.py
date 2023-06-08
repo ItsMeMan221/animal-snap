@@ -43,7 +43,7 @@ def get_habitat_by_id(id):
             "gambar": item.gambar,
         }), 200
     except NoResultFound as e:
-        return jsonify({"status": "error", "message": "Habitat tidak ada!"}), 400
+        return jsonify({"status": "error", "message": "Habitat tidak ada!"}), 404
     except Exception as e:
         return jsonify({"status": "error", "message": f"Sepertinya ada kesalahan dari kami {e}"}), 500
     finally:
