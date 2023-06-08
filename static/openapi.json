@@ -1,0 +1,1614 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Animal Snap API",
+    "version": "1.0",
+    "description": "An API for AnimalSnap application"
+  },
+  "servers": [
+    {
+      "url": "https://animal-snap-ftc4765tsq-et.a.run.app"
+    }
+  ],
+  "tags": [
+    {
+      "name": "auth",
+      "description": "User authentication"
+    },
+    {
+      "name": "users",
+      "description": "User modification"
+    },
+    {
+      "name": "classify",
+      "description": "Operations to classify animal"
+    },
+    {
+      "name": "habitat",
+      "description": "Operation to get habitat of an animal"
+    },
+    {
+      "name": "animal",
+      "description": "Operation to get animal"
+    }
+  ],
+  "paths": {
+    "/register": {
+      "post": {
+        "tags": [
+          "auth"
+        ],
+        "summary": "Register user",
+        "description": "register user",
+        "operationId": "registerUser",
+        "requestBody": {
+          "description": "register user to database",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  },
+                  "re_pass": {
+                    "type": "string"
+                  },
+                  "nama": {
+                    "type": "string"
+                  }
+                }
+              },
+              "example": {
+                "email": "chelsykwan@gmail.com",
+                "password": "registeruser22",
+                "re_pass": "registeruser22",
+                "nama": "Chelsy Kwan"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "User registration successful",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "OK"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "User chelsykwan@gmail.com telah berhasil teregristrasi"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Request body not compelete",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "error"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Mohon isi field"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/login": {
+      "post": {
+        "tags": [
+          "auth"
+        ],
+        "summary": "Login user",
+        "description": "user login",
+        "operationId": "loginUser",
+        "requestBody": {
+          "description": "login user to database",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  }
+                }
+              },
+              "example": {
+                "email": "chelsykwan@gmail.com",
+                "password": "registeruser22"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "User login successful",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "token": {
+                      "type": "string",
+                      "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTY4NjE5NzU2NiwianRpIjoiYjI2YTE2NGMtYzBhYy00Y2QwLWFiZTMtZTU5ZmYwMmZiYTJhIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6eyJ1aWQiOiIxNzFkMDg3ZGJjNDA0ODdmIiwiZW1haWwiOiJpZ29zYW50aWFnbzk4QGdtYWlsLmNvbSJ9LCJuYmYiOjE2ODYxOTc1NjYsImV4cCI6MTY4NjI0MDc2Nn0.ebm4a8pTPPRcQXzcLn2emrU0ZK43AniIU2cqjnqDJro"
+                    },
+                    "refresh_token": {
+                      "type": "string",
+                      "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTY4NjE5NzU2NiwianRpIjoiMzEzMTE4MDktOWI0Yy00ZTBmLWI1YmMtNjYyYTc1NDljNTZjIiwidHlwZSI6InJlZnJlc2giLCJzdWIiOnsidWlkIjoiMTcxZDA4N2RiYzQwNDg3ZiIsImVtYWlsIjoiaWdvc2FudGlhZ285OEBnbWFpbC5jb20ifSwibmJmIjoxNjg2MTk3NTY2LCJleHAiOjE2ODc0OTM1NjZ9.T3F9gVOPgaPl2rw8jjl6B2GABzkVy1E_tKRZOJdWNtQ"
+                    },
+                    "uid": {
+                      "type": "string",
+                      "example": "171d087dbc40487f"
+                    },
+                    "email": {
+                      "type": "string",
+                      "example": "chelsykwan@gmail.com"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Request body not complete",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "error"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Mohon isi field ..."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Invalid credentials",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "error"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Credential anda salah"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/session": {
+      "get": {
+        "tags": [
+          "auth"
+        ],
+        "summary": "Getting payload data from token",
+        "description": "Payload data from token",
+        "operationId": "session",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User login successful",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "email": {
+                      "type": "string",
+                      "example": "chelsykwan@gmail.com"
+                    },
+                    "uid": {
+                      "type": "string",
+                      "example": "171d087dbc40487f"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing Authorization Header",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "msg": {
+                      "type": "string",
+                      "example": "Missing Authorization Header"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/refresh_token": {
+      "post": {
+        "tags": [
+          "auth"
+        ],
+        "summary": "Refresh token",
+        "description": "Refresh current token with new token using refresh token",
+        "operationId": "refresh_token",
+        "security": [
+          {
+            "RefreshToken": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Token is refreshed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "token": {
+                      "type": "string",
+                      "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTY4NjIwMDIyMiwianRpIjoiOTFjYmZjY2MtMmY5Ni00NDYxLTg2NjAtNTRhZTVjYmVmM2MzIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6eyJ1aWQiOiIxNzFkMDg3ZGJjNDA0ODdmIiwiZW1haWwiOiJpZ29zYW50aWFnbzk4QGdtYWlsLmNvbSJ9LCJuYmYiOjE2ODYyMDAyMjIsImV4cCI6MTY4NjI0MzQyMn0.x3iDmyhlSU9wQ0MCh03ekbO-Do8SLEX5cb2ScQIhx3Y"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Refreshing using actual token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "msg": {
+                      "type": "string",
+                      "example": "Only refresh token is allowed"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/upload_picture/{uid}": {
+      "post": {
+        "tags": [
+          "users"
+        ],
+        "summary": "Upload picture using uid",
+        "description": "Upload picture to cloud storage and update value in database",
+        "operationId": "uploadPicturebyId",
+        "parameters": [
+          {
+            "name": "uid",
+            "in": "path",
+            "description": "String uid user",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "profile_picture": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Profile picture is updated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "OK"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Profile picture telah diperbaharui"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Request body not suitable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "error"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Pilih gambar anda"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing Authorization Header",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "msg": {
+                      "type": "string",
+                      "example": "Missing Authorization Header"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/upload_avatar/{uid}": {
+      "post": {
+        "tags": [
+          "users"
+        ],
+        "summary": "Upload picture using uid",
+        "description": "Upload avatar path from local storage and update value in database",
+        "operationId": "uploadAvatarbyId",
+        "parameters": [
+          {
+            "name": "uid",
+            "in": "path",
+            "description": "String uid user",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Upload avatar",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "image_path": {
+                    "type": "string"
+                  }
+                }
+              },
+              "example": {
+                "image_path": "profileicon9.png"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Profile picture is updated to avatar",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "OK"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Profile picture telah diperbaharui"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Request body not suitable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "error"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Pilih gambar anda"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing Authorization Header",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "msg": {
+                      "type": "string",
+                      "example": "Missing Authorization Header"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/delete_profile_picture/{uid}": {
+      "delete": {
+        "tags": [
+          "users"
+        ],
+        "summary": "Delete picture using uid",
+        "description": "delete picture and update value in database",
+        "operationId": "deletePictureById",
+        "parameters": [
+          {
+            "name": "uid",
+            "in": "path",
+            "description": "String uid user",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Profile picture is deleted",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "OK"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Profile picture telah dihapus"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing Authorization Header",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "msg": {
+                      "type": "string",
+                      "example": "Missing Authorization Header"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/change_pass/{uid}": {
+      "put": {
+        "tags": [
+          "users"
+        ],
+        "summary": "Change password",
+        "description": "Change password user using uid",
+        "operationId": "changePassword",
+        "parameters": [
+          {
+            "name": "uid",
+            "in": "path",
+            "description": "String uid user",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Change password",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "password": {
+                    "type": "string"
+                  },
+                  "new_pass": {
+                    "type": "string"
+                  },
+                  "re_pass": {
+                    "type": "string"
+                  }
+                }
+              },
+              "example": {
+                "password": "registeruser22",
+                "new_pass": "registeruser222",
+                "re_pass": "registeruser222"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Profile picture is updated to avatar",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "OK"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Password telah diubah"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Request body not suitable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "error"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Mohon isi field ..."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing Authorization Header",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "msg": {
+                      "type": "string",
+                      "example": "Missing Authorization Header"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/change_name/{uid}": {
+      "put": {
+        "tags": [
+          "users"
+        ],
+        "summary": "Change Name",
+        "description": "Change name user using uid",
+        "operationId": "changeName",
+        "parameters": [
+          {
+            "name": "uid",
+            "in": "path",
+            "description": "String uid user",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Change name",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  }
+                }
+              },
+              "example": {
+                "name": "Chelsy Lie"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Profile picture is updated to avatar",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "OK"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Password telah diubah"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Request body not suitable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "error"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Mohon isi field ..."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing Authorization Header",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "msg": {
+                      "type": "string",
+                      "example": "Missing Authorization Header"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/profile/{uid}": {
+      "get": {
+        "tags": [
+          "users"
+        ],
+        "summary": "Getting user details",
+        "description": "getting user details from database",
+        "operationId": "getProfilebyId",
+        "parameters": [
+          {
+            "name": "uid",
+            "in": "path",
+            "description": "String uid user",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Users details is recieved",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "date_joined": {
+                      "type": "string",
+                      "example": "03-06-2023"
+                    },
+                    "email": {
+                      "type": "string",
+                      "example": "chelsykwan@gmail.com"
+                    },
+                    "nama": {
+                      "type": "string",
+                      "example": "Chelsy Kwan"
+                    },
+                    "profile_picture": {
+                      "type": "string",
+                      "example": "https://storage.googleapis.com/animals-snaps-bucket/profile_pict/43981bfc.jpg"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing Authorization Header",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "msg": {
+                      "type": "string",
+                      "example": "Missing Authorization Header"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/classify/{uid}": {
+      "post": {
+        "tags": [
+          "classify"
+        ],
+        "summary": "Classifying animal using picture",
+        "description": "Classifying animal using picture that user uploaded or take",
+        "operationId": "classifyAnimal",
+        "parameters": [
+          {
+            "name": "uid",
+            "in": "path",
+            "description": "String uid user",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "picture": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Animal is classified",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "animal_predict": {
+                      "type": "integer",
+                      "example": 1
+                    },
+                    "id": {
+                      "type": "string",
+                      "example": "20f87299a7cda0ddfaa53cee"
+                    },
+                    "status": {
+                      "type": "string",
+                      "example": "OK"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Request body not suitable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "error"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "format gambar harus jpg atau jpeg"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing Authorization Header",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "msg": {
+                      "type": "string",
+                      "example": "Missing Authorization Header"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/classify/{user_classify_id}": {
+      "get": {
+        "tags": [
+          "classify"
+        ],
+        "summary": "Getting detail of classified animal",
+        "description": "Getting detail of classified animal",
+        "operationId": "detailClassify",
+        "parameters": [
+          {
+            "name": "user_classify_id",
+            "in": "path",
+            "description": "String classify id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Animal details is recieved",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "deskripsi_class": {
+                      "type": "string",
+                      "example": "Insekta atau serangga memiliki tubuh yang terdiri dari tiga bagian, yaitu kepala, dada, dan perut. Serangga merupakan kelompok hewan yang sangat beragam, dengan perkiraan jumlah spesies antara enam hingga sepuluh juta. Mereka dapat ditemukan hampir di semua jenis lingkungan dan mengalami proses perkembangan melalui telur. Siklus hidup serangga disebut metamorfosis. Meskipun beberapa serangga dianggap sebagai hama oleh manusia, sehingga insektisida digunakan untuk membunuhnya"
+                    },
+                    "deskripsi_hewan": {
+                      "type": "string",
+                      "example": "Kupu-kupu adalah salah satu makhluk yang indah dengan pola yang menakjubkan di sayapnya. Tubuh kupu-kupu terdiri dari kepala, dada, dan perut. Tubuhnya dilapisi oleh rambut sensorik kecil dan memiliki dua pasang sayap serta enam kaki yang melekat pada bagian dada. Sayapnya tertutupi oleh sisik-sisik berwarna-warni dan kupu-kupu hanya bisa terbang ketika tubuhnya hangat, sehingga seringkali mereka berjemur untuk menghangatkan diri. Habitat kupu-kupu terutama terdapat di daerah tropis, terutama di hutan hujan tropis. Kupu-kupu mengalami siklus hidup yang disebut metamorfosis, dimulai dari telur, larva, pupa, hingga menjadi kupu-kupu dewasa.\\r\\n"
+                    },
+                    "donasi": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "nama_organisasi": {
+                            "type": "string",
+                            "example": null
+                          },
+                          "link_donasi": {
+                            "type": "string",
+                            "example": null
+                          }
+                        }
+                      }
+                    },
+                    "gambar_hewan": {
+                      "type": "string",
+                      "example": "https://storage.googleapis.com/animal-snap-user-images/animal/butterfly.jpeg"
+                    },
+                    "gambar_hewan_user": {
+                      "type": "string",
+                      "example": "https://storage.googleapis.com/animals-snaps-bucket/user_classify/8574a905f057.jpg"
+                    },
+                    "nama_class": {
+                      "type": "string",
+                      "example": "Insekta"
+                    },
+                    "nama_hewan": {
+                      "type": "string",
+                      "example": "Butterfly (Kupu-kupu)"
+                    },
+                    "status_hewan": {
+                      "type": "string",
+                      "example": "Rendah"
+                    },
+                    "habitat": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "deskripsi_habitat": {
+                            "type": "string",
+                            "example": "Hutan hujan tropis merupakan lahan basah dan hangat yang tumbuh di daerah sekitar khatulistiwa. Lokasi hutan ini menjadikan habitat ini menjadi salah satu temapyt keanekaragaman hayati paling tinggi dari habitat darat lainnya. Habitat ini paling sering ditemukan di dunia."
+                          },
+                          "gambar_habitat": {
+                            "type": "string",
+                            "example": "https://storage.googleapis.com/animal-snap-user-images/habitat/hutan%20hujan%20tropis.jpg"
+                          },
+                          "nama_habitat": {
+                            "type": "string",
+                            "example": "Hutan hujan tropis"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing Authorization Header",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "msg": {
+                      "type": "string",
+                      "example": "Missing Authorization Header"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Classify id is not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "error"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Hewan tidak ada"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/classify/history/{uid}": {
+      "get": {
+        "tags": [
+          "classify"
+        ],
+        "summary": "History classify by user",
+        "description": "getting user history from database",
+        "operationId": "getHistoryClassify",
+        "parameters": [
+          {
+            "name": "uid",
+            "in": "path",
+            "description": "String uid user",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": true,
+            "description": "page to load",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Users History is recieved",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "current_page": {
+                      "type": "string",
+                      "example": 1
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "gambar_hewan": {
+                            "type": "string",
+                            "example": "https://storage.googleapis.com/animals-snaps-bucket/user_classify/a4f4d6092528.jpg"
+                          },
+                          "id_classification": {
+                            "type": "string",
+                            "example": "a0f9da9f2ccf61064281d1f3"
+                          },
+                          "nama_hewan": {
+                            "type": "string",
+                            "example": "Chimpanzee (simpanse)"
+                          },
+                          "status_hewan": {
+                            "type": "string",
+                            "example": "Terancam Punah"
+                          },
+                          "tanggal_klasifikasi": {
+                            "type": "string",
+                            "example": "08-06-2023"
+                          }
+                        }
+                      }
+                    },
+                    "total_page": {
+                      "type": "integer",
+                      "example": 1
+                    },
+                    "total_records": {
+                      "type": "integer",
+                      "example": 1
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "401": {
+            "description": "Missing Authorization Header",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "msg": {
+                      "type": "string",
+                      "example": "Missing Authorization Header"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/habitat": {
+      "get": {
+        "tags": [
+          "habitat"
+        ],
+        "summary": "Getting all habitat",
+        "description": "getting all habitat with brief detail",
+        "operationId": "getHabitat",
+        "responses": {
+          "200": {
+            "description": "Habitat is recived",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "integer",
+                        "example": 1
+                      },
+                      "deskripsi": {
+                        "type": "string",
+                        "example": "Habitat padang rumuput didominasi oleh rumput yang merupakan tanaman berbunga keluarga Poaceae. Padang rumuput merupakan tempat terbuka yang jarang pohon sehingga memiliki tanah yang kering. Selain itu, curah hujan yang relatif rendah mengakibatkan kurangnya keanekaragaman hayati dan rentan terhadap kebakaran."
+                      },
+                      "nama": {
+                        "type": "string",
+                        "example": "Padang rumput"
+                      },
+                      "gambar": {
+                        "type": "string",
+                        "example": "https://storage.googleapis.com/animal-snap-user-images/habitat/padang%20rumput.jpg"
+                      }
+                    }
+                  },
+                  "properties": {
+                    "date_joined": {
+                      "type": "string",
+                      "example": "03-06-2023"
+                    },
+                    "email": {
+                      "type": "string",
+                      "example": "chelsykwan@gmail.com"
+                    },
+                    "nama": {
+                      "type": "string",
+                      "example": "Chelsy Kwan"
+                    },
+                    "profile_picture": {
+                      "type": "string",
+                      "example": "https://storage.googleapis.com/animals-snaps-bucket/profile_pict/43981bfc.jpg"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing Authorization Header",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "msg": {
+                      "type": "string",
+                      "example": "Missing Authorization Header"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/habitat/{habitat_id}": {
+      "get": {
+        "tags": [
+          "habitat"
+        ],
+        "summary": "Getting habitat by id",
+        "description": "getting habitat detail by id",
+        "operationId": "getHabitatbyId",
+        "parameters": [
+          {
+            "name": "habitat_id",
+            "in": "path",
+            "description": "String uid user",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Habitat is recived by correct id",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "deskripsi": {
+                      "type": "string",
+                      "example": "Habitat padang rumuput didominasi oleh rumput yang merupakan tanaman berbunga keluarga Poaceae. Padang rumuput merupakan tempat terbuka yang jarang pohon sehingga memiliki tanah yang kering. Selain itu, curah hujan yang relatif rendah mengakibatkan kurangnya keanekaragaman hayati dan rentan terhadap kebakaran."
+                    },
+                    "gambar": {
+                      "type": "string",
+                      "example": "https://storage.googleapis.com/animal-snap-user-images/habitat/padang%20rumput.jpg"
+                    },
+                    "nama": {
+                      "type": "string",
+                      "example": "Padang rumput"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing Authorization Header",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "msg": {
+                      "type": "string",
+                      "example": "Missing Authorization Header"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Non valid id",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "error"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Habitat tidak ada!"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/animal": {
+      "get": {
+        "tags": [
+          "animal"
+        ],
+        "summary": "Getting all animal",
+        "description": "getting all animal with brief detail",
+        "operationId": "getAnimal",
+        "responses": {
+          "200": {
+            "description": "Animal is recived",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "animal_id": {
+                        "type": "integer",
+                        "example": 0
+                      },
+                      "deskripsi": {
+                        "type": "string",
+                        "example": "Rubah arktik memiliki bulu tebal berwarna putih untuk menjaga tubuhnya agar tetap hangat ketika habitatnya mencapai suhu 104 derajat Farenheit. Ekor panjang dan halus digunakan oleh rubah arktik untuk dijadikan selimut yang membungkus sekitar tubuhnya saat tidur. Kaki mereka juga terdiri dari lapisan bulu tebal hingga dapat meredam suara langkah kakinya ketika berburu. Rubah arktik merupakan hewan omnivora yang memakan tikus kecil yang disebut dengan lemmings, namun pada masa-masa sulit, mereka biasanya memakan apapun yang ditemukan seperti serangga, buah, beri, dan bahkan kotoran hewan lain. Saat tidak menemukan makanan, biasanya mereka menggali sarang salju dan melindungi tubuhnya selama 2 minggu untuk menjaga tubuhnya tetap hangat. Sarang tersebut membantu mereka dalam memperlambat detak jantung dan metabolisme sehingga dapat menghemat energi. Rubah arktik dapat hidup dalam rentang 3 sampai 6 tahun lamanya di alam liar."
+                      },
+                      "nama": {
+                        "type": "string",
+                        "example": "Arctic Fox (Rubah arktik)"
+                      },
+                      "gambar": {
+                        "type": "string",
+                        "example": "https://storage.googleapis.com/animal-snap-user-images/habitat/padang%20rumput.jpg"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing Authorization Header",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "msg": {
+                      "type": "string",
+                      "example": "Missing Authorization Header"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/animal/{animal_id}": {
+      "get": {
+        "tags": [
+          "animal"
+        ],
+        "summary": "Getting Animal by id",
+        "description": "getting animal detail by id",
+        "operationId": "getAnimalbyId",
+        "parameters": [
+          {
+            "name": "animal_id",
+            "in": "path",
+            "description": "String animal id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Animal details is recieved",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "deskripsi_class": {
+                      "type": "string",
+                      "example": "Insekta atau serangga memiliki tubuh yang terdiri dari tiga bagian, yaitu kepala, dada, dan perut. Serangga merupakan kelompok hewan yang sangat beragam, dengan perkiraan jumlah spesies antara enam hingga sepuluh juta. Mereka dapat ditemukan hampir di semua jenis lingkungan dan mengalami proses perkembangan melalui telur. Siklus hidup serangga disebut metamorfosis. Meskipun beberapa serangga dianggap sebagai hama oleh manusia, sehingga insektisida digunakan untuk membunuhnya"
+                    },
+                    "deskripsi_hewan": {
+                      "type": "string",
+                      "example": "Kupu-kupu adalah salah satu makhluk yang indah dengan pola yang menakjubkan di sayapnya. Tubuh kupu-kupu terdiri dari kepala, dada, dan perut. Tubuhnya dilapisi oleh rambut sensorik kecil dan memiliki dua pasang sayap serta enam kaki yang melekat pada bagian dada. Sayapnya tertutupi oleh sisik-sisik berwarna-warni dan kupu-kupu hanya bisa terbang ketika tubuhnya hangat, sehingga seringkali mereka berjemur untuk menghangatkan diri. Habitat kupu-kupu terutama terdapat di daerah tropis, terutama di hutan hujan tropis. Kupu-kupu mengalami siklus hidup yang disebut metamorfosis, dimulai dari telur, larva, pupa, hingga menjadi kupu-kupu dewasa.\\r\\n"
+                    },
+                    "donasi": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "nama_organisasi": {
+                            "type": "string",
+                            "example": null
+                          },
+                          "link_donasi": {
+                            "type": "string",
+                            "example": null
+                          }
+                        }
+                      }
+                    },
+                    "gambar_hewan": {
+                      "type": "string",
+                      "example": "https://storage.googleapis.com/animal-snap-user-images/animal/butterfly.jpeg"
+                    },
+                    "nama_class": {
+                      "type": "string",
+                      "example": "Insekta"
+                    },
+                    "nama_hewan": {
+                      "type": "string",
+                      "example": "Butterfly (Kupu-kupu)"
+                    },
+                    "status_hewan": {
+                      "type": "string",
+                      "example": "Rendah"
+                    },
+                    "habitat": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "deskripsi_habitat": {
+                            "type": "string",
+                            "example": "Hutan hujan tropis merupakan lahan basah dan hangat yang tumbuh di daerah sekitar khatulistiwa. Lokasi hutan ini menjadikan habitat ini menjadi salah satu temapyt keanekaragaman hayati paling tinggi dari habitat darat lainnya. Habitat ini paling sering ditemukan di dunia."
+                          },
+                          "gambar_habitat": {
+                            "type": "string",
+                            "example": "https://storage.googleapis.com/animal-snap-user-images/habitat/hutan%20hujan%20tropis.jpg"
+                          },
+                          "nama_habitat": {
+                            "type": "string",
+                            "example": "Hutan hujan tropis"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing Authorization Header",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "msg": {
+                      "type": "string",
+                      "example": "Missing Authorization Header"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Non valid id",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "error"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Hewan tidak ada!"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      },
+      "RefreshToken": {
+        "type": "apiKey",
+        "name": "Authorization",
+        "in": "header"
+      }
+    }
+  }
+}
