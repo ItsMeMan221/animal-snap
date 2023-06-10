@@ -200,8 +200,10 @@ def history_classify(uid):
                 "status_hewan": history.status_hewan
             }
             for history in paginated_historties]
-        if response == []:
-            return jsonify({"status": "OK", "message": 'Tidak ada history klasifikasi'}), 204
+        if page > total_page:
+            return jsonify({"data": [], "total_records": total_rec,
+                            "total_page": total_page,
+                            "current_page": page, })
 
         return jsonify({
             "total_records": total_rec,
