@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/Users/asus/CapstoneProject_AnimalSnap/app/src/main/res/drawable/border_top_bottom.xml" value="0.1285" />
+        <entry key="..\:/Users/asus/CapstoneProject_AnimalSnap/app/src/main/res/drawable/border_transparent.xml" value="0.1285" />
+        <entry key="..\:/Users/asus/CapstoneProject_AnimalSnap/app/src/main/res/drawable/shape_background_gradient.xml" value="0.1285" />
+        <entry key="..\:/Users/asus/CapstoneProject_AnimalSnap/app/src/main/res/drawable/shape_button.xml" value="0.1285" />
+        <entry key="..\:/Users/asus/CapstoneProject_AnimalSnap/app/src/main/res/drawable/shape_button_disable.xml" value="0.1285" />
+        <entry key="..\:/Users/asus/CapstoneProject_AnimalSnap/app/src/main/res/drawable/shape_button_green.xml" value="0.1285" />
+        <entry key="..\:/Users/asus/CapstoneProject_AnimalSnap/app/src/main/res/drawable/shape_button_red.xml" value="0.1285" />
+        <entry key="..\:/Users/asus/CapstoneProject_AnimalSnap/app/src/main/res/drawable/shape_button_white.xml" value="0.1285" />
+        <entry key="..\:/Users/asus/CapstoneProject_AnimalSnap/app/src/main/res/drawable/shape_edit_text.xml" value="0.16" />
+        <entry key="..\:/Users/asus/CapstoneProject_AnimalSnap/app/src/main/res/layout/activity_camera.xml" value="0.2" />
+        <entry key="..\:/Users/asus/CapstoneProject_AnimalSnap/app/src/main/res/layout/activity_login.xml" value="0.25" />
+        <entry key="..\:/Users/asus/CapstoneProject_AnimalSnap/app/src/main/res/layout/activity_main.xml" value="0.25" />
+        <entry key="..\:/Users/asus/CapstoneProject_AnimalSnap/app/src/main/res/layout/activity_register.xml" value="0.22" />
+        <entry key="..\:/Users/asus/CapstoneProject_AnimalSnap/app/src/main/res/layout/activity_splash_screen.xml" value="0.22" />
+        <entry key="..\:/Users/asus/CapstoneProject_AnimalSnap/app/src/main/res/layout/dialog_change_name.xml" value="0.2" />
+        <entry key="..\:/Users/asus/CapstoneProject_AnimalSnap/app/src/main/res/layout/dialog_change_prof_pict.xml" value="0.2" />
+        <entry key="..\:/Users/asus/CapstoneProject_AnimalSnap/app/src/main/res/layout/dialog_error.xml" value="0.2" />
+        <entry key="..\:/Users/asus/CapstoneProject_AnimalSnap/app/src/main/res/layout/dialog_forget_password.xml" value="0.2" />
+        <entry key="..\:/Users/asus/CapstoneProject_AnimalSnap/app/src/main/res/layout/dialog_old_password.xml" value="0.2" />
+        <entry key="..\:/Users/asus/CapstoneProject_AnimalSnap/app/src/main/res/layout/dialog_password_new.xml" value="0.25" />
+        <entry key="..\:/Users/asus/CapstoneProject_AnimalSnap/app/src/main/res/layout/dialog_password_old.xml" value="0.33" />
+        <entry key="..\:/Users/asus/CapstoneProject_AnimalSnap/app/src/main/res/layout/dialog_profile_picture.xml" value="0.2" />
+        <entry key="..\:/Users/asus/CapstoneProject_AnimalSnap/app/src/main/res/layout/dialog_progress_bar.xml" value="0.2" />
+        <entry key="..\:/Users/asus/CapstoneProject_AnimalSnap/app/src/main/res/layout/dialog_success.xml" value="0.2" />
+        <entry key="..\:/Users/asus/CapstoneProject_AnimalSnap/app/src/main/res/layout/dialog_verif_email.xml" value="0.2" />
+        <entry key="..\:/Users/asus/CapstoneProject_AnimalSnap/app/src/main/res/layout/fragment_camera.xml" value="0.25" />
+        <entry key="..\:/Users/asus/CapstoneProject_AnimalSnap/app/src/main/res/layout/fragment_home.xml" value="0.19583333333333333" />
+        <entry key="..\:/Users/asus/CapstoneProject_AnimalSnap/app/src/main/res/layout/fragment_profile.xml" value="0.156412157153447" />
+        <entry key="..\:/Users/asus/CapstoneProject_AnimalSnap/app/src/main/res/menu/navigation_menu.xml" value="0.19583333333333333" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
+</project>
