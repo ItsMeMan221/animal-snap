@@ -1,6 +1,8 @@
 package com.albertukrida.capstoneproject_animalsnap.data.remote.retrofit
 
+import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
@@ -10,6 +12,16 @@ import com.albertukrida.capstoneproject_animalsnap.data.remote.response.DataResp
 import com.albertukrida.capstoneproject_animalsnap.databinding.FragmentProfileBinding
 import com.albertukrida.capstoneproject_animalsnap.helper.ProgressBarHelper
 import com.albertukrida.capstoneproject_animalsnap.helper.Utils
+import com.albertukrida.capstoneproject_animalsnap.ui.ClassifyResultActivity
+import com.albertukrida.capstoneproject_animalsnap.ui.ClassifyResultActivity.Companion.CLASS
+import com.albertukrida.capstoneproject_animalsnap.ui.ClassifyResultActivity.Companion.CLASS_DESC
+import com.albertukrida.capstoneproject_animalsnap.ui.ClassifyResultActivity.Companion.DESC
+import com.albertukrida.capstoneproject_animalsnap.ui.ClassifyResultActivity.Companion.DONATION
+import com.albertukrida.capstoneproject_animalsnap.ui.ClassifyResultActivity.Companion.HABITATS
+import com.albertukrida.capstoneproject_animalsnap.ui.ClassifyResultActivity.Companion.NAME
+import com.albertukrida.capstoneproject_animalsnap.ui.ClassifyResultActivity.Companion.PICT
+import com.albertukrida.capstoneproject_animalsnap.ui.ClassifyResultActivity.Companion.PICT_USER
+import com.albertukrida.capstoneproject_animalsnap.ui.ClassifyResultActivity.Companion.STATUS
 import com.albertukrida.capstoneproject_animalsnap.ui.LoginActivity
 import com.albertukrida.capstoneproject_animalsnap.ui.MainActivity.Companion.userModel
 import com.albertukrida.capstoneproject_animalsnap.ui.RegisterActivity
@@ -118,7 +130,7 @@ class ApiCall(private val context: Context) {
         })
     }
 
-    fun postClassify(imageMultipart: MultipartBody.Part) {
+    fun postClassify(activity: Activity, imageMultipart: MultipartBody.Part) {
         alertDialog = pdLoading.show(builder)
         val client = ApiConfig.getApiService().postClassify(userModel.userId!!, imageMultipart)
         client.enqueue(object : Callback<ClassifyResponse> {
@@ -129,7 +141,7 @@ class ApiCall(private val context: Context) {
                 if (response.isSuccessful) {
                     val responseBody = response.body()
                     if (responseBody != null) {
-                        getClassifyResult(alertDialog, responseBody.id)
+                        getClassifyResult(activity, alertDialog, responseBody.id)
                     }
                 } else {
                     alertDialog.dismiss()
@@ -150,7 +162,7 @@ class ApiCall(private val context: Context) {
         })
     }
 
-    fun getClassifyResult(alertDialog: AlertDialog, id: String) {
+    fun getClassifyResult(activity: Activity, alertDialog: AlertDialog, id: String) {
         val client = ApiConfig.getApiService().getClassifyResult(id)
         client.enqueue(object : Callback<ClassifyResultResponse> {
             override fun onResponse(
@@ -161,7 +173,18 @@ class ApiCall(private val context: Context) {
                     val responseBody = response.body()
                     if (responseBody != null) {
                         alertDialog.dismiss()
-
+                        NAME = responseBody.namaHewan
+                        CLASS = responseBody.namaClass
+                        STATUS = responseBody.statusHewan
+                        PICT = responseBody.gambarHewan
+                        PICT_USER = responseBody.gambarHewanUser
+                        DESC = responseBody.deskripsiHewan
+                        CLASS_DESC = responseBody.deskripsiClass
+                        DONATION = responseBody.donasi
+                        HABITATS = responseBody.habitat
+                        val intent = Intent(activity, ClassifyResultActivity::class.java)
+                        activity.startActivity(intent)
+                        activity.overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
                     }
                 } else {
                     alertDialog.dismiss()

@@ -71,7 +71,6 @@
     <string name="new_password">New Password</string>
     <string name="confirm_new_password">Confirm New Password</string>
     <string name="confirm">Confirm</string>
-    <string name="next">Next</string>
     <string name="cancel">Cancel</string>
     <string name="change_pass_success">Your password has been successfully changed</string>
     <string name="error_network">Connection Error! Please check your internet connection and try again!</string>
@@ -91,10 +90,31 @@
     <string name="pick_from_gallery">Pick From Gallery</string>
     <string name="edit_profile">Edit Profile</string>
 
+    <string name="user_classify_picture">User Classify Picture</string>
+    <string name="classify">Classify Animal</string>
+    <string name="select_picture_from">Select Picture From</string>
     <string name="pick_from_camera">Pick from camera</string>
     <string name="select_from_gallery">Select from gallery</string>
+    <string name="delete_photo">Delete Picture</string>
+    <string name="delete_photo_text">Are you sure you want to delete this picture?</string>
+    <string name="switch_camera">Switch Camera</string>
+    <string name="capture_image">Capture Image</string>
+    <string name="capture_failed">Capture Failed</string>
+    <string name="camera_failed">Failed to open camera</string>
     <string name="permission">Permission not granted</string>
     <string name="permissionText">Allow access to camera on your setting to use this feature</string>
+    <string name="error_select_image">Please select an image first</string>
     <string name="close">Close</string>
+
+    <string name="animal_class">Class: </string>
+    <string name="animal_habitat">Habitat: </string>
+    <string name="animal_status">Status: </string>
+    <string name="class_dialog">Animal Class</string>
+    <string name="habitat_dialog">Animal Habitats</string>
+    <string name="donate">Donate</string>
+    <string name="donate_error">Donation is not available because this animal is not in danger</string>
+    <string name="hab_picture">Habitat Picture</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
 
 </resources>

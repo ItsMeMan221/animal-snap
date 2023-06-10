@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.graphics.PorterDuff
 import android.os.Build
@@ -14,6 +15,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
@@ -48,29 +50,70 @@ class CameraFragment : Fragment() {
         mContext = view.context
         mView = view
 
-        if (!allPermissionsGranted(mContext)) {
+        binding.ivAddPhoto.setOnClickListener{ showDialogPickPhoto(view) }
+        binding.ivTrash.setOnClickListener{ showDialogDeletePhoto() }
+        binding.buttonAdd.setOnClickListener{
+            if (getFile == null || binding.tvAddPhotoHint.visibility == View.VISIBLE) {
+                Toast.makeText(
+                    context, resources.getString(R.string.error_select_image),
+                    Toast.LENGTH_SHORT
+                ).show()
+            }else{
+                getFile = Utils(mContext).centerCropImage(getFile as File)
+                val file = Utils(mContext).reduceFileImage(getFile as File)
+                val requestImageFile = file.asRequestBody("image/*".toMediaType())
+                val imageMultipart = MultipartBody.Part.createFormData(
+                    "picture",
+                    file.name,
+                    requestImageFile
+                )
+                ApiCall(mContext).postClassify(requireActivity(), imageMultipart)
+            }
+        }
+    }
+
+    private fun allPermissionsGranted(context: Context) = REQUIRED_PERMISSIONS.all {
+        ContextCompat.checkSelfPermission(context, it) == PackageManager.PERMISSION_GRANTED
+    }
+
+    private fun showDialogPickPhoto(view: View){
+        if (!allPermissionsGranted(requireContext())) {
             ActivityCompat.requestPermissions(
                 requireActivity(),
                 REQUIRED_PERMISSIONS,
                 REQUEST_CODE_PERMISSIONS
             )
         }
+        val pickPhotoDialog = AlertDialog.Builder(view.context)
+            .setView(R.layout.dialog_option_take_pict)
+            .setTitle(requireActivity().resources.getString(R.string.select_picture_from))
+            .create()
+        pickPhotoDialog.show()
 
-        binding.ivCamera.setOnClickListener{ startCameraX() }
-        binding.ivGallery.setOnClickListener{ startGallery() }
+        val camera = pickPhotoDialog.findViewById<ImageView>(R.id.iv_camera)
+        val gallery = pickPhotoDialog.findViewById<ImageView>(R.id.iv_gallery)
+
+        camera?.setOnClickListener{
+            startCameraX()
+            pickPhotoDialog.dismiss()
+        }
+        gallery?.setOnClickListener{
+            startGallery()
+            pickPhotoDialog.dismiss()
+        }
     }
 
     private fun startCameraX() {
-        if (allPermissionsGranted(mContext)){
+        if (allPermissionsGranted(requireContext())){
             val intent = Intent(activity, CameraActivity::class.java)
             launcherIntentCameraX.launch(intent)
         }else {
-            val builder = AlertDialog.Builder(mContext)
+            val builder = AlertDialog.Builder(requireContext())
             builder.setIcon(android.R.drawable.ic_dialog_alert)
-                .setTitle(mContext.resources.getString(R.string.permission))
-                .setMessage(mContext.resources.getString(R.string.permissionText))
+                .setTitle(requireActivity().resources.getString(R.string.permission))
+                .setMessage(requireActivity().resources.getString(R.string.permissionText))
                 .setCancelable(false)
-                .setNegativeButton(mContext.resources.getString(R.string.close), null)
+                .setNegativeButton(requireActivity().resources.getString(R.string.close), null)
             val dialog = builder.create()
             dialog.show()
             val imageView = dialog.findViewById<ImageView>(android.R.id.icon)
@@ -89,8 +132,11 @@ class CameraFragment : Fragment() {
                 it.data?.getSerializableExtra("picture")
             } as? File
 
-            myFile?.let { _ ->
+            myFile?.let { file ->
                 getFile = myFile
+                binding.ivAddPhoto.setImageBitmap(BitmapFactory.decodeFile(file.path))
+                binding.tvAddPhotoHint.visibility = View.GONE
+                binding.ivTrash.visibility = View.VISIBLE
             }
         }
     }
@@ -100,25 +146,31 @@ class CameraFragment : Fragment() {
         resultLauncher.launch(openGalleryIntent)
     }
 
+    private fun showDialogDeletePhoto(){
+        val builder = AlertDialog.Builder(requireContext())
+        builder.setTitle(resources.getString(R.string.delete_photo))
+            .setMessage(resources.getString(R.string.delete_photo_text))
+            .setCancelable(false)
+            .setPositiveButton(resources.getString(R.string.yes)) { _, _ ->
+                binding.ivAddPhoto.setImageResource(R.drawable.border_circle_dashed)
+                binding.tvAddPhotoHint.visibility = View.VISIBLE
+                binding.ivTrash.visibility = View.GONE
+            }
+            .setNegativeButton(resources.getString(R.string.no), null)
+        val dialog = builder.create()
+        dialog.show()
+    }
+
     private var resultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
         if (result.resultCode == Activity.RESULT_OK) {
             val data = result.data
             val imageUri = data!!.data
             val myFile = Utils(mContext).uriToFile(imageUri!!)
             getFile = myFile
-            val file = Utils(mContext).reduceFileImage(ProfileFragment.getFile as File)
-            val requestImageFile = file.asRequestBody("image/*".toMediaType())
-            val imageMultipart = MultipartBody.Part.createFormData(
-                "picture",
-                file.name,
-                requestImageFile
-            )
-            ApiCall(mContext).postClassify(imageMultipart)
+            binding.ivAddPhoto.setImageURI(imageUri)
+            binding.tvAddPhotoHint.visibility = View.GONE
+            binding.ivTrash.visibility = View.VISIBLE
         }
-    }
-
-    private fun allPermissionsGranted(context: Context) = REQUIRED_PERMISSIONS.all {
-        ContextCompat.checkSelfPermission(context, it) == PackageManager.PERMISSION_GRANTED
     }
 
     companion object{

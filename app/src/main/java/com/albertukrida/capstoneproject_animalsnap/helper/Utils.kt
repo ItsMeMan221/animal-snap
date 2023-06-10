@@ -1,12 +1,10 @@
 package com.albertukrida.capstoneproject_animalsnap.helper
 
-import android.app.Activity
+import android.app.Application
 import android.content.ContentResolver
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.graphics.Canvas
-import android.graphics.RectF
 import android.net.Uri
 import android.os.Environment
 import android.text.method.HideReturnsTransformationMethod
@@ -18,7 +16,6 @@ import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-import androidx.core.content.ContextCompat
 import com.albertukrida.capstoneproject_animalsnap.R
 import com.albertukrida.capstoneproject_animalsnap.databinding.ActivityLoginBinding
 import com.albertukrida.capstoneproject_animalsnap.databinding.FragmentProfileBinding
@@ -228,6 +225,21 @@ class Utils(private val context: Context) {
         txtError.text = text
     }
 
+    //======================================= CAMERA AND GALLERY =======================================//
+    //==================================================================================================//
+
+    fun createFile(application: Application): File {
+        val mediaDir = application.externalMediaDirs.firstOrNull()?.let {
+            File(it, application.resources.getString(R.string.app_name)).apply { mkdirs() }
+        }
+
+        val outputDirectory = if (
+            mediaDir != null && mediaDir.exists()
+        ) mediaDir else application.filesDir
+
+        return File(outputDirectory, "$timeStamp.jpg")
+    }
+
     private fun createCustomTempFile(context: Context): File {
         val storageDir: File? = context.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
         return File.createTempFile(timeStamp, ".jpg", storageDir)
@@ -263,7 +275,7 @@ class Utils(private val context: Context) {
         return file
     }
 
-    fun getFileWidth(file: File): Int {
+    private fun getFileWidth(file: File): Int {
         val options = BitmapFactory.Options()
         options.inJustDecodeBounds = true
         BitmapFactory.decodeFile(file.path, options)

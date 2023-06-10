@@ -4,6 +4,7 @@
     package="com.albertukrida.capstoneproject_animalsnap">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission
         android:name="com.google.android.gms.permission.AD_ID"
         tools:node="remove" />
@@ -19,7 +20,10 @@
         android:theme="@style/Theme.CapstoneProject_AnimalSnap"
         tools:targetApi="31">
         <activity
-            android:name=".CameraActivity"
+            android:name=".ui.ClassifyResultActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.CameraActivity"
             android:exported="false" />
         <activity
             android:name=".ui.SplashScreen"

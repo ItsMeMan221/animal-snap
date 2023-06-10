@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName
 data class ClassifyResultResponse(
 
 	@field:SerializedName("donasi")
-	val donasi: List<Any>,
+	val donasi: List<DonasiItem>,
 
 	@field:SerializedName("nama_hewan")
 	val namaHewan: String,
@@ -42,4 +42,13 @@ data class HabitatItem(
 
 	@field:SerializedName("deskripsi_habitat")
 	val deskripsiHabitat: String
+)
+
+data class DonasiItem(
+
+	@field:SerializedName("nama_organisasi")
+	val namaOrganisasi: String,
+
+	@field:SerializedName("link_donasi")
+	val linkDonasi: String
 )

@@ -14,7 +14,6 @@ import com.albertukrida.capstoneproject_animalsnap.ui.fragment.HomeFragment
 import com.albertukrida.capstoneproject_animalsnap.ui.fragment.ProfileFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
-import java.io.File
 
 class MainActivity : AppCompatActivity() {
 
