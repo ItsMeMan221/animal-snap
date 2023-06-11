@@ -18,33 +18,36 @@ Made by :
 
 AnimalSnap is an android application for its users to classify an animal from a user's captured or uploaded picture in our application. It will classify whether this animal is pet-friendly, exotic animal, or an endangered animal. The application is targeted for everyone without any age limitation.
 
-# Technology Stack 
+# Technology Stack
 <img src="https://github.com/ItsMeMan221/animal-snap/blob/main/docs/TechStack.png" alt="logo application" width="1280" height="720">
 
 
 # Library for Backend System
 <ol>
-    <h3><li><a href="https://flask.palletsprojects.com/en/2.3.x/">Flask</a></li></h3>
-    <h3><li><a href="https://flask-sqlalchemy.palletsprojects.com/en/3.0.x/">Flask-SQLAlchemy</a></li></h3>
-    <h3><li><a href="https://flask-jwt-extended.readthedocs.io/en/stable/">Flask-JWT-Extended</a></li></h3>
-    <h3><li><a href="https://flask-cors.readthedocs.io/en/latest/">Flask-Cors</a></li></h3>
-    <h3><li><a href="https://pypi.org/project/google-cloud-storage/">Google Cloud Storage</a></li></h3>
-    <h3><li><a href="https://pypi.org/project/pymysql/">PyMySQL</a></li></h3>
-    <h3><li><a href="https://pypi.org/project/Pillow/">Pillow</a></li></h3>
+    <h5><li><a href="https://flask.palletsprojects.com/en/2.3.x/">Flask</a></li></h5>
+    <h5><li><a href="https://flask-sqlalchemy.palletsprojects.com/en/3.0.x/">Flask-SQLAlchemy</a></li></h5>
+    <h5><li><a href="https://flask-jwt-extended.readthedocs.io/en/stable/">Flask-JWT-Extended</a></li></h5>
+    <h5><li><a href="https://flask-cors.readthedocs.io/en/latest/">Flask-Cors</a></li></h5>
+    <h5><li><a href="https://pypi.org/project/google-cloud-storage/">Google Cloud Storage</a></li></h5>
+    <h5><li><a href="https://pypi.org/project/pymysql/">PyMySQL</a></li></h5>
+    <h5><li><a href="https://pypi.org/project/Pillow/">Pillow</a></li></h5>
 </ol>
 
 # Library for Android Development
 <ol>
-    <h3><li><a href="https://square.github.io/retrofit/">Retrofit</a></li></h3>
-    <h3><li><a href="https://developer.android.com/training/camerax">CameraX</a></li></h3>
-    <h3><li><a href="https://square.github.io/picasso/">Picasso</a></li></h3>
-    <h3><li><a href="https://developer.android.com/topic/libraries/architecture/paging/v3-overview">Paging3</a></li></h3>
-    <h3><li><a href="https://github.com/hdodenhof/CircleImageView">De.Hdodenhof</a></li></h3>
-    <h3><li><a href="https://firebase.google.com/docs/auth">Firebase Auth</a></li></h3>
+    <h5><li><a href="https://square.github.io/retrofit/">Retrofit</a></li></h5>
+    <h5><li><a href="https://developer.android.com/training/camerax">CameraX</a></li></h5>
+    <h5><li><a href="https://square.github.io/picasso/">Picasso</a></li></h5>
+    <h5><li><a href="https://developer.android.com/topic/libraries/architecture/paging/v3-overview">Paging3</a></li></h5>
+    <h5><li><a href="https://github.com/hdodenhof/CircleImageView">De.Hdodenhof</a></li></h5>
+    <h5><li><a href="https://firebase.google.com/docs/auth">Firebase Auth</a></li></h5>
 </ol>
 
 # How to Use Our App
 To use our app you can download our apk in <a href="#">here</a>
+
+# Deployment to GCP
+To deploy into GCP (Google Cloud Platform) you can read this <a href="#">docs</a>
 
 # API Documentation
 <p>You can checkout our API documentation in <a href="https://documenter.getpostman.com/view/27666286/2s93sc5YB7">here</a></p>
