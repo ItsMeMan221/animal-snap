@@ -1,5 +1,6 @@
 package com.albertukrida.capstoneproject_animalsnap.ui.fragment
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
@@ -10,24 +11,30 @@ import android.graphics.PorterDuff
 import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.Toast
+import android.widget.*
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.albertukrida.capstoneproject_animalsnap.R
 import com.albertukrida.capstoneproject_animalsnap.data.remote.retrofit.ApiCall
 import com.albertukrida.capstoneproject_animalsnap.databinding.FragmentCameraBinding
+import com.albertukrida.capstoneproject_animalsnap.helper.ProgressBarHelper
 import com.albertukrida.capstoneproject_animalsnap.helper.Utils
 import com.albertukrida.capstoneproject_animalsnap.ui.CameraActivity
 import com.albertukrida.capstoneproject_animalsnap.ui.MainActivity.Companion.CAMERA_X_RESULT
 import com.albertukrida.capstoneproject_animalsnap.ui.MainActivity.Companion.REQUEST_CODE_PERMISSIONS
 import com.albertukrida.capstoneproject_animalsnap.ui.MainActivity.Companion.REQUIRED_PERMISSIONS
+import com.albertukrida.capstoneproject_animalsnap.ui.MainViewModel
+import com.albertukrida.capstoneproject_animalsnap.ui.ViewModelFactory
+import com.albertukrida.capstoneproject_animalsnap.ui.adapter.HistoryAdapter
+import com.albertukrida.capstoneproject_animalsnap.ui.adapter.LoadingStateAdapter
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
@@ -36,8 +43,11 @@ import java.io.File
 class CameraFragment : Fragment() {
 
     private lateinit var binding: FragmentCameraBinding
-    private lateinit var mContext: Context
-    private lateinit var mView: View
+    private lateinit var pdLoading: ProgressBarHelper
+    private lateinit var builder: AlertDialog.Builder
+    private val mainViewModel: MainViewModel by viewModels {
+        ViewModelFactory()
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View {
@@ -50,6 +60,12 @@ class CameraFragment : Fragment() {
         mContext = view.context
         mView = view
 
+        ApiCall(mContext).refreshToken()
+
+        pdLoading = ProgressBarHelper()
+        builder = AlertDialog.Builder(mContext)
+        alertDialog = pdLoading.show(builder)
+
         binding.ivAddPhoto.setOnClickListener{ showDialogPickPhoto(view) }
         binding.ivTrash.setOnClickListener{ showDialogDeletePhoto() }
         binding.buttonAdd.setOnClickListener{
@@ -59,7 +75,6 @@ class CameraFragment : Fragment() {
                     Toast.LENGTH_SHORT
                 ).show()
             }else{
-                getFile = Utils(mContext).centerCropImage(getFile as File)
                 val file = Utils(mContext).reduceFileImage(getFile as File)
                 val requestImageFile = file.asRequestBody("image/*".toMediaType())
                 val imageMultipart = MultipartBody.Part.createFormData(
@@ -69,6 +84,19 @@ class CameraFragment : Fragment() {
                 )
                 ApiCall(mContext).postClassify(requireActivity(), imageMultipart)
             }
+        }
+
+        ApiCall(mContext).getHistory(this, binding)
+        binding.rvListHistory.layoutManager = LinearLayoutManager(context)
+    }
+
+    fun getListHistory() {
+        val adapter = HistoryAdapter(requireActivity())
+        binding.rvListHistory.adapter = adapter.withLoadStateFooter(
+            footer = LoadingStateAdapter { adapter.retry() }
+        )
+        mainViewModel.history.observe(requireActivity()) {
+            adapter.submitData(lifecycle, it)
         }
     }
 
@@ -146,6 +174,18 @@ class CameraFragment : Fragment() {
         resultLauncher.launch(openGalleryIntent)
     }
 
+    private var resultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+        if (result.resultCode == Activity.RESULT_OK) {
+            val data = result.data
+            val imageUri = data!!.data
+            val myFile = Utils(mContext).uriToFile(imageUri!!)
+            getFile = myFile
+            binding.ivAddPhoto.setImageURI(imageUri)
+            binding.tvAddPhotoHint.visibility = View.GONE
+            binding.ivTrash.visibility = View.VISIBLE
+        }
+    }
+
     private fun showDialogDeletePhoto(){
         val builder = AlertDialog.Builder(requireContext())
         builder.setTitle(resources.getString(R.string.delete_photo))
@@ -161,19 +201,12 @@ class CameraFragment : Fragment() {
         dialog.show()
     }
 
-    private var resultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-        if (result.resultCode == Activity.RESULT_OK) {
-            val data = result.data
-            val imageUri = data!!.data
-            val myFile = Utils(mContext).uriToFile(imageUri!!)
-            getFile = myFile
-            binding.ivAddPhoto.setImageURI(imageUri)
-            binding.tvAddPhotoHint.visibility = View.GONE
-            binding.ivTrash.visibility = View.VISIBLE
-        }
-    }
-
     companion object{
         var getFile: File? = null
+        lateinit var alertDialog: AlertDialog
+        @SuppressLint("StaticFieldLeak")
+        lateinit var mContext: Context
+        @SuppressLint("StaticFieldLeak")
+        lateinit var mView: View
     }
 }

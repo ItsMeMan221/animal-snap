@@ -11,8 +11,6 @@ import com.albertukrida.capstoneproject_animalsnap.databinding.ActivitySplashScr
 import com.albertukrida.capstoneproject_animalsnap.helper.IntentHelper
 import com.albertukrida.capstoneproject_animalsnap.helper.UserModel
 import com.albertukrida.capstoneproject_animalsnap.helper.UserPreferences
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FirebaseFirestore
 
 @SuppressLint("CustomSplashScreen")
 class SplashScreen : AppCompatActivity() {
@@ -37,7 +35,7 @@ class SplashScreen : AppCompatActivity() {
         Handler(Looper.getMainLooper()).postDelayed({
             if (userModel.token != null && userModel.token!!.isNotEmpty() &&
                 userModel.session != null && userModel.session!!.isNotEmpty()) {
-                IntentHelper().goToHomePage(this@SplashScreen)
+                IntentHelper().goToHomePage(this@SplashScreen, "home")
             }else{
                 IntentHelper().goToLoginPage(this)
             }

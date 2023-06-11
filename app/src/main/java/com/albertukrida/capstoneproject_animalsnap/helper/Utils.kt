@@ -172,7 +172,7 @@ class Utils(private val context: Context) {
         return "$date $month $year"
     }
 
-    private fun getMonth(input: String): String {
+    fun getMonth(input: String): String {
         var output = ""
         when (input) {
             "01" -> output = context.resources.getString(R.string.january)

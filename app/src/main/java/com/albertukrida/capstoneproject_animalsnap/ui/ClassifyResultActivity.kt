@@ -1,18 +1,18 @@
 package com.albertukrida.capstoneproject_animalsnap.ui
 
+import android.content.Intent
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.text.method.ScrollingMovementMethod
 import android.view.View
-import android.widget.ImageView
-import android.widget.RelativeLayout
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
+import androidx.activity.addCallback
 import androidx.appcompat.app.AlertDialog
 import com.albertukrida.capstoneproject_animalsnap.R
 import com.albertukrida.capstoneproject_animalsnap.data.remote.response.DonasiItem
 import com.albertukrida.capstoneproject_animalsnap.data.remote.response.HabitatItem
 import com.albertukrida.capstoneproject_animalsnap.databinding.ActivityClassifyResultBinding
+import com.albertukrida.capstoneproject_animalsnap.helper.IntentHelper
 import com.squareup.picasso.Picasso
 
 class ClassifyResultActivity : AppCompatActivity() {
@@ -49,10 +49,25 @@ class ClassifyResultActivity : AppCompatActivity() {
         Picasso.get().load(PICT_USER).into(binding.ivPictureUser)
         Picasso.get().load(PICT).into(binding.ivPicture)
 
-        binding.tvDesc.movementMethod = ScrollingMovementMethod()
+        binding.ivPictureUser.setOnClickListener{ showPicture(PICT_USER) }
+        binding.ivPicture.setOnClickListener{ showPicture(PICT) }
         binding.tvClass.setOnClickListener{ showClassDesc() }
         binding.tvHabitats.setOnClickListener{ showHabitats() }
         binding.btnDonate.setOnClickListener{ showDonate() }
+
+        onBackPressedDispatcher.addCallback(this) {
+            IntentHelper().goToHomePage(this@ClassifyResultActivity, "camera")
+        }
+    }
+
+    private fun showPicture(url: String){
+        val showDialog = AlertDialog.Builder(this)
+            .setView(R.layout.dialog_photo)
+            .create()
+        showDialog.show()
+
+        val picture = showDialog.findViewById<ImageView>(R.id.iv_detail_photo)!!
+        Picasso.get().load(url).into(picture)
     }
 
     private fun showClassDesc(){
@@ -83,6 +98,7 @@ class ClassifyResultActivity : AppCompatActivity() {
         val desc = showDialog.findViewById<TextView>(R.id.tv_desc)!!
         val left = showDialog.findViewById<RelativeLayout>(R.id.iv_left)!!
         val right = showDialog.findViewById<RelativeLayout>(R.id.iv_right)!!
+        val type = "hab"
 
         Picasso.get().load(HABITATS[0].gambarHabitat).into(picture)
         habitat.text = HABITATS[0].namaHabitat
@@ -92,17 +108,17 @@ class ClassifyResultActivity : AppCompatActivity() {
             right.visibility = View.GONE
         }else{
             var i = 0
-            setVisibility(i, right, left)
+            setVisibility(i, right, left, type)
             left.setOnClickListener{
                 i -= 1
-                setVisibility(i, right, left)
+                setVisibility(i, right, left, type)
                 Picasso.get().load(HABITATS[i].gambarHabitat).into(picture)
                 habitat.text = HABITATS[i].namaHabitat
                 desc.text = HABITATS[i].deskripsiHabitat
             }
             right.setOnClickListener{
                 i += 1
-                setVisibility(i, right, left)
+                setVisibility(i, right, left, type)
                 Picasso.get().load(HABITATS[i].gambarHabitat).into(picture)
                 habitat.text = HABITATS[i].namaHabitat
                 desc.text = HABITATS[i].deskripsiHabitat
@@ -110,8 +126,58 @@ class ClassifyResultActivity : AppCompatActivity() {
         }
     }
 
-    private fun setVisibility(i: Int, right: RelativeLayout, left: RelativeLayout){
-        if(i == HABITATS.size-1){
+    private fun showDonate(){
+        if(DONATION.isEmpty()){
+            Toast.makeText(this, resources.getString(R.string.donate_error), Toast.LENGTH_LONG).show()
+        }else{
+            val showDialog = AlertDialog.Builder(this)
+                .setView(R.layout.dialog_donation)
+                .create()
+            showDialog.show()
+
+            val donate = showDialog.findViewById<TextView>(R.id.tv_donate)!!
+            val organization = showDialog.findViewById<Button>(R.id.btn_organization)!!
+            val left = showDialog.findViewById<RelativeLayout>(R.id.iv_left)!!
+            val right = showDialog.findViewById<RelativeLayout>(R.id.iv_right)!!
+            val type = "don"
+
+            organization.text = DONATION[0].namaOrganisasi
+            organization.setOnClickListener{ startActivity(setUrl(0)) }
+
+            if(DONATION.size == 1){
+                donate.text = resources.getString(R.string.donate_organization)
+                left.visibility = View.GONE
+                right.visibility = View.GONE
+            }else{
+                donate.text = resources.getString(R.string.donate_organizations)
+                var i = 0
+                setVisibility(i, right, left, type)
+                left.setOnClickListener{
+                    i -= 1
+                    setVisibility(i, right, left, type)
+                    organization.text = DONATION[i].namaOrganisasi
+                    organization.setOnClickListener{ startActivity(setUrl(i)) }
+                }
+                right.setOnClickListener{
+                    i += 1
+                    setVisibility(i, right, left, type)
+                    organization.text = DONATION[i].namaOrganisasi
+                    organization.setOnClickListener{ startActivity(setUrl(i)) }
+                }
+            }
+        }
+    }
+
+    private fun setUrl(i: Int): Intent {
+        var url = DONATION[i].linkDonasi
+        if (!url.startsWith("http://") && !url.startsWith("https://")) {
+            url = "http://$url"
+        }
+        return Intent(Intent.ACTION_VIEW, Uri.parse(url))
+    }
+
+    private fun setVisibility(i: Int, right: RelativeLayout, left: RelativeLayout, type: String){
+        if((type == "hab" && i == HABITATS.size-1) || (type == "don" && i == DONATION.size-1)){
             right.visibility = View.GONE
         }else{
             right.visibility = View.VISIBLE
@@ -120,14 +186,6 @@ class ClassifyResultActivity : AppCompatActivity() {
             left.visibility = View.GONE
         }else{
             left.visibility = View.VISIBLE
-        }
-    }
-
-    private fun showDonate(){
-        if(DONATION.isEmpty()){
-            Toast.makeText(this, resources.getString(R.string.donate_error), Toast.LENGTH_LONG).show()
-        }else{
-
         }
     }
 

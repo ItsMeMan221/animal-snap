@@ -4,11 +4,11 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.view.View
-import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import com.albertukrida.capstoneproject_animalsnap.R
 import com.albertukrida.capstoneproject_animalsnap.data.remote.response.*
 import com.albertukrida.capstoneproject_animalsnap.data.remote.response.DataResponse
+import com.albertukrida.capstoneproject_animalsnap.databinding.FragmentCameraBinding
 import com.albertukrida.capstoneproject_animalsnap.databinding.FragmentProfileBinding
 import com.albertukrida.capstoneproject_animalsnap.helper.ProgressBarHelper
 import com.albertukrida.capstoneproject_animalsnap.helper.Utils
@@ -25,6 +25,7 @@ import com.albertukrida.capstoneproject_animalsnap.ui.ClassifyResultActivity.Com
 import com.albertukrida.capstoneproject_animalsnap.ui.LoginActivity
 import com.albertukrida.capstoneproject_animalsnap.ui.MainActivity.Companion.userModel
 import com.albertukrida.capstoneproject_animalsnap.ui.RegisterActivity
+import com.albertukrida.capstoneproject_animalsnap.ui.fragment.CameraFragment
 import com.google.firebase.auth.FirebaseAuth
 import okhttp3.MultipartBody
 import org.json.JSONObject
@@ -139,16 +140,16 @@ class ApiCall(private val context: Context) {
                 response: Response<ClassifyResponse>
             ) {
                 if (response.isSuccessful) {
+                    alertDialog.dismiss()
                     val responseBody = response.body()
                     if (responseBody != null) {
-                        getClassifyResult(activity, alertDialog, responseBody.id)
+                        getClassifyResult(activity, responseBody.id)
                     }
                 } else {
                     alertDialog.dismiss()
                     try {
                         val data = response.errorBody()?.string()
                         val jObjError = data?.let { JSONObject(it) }
-                        Toast.makeText(context, data, Toast.LENGTH_LONG).show()
                         Utils(context).errorDialog(jObjError?.getString("message").toString())
                     } catch (e: Exception) {
                         Utils(context).errorDialog("Error! " + e.message)
@@ -162,7 +163,8 @@ class ApiCall(private val context: Context) {
         })
     }
 
-    fun getClassifyResult(activity: Activity, alertDialog: AlertDialog, id: String) {
+    fun getClassifyResult(activity: Activity, id: String) {
+        alertDialog = pdLoading.show(builder)
         val client = ApiConfig.getApiService().getClassifyResult(id)
         client.enqueue(object : Callback<ClassifyResultResponse> {
             override fun onResponse(
@@ -185,6 +187,7 @@ class ApiCall(private val context: Context) {
                         val intent = Intent(activity, ClassifyResultActivity::class.java)
                         activity.startActivity(intent)
                         activity.overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
+                        activity.finish()
                     }
                 } else {
                     alertDialog.dismiss()
@@ -199,6 +202,44 @@ class ApiCall(private val context: Context) {
             }
             override fun onFailure(call: Call<ClassifyResultResponse>, t: Throwable) {
                 alertDialog.dismiss()
+                Utils(context).errorDialog(t.message.toString())
+            }
+        })
+    }
+
+    fun getHistory(fragment: CameraFragment, binding: FragmentCameraBinding){
+        val client = ApiConfig.getApiService().getHist(userModel.userId!!, 1)
+        client.enqueue(object : Callback<HistoryResponse> {
+            override fun onResponse(
+                call: Call<HistoryResponse>,
+                response: Response<HistoryResponse>
+            ) {
+                if (response.isSuccessful) {
+                    val responseBody = response.body()
+                    if (responseBody != null) {
+                        if(responseBody.data.isEmpty()){
+                            CameraFragment.alertDialog.dismiss()
+                            binding.tvEmptyHistory.visibility = View.VISIBLE
+                            binding.rvListHistory.visibility = View.GONE
+                        }else{
+                            binding.tvEmptyHistory.visibility = View.GONE
+                            binding.rvListHistory.visibility = View.VISIBLE
+                            fragment.getListHistory()
+                        }
+                    }
+                } else {
+                    CameraFragment.alertDialog.dismiss()
+                    try {
+                        val data = response.errorBody()?.string()
+                        val jObjError = data?.let { JSONObject(it) }
+                        Utils(context).errorDialog(jObjError?.getString("msg").toString())
+                    } catch (e: Exception) {
+                        Utils(context).errorDialog("Error! " + e.message)
+                    }
+                }
+            }
+            override fun onFailure(call: Call<HistoryResponse>, t: Throwable) {
+                CameraFragment.alertDialog.dismiss()
                 Utils(context).errorDialog(t.message.toString())
             }
         })
@@ -264,7 +305,6 @@ class ApiCall(private val context: Context) {
                     try {
                         val data = response.errorBody()?.string()
                         val jObjError = data?.let { JSONObject(it) }
-                        Toast.makeText(context, data, Toast.LENGTH_LONG).show()
                         Utils(context).errorDialog(jObjError?.getString("message").toString())
                     } catch (e: Exception) {
                         Utils(context).errorDialog("Error! " + e.message)
@@ -301,7 +341,6 @@ class ApiCall(private val context: Context) {
                     try {
                         val data = response.errorBody()?.string()
                         val jObjError = data?.let { JSONObject(it) }
-                        Toast.makeText(context, data, Toast.LENGTH_LONG).show()
                         Utils(context).errorDialog(jObjError?.getString("message").toString())
                     } catch (e: Exception) {
                         Utils(context).errorDialog("Error! " + e.message)

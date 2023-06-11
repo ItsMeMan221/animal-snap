@@ -26,7 +26,7 @@
         <entry key="..\:/Users/asus/CapstoneProject_AnimalSnap/app/src/main/res/drawable/shape_edit_text.xml" value="0.16" />
         <entry key="..\:/Users/asus/CapstoneProject_AnimalSnap/app/src/main/res/layout-v26/activity_classify_result.xml" value="0.2" />
         <entry key="..\:/Users/asus/CapstoneProject_AnimalSnap/app/src/main/res/layout/activity_camera.xml" value="0.2" />
-        <entry key="..\:/Users/asus/CapstoneProject_AnimalSnap/app/src/main/res/layout/activity_classify_result.xml" value="0.25" />
+        <entry key="..\:/Users/asus/CapstoneProject_AnimalSnap/app/src/main/res/layout/activity_classify_result.xml" value="0.22" />
         <entry key="..\:/Users/asus/CapstoneProject_AnimalSnap/app/src/main/res/layout/activity_login.xml" value="0.25" />
         <entry key="..\:/Users/asus/CapstoneProject_AnimalSnap/app/src/main/res/layout/activity_main.xml" value="0.25" />
         <entry key="..\:/Users/asus/CapstoneProject_AnimalSnap/app/src/main/res/layout/activity_register.xml" value="0.22" />
@@ -34,6 +34,7 @@
         <entry key="..\:/Users/asus/CapstoneProject_AnimalSnap/app/src/main/res/layout/dialog_change_name.xml" value="0.2" />
         <entry key="..\:/Users/asus/CapstoneProject_AnimalSnap/app/src/main/res/layout/dialog_change_prof_pict.xml" value="0.2" />
         <entry key="..\:/Users/asus/CapstoneProject_AnimalSnap/app/src/main/res/layout/dialog_class_desc.xml" value="0.25" />
+        <entry key="..\:/Users/asus/CapstoneProject_AnimalSnap/app/src/main/res/layout/dialog_donation.xml" value="0.22" />
         <entry key="..\:/Users/asus/CapstoneProject_AnimalSnap/app/src/main/res/layout/dialog_error.xml" value="0.2" />
         <entry key="..\:/Users/asus/CapstoneProject_AnimalSnap/app/src/main/res/layout/dialog_forget_password.xml" value="0.2" />
         <entry key="..\:/Users/asus/CapstoneProject_AnimalSnap/app/src/main/res/layout/dialog_habitats.xml" value="0.25" />
@@ -41,13 +42,16 @@
         <entry key="..\:/Users/asus/CapstoneProject_AnimalSnap/app/src/main/res/layout/dialog_option_take_pict.xml" value="0.2" />
         <entry key="..\:/Users/asus/CapstoneProject_AnimalSnap/app/src/main/res/layout/dialog_password_new.xml" value="0.25" />
         <entry key="..\:/Users/asus/CapstoneProject_AnimalSnap/app/src/main/res/layout/dialog_password_old.xml" value="0.33" />
+        <entry key="..\:/Users/asus/CapstoneProject_AnimalSnap/app/src/main/res/layout/dialog_photo.xml" value="0.2" />
         <entry key="..\:/Users/asus/CapstoneProject_AnimalSnap/app/src/main/res/layout/dialog_profile_picture.xml" value="0.2" />
         <entry key="..\:/Users/asus/CapstoneProject_AnimalSnap/app/src/main/res/layout/dialog_progress_bar.xml" value="0.2" />
         <entry key="..\:/Users/asus/CapstoneProject_AnimalSnap/app/src/main/res/layout/dialog_success.xml" value="0.2" />
         <entry key="..\:/Users/asus/CapstoneProject_AnimalSnap/app/src/main/res/layout/dialog_verif_email.xml" value="0.2" />
-        <entry key="..\:/Users/asus/CapstoneProject_AnimalSnap/app/src/main/res/layout/fragment_camera.xml" value="0.25" />
+        <entry key="..\:/Users/asus/CapstoneProject_AnimalSnap/app/src/main/res/layout/fragment_camera.xml" value="0.22" />
         <entry key="..\:/Users/asus/CapstoneProject_AnimalSnap/app/src/main/res/layout/fragment_home.xml" value="0.19583333333333333" />
         <entry key="..\:/Users/asus/CapstoneProject_AnimalSnap/app/src/main/res/layout/fragment_profile.xml" value="0.156412157153447" />
+        <entry key="..\:/Users/asus/CapstoneProject_AnimalSnap/app/src/main/res/layout/item_history.xml" value="0.25" />
+        <entry key="..\:/Users/asus/CapstoneProject_AnimalSnap/app/src/main/res/layout/item_loading.xml" value="0.25" />
         <entry key="..\:/Users/asus/CapstoneProject_AnimalSnap/app/src/main/res/menu/navigation_menu.xml" value="0.19583333333333333" />
       </map>
     </option>

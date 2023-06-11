@@ -48,6 +48,8 @@
     <string name="profile">Profile</string>
 
     <string name="change_password">Change Password</string>
+    <string name="exitApp">Exit Application?</string>
+    <string name="confirmExit">Are you sure you want to close this application?</string>
     <string name="logout">Logout</string>
     <string name="logoutConfirm">Logout Confirm</string>
     <string name="logoutConfirmText">Are you sure you want to logout from your account?</string>
@@ -116,5 +118,12 @@
     <string name="hab_picture">Habitat Picture</string>
     <string name="next">Next</string>
     <string name="previous">Previous</string>
+    <string name="empty_history">You don\'t have any classify history</string>
+    <string name="try_again">Try Again</string>
+    <string name="donate_motto">Protect Animals,\n Save Humanity</string>
+    <string name="donate_text">Donate to help us protect these animals!</string>
+    <string name="donate_organization">Let\'s donate through this organization</string>
+    <string name="donate_organizations">Let\'s donate through these organizations:</string>
+    <string name="photo">Photo</string>
 
 </resources>

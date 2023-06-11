@@ -34,6 +34,18 @@ interface ApiService {
         @Path("classify_id") id: String
     ): Call<ClassifyResultResponse>
 
+    @GET("/classify/history/{uid}")
+    suspend fun getHistory(
+        @Path("uid") uid: String,
+        @Query("page") page: Int
+    ): HistoryResponse
+
+    @GET("/classify/history/{uid}")
+    fun getHist(
+        @Path("uid") uid: String,
+        @Query("page") page: Int
+    ): Call<HistoryResponse>
+
     @GET("profile/{uid}")
     fun getProfile(
         @Path("uid") uid: String

@@ -83,7 +83,7 @@ class LoginActivity : AppCompatActivity() {
 
                     alertDialog.dismiss()
                     Utils(this@LoginActivity).successDialog(resources.getString(R.string.loginSuccess))
-                    IntentHelper().goToHomePage(this@LoginActivity)
+                    IntentHelper().goToHomePage(this@LoginActivity, "home")
                 } else {
                     alertDialog.dismiss()
                     Handler(Looper.getMainLooper()).postDelayed({ binding.tvResendEmail.visibility = View.VISIBLE }, 7000)

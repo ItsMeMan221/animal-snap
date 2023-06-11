@@ -7,7 +7,6 @@ import android.text.Editable
 import android.util.AttributeSet
 import android.util.Patterns
 import android.view.Gravity
-import android.widget.TextView
 import androidx.appcompat.widget.AppCompatButton
 import androidx.core.content.ContextCompat
 import com.albertukrida.capstoneproject_animalsnap.R
@@ -97,17 +96,6 @@ class MyButton : AppCompatButton {
         } else{
             register.isEnabled = false
             register.text = resources.getString(R.string.noData)
-        }
-    }
-
-    fun validateForgetPass(email: TextView, btnNext: TextView){
-        // enable button submit
-        if ("$email".isNotEmpty() && Patterns.EMAIL_ADDRESS.matcher(email.text).matches()){
-            btnNext.isEnabled = true
-            btnNext.text = resources.getString(R.string.ok)
-        } else{
-            btnNext.isEnabled = false
-            btnNext.text = resources.getString(R.string.noData)
         }
     }
 

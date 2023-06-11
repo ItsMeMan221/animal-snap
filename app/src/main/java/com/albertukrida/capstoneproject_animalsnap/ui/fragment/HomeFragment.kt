@@ -6,11 +6,11 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.albertukrida.capstoneproject_animalsnap.R
-import com.albertukrida.capstoneproject_animalsnap.databinding.FragmentCameraBinding
+import com.albertukrida.capstoneproject_animalsnap.data.remote.retrofit.ApiCall
 import com.albertukrida.capstoneproject_animalsnap.databinding.FragmentHomeBinding
 
-class HomeFragment : Fragment() {
+class
+HomeFragment : Fragment() {
 
     private lateinit var binding: FragmentHomeBinding
     private lateinit var mContext: Context
@@ -26,5 +26,7 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         mContext = view.context
         mView = view
+
+        ApiCall(mContext).refreshToken()
     }
 }
