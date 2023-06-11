@@ -19,7 +19,7 @@ Made by :
 AnimalSnap is an android application for its users to classify an animal from a user's captured or uploaded picture in our application. It will classify whether this animal is pet-friendly, exotic animal, or an endangered animal. The application is targeted for everyone without any age limitation.
 
 # Technology Stack
-<img src="https://github.com/ItsMeMan221/animal-snap/blob/main/docs/TechStack.png" alt="logo application" width="1280" height="720">
+<img src="https://github.com/ItsMeMan221/animal-snap/blob/main/docs/TechStack.png" alt="logo application">
 
 
 # Library for Backend System
