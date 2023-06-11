@@ -24,23 +24,23 @@ AnimalSnap is an android application for its users to classify an animal from a 
 
 # Library for Backend System
 <ol>
-    <h5><li><a href="https://flask.palletsprojects.com/en/2.3.x/">Flask</a></li></h5>
-    <h5><li><a href="https://flask-sqlalchemy.palletsprojects.com/en/3.0.x/">Flask-SQLAlchemy</a></li></h5>
-    <h5><li><a href="https://flask-jwt-extended.readthedocs.io/en/stable/">Flask-JWT-Extended</a></li></h5>
-    <h5><li><a href="https://flask-cors.readthedocs.io/en/latest/">Flask-Cors</a></li></h5>
-    <h5><li><a href="https://pypi.org/project/google-cloud-storage/">Google Cloud Storage</a></li></h5>
-    <h5><li><a href="https://pypi.org/project/pymysql/">PyMySQL</a></li></h5>
-    <h5><li><a href="https://pypi.org/project/Pillow/">Pillow</a></li></h5>
+    <h4><li><a href="https://flask.palletsprojects.com/en/2.3.x/">Flask</a></li></h4>
+    <h4><li><a href="https://flask-sqlalchemy.palletsprojects.com/en/3.0.x/">Flask-SQLAlchemy</a></li></h4>
+    <h4><li><a href="https://flask-jwt-extended.readthedocs.io/en/stable/">Flask-JWT-Extended</a></li></h4>
+    <h4><li><a href="https://flask-cors.readthedocs.io/en/latest/">Flask-Cors</a></li></h4>
+    <h4><li><a href="https://pypi.org/project/google-cloud-storage/">Google Cloud Storage</a></li></h4>
+    <h4><li><a href="https://pypi.org/project/pymysql/">PyMySQL</a></li></h4>
+    <h4><li><a href="https://pypi.org/project/Pillow/">Pillow</a></li></h4>
 </ol>
 
 # Library for Android Development
 <ol>
-    <h5><li><a href="https://square.github.io/retrofit/">Retrofit</a></li></h5>
-    <h5><li><a href="https://developer.android.com/training/camerax">CameraX</a></li></h5>
-    <h5><li><a href="https://square.github.io/picasso/">Picasso</a></li></h5>
-    <h5><li><a href="https://developer.android.com/topic/libraries/architecture/paging/v3-overview">Paging3</a></li></h5>
-    <h5><li><a href="https://github.com/hdodenhof/CircleImageView">De.Hdodenhof</a></li></h5>
-    <h5><li><a href="https://firebase.google.com/docs/auth">Firebase Auth</a></li></h5>
+    <h4><li><a href="https://square.github.io/retrofit/">Retrofit</a></li></h4>
+    <h4><li><a href="https://developer.android.com/training/camerax">CameraX</a></li></h4>
+    <h4><li><a href="https://square.github.io/picasso/">Picasso</a></li></h4>
+    <h4><li><a href="https://developer.android.com/topic/libraries/architecture/paging/v3-overview">Paging3</a></li></h4>
+    <h4><li><a href="https://github.com/hdodenhof/CircleImageView">De.Hdodenhof</a></li></h4>
+    <h4><li><a href="https://firebase.google.com/docs/auth">Firebase Auth</a></li></h4>
 </ol>
 
 # How to Use Our App
