@@ -47,6 +47,6 @@ AnimalSnap is an android application for its users to classify an animal from a 
 To use our app you can download our apk in <a href="#">here</a>
 
 # API Documentation
-You can checkout our API documentation in <a href="https://documenter.getpostman.com/view/27666286/2s93sc5YB7">here</a>
-We also use swagger for documentation purposes, you can check our swagger documentation in <a href="https://app.swaggerhub.com/apis-docs/ItsMeMan221/animal-snap_api/1.0">here</a>
-You can checkout the JSON file for swagger in <a href="https://github.com/ItsMeMan221/animal-snap/blob/animal-snap-api/static/openapi.json">here</a>
+<p>You can checkout our API documentation in <a href="https://documenter.getpostman.com/view/27666286/2s93sc5YB7">here</a></p>
+<p>We also use swagger for documentation purposes, you can check our swagger documentation in <a href="https://app.swaggerhub.com/apis-docs/ItsMeMan221/animal-snap_api/1.0">here</a></p>
+<p>You can checkout the JSON file for swagger in <a href="https://github.com/ItsMeMan221/animal-snap/blob/animal-snap-api/static/openapi.json">here</a></p>
