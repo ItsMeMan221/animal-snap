@@ -47,7 +47,7 @@ AnimalSnap is an android application for its users to classify an animal from a 
 To use our app you can download our apk in <a href="#">here</a>
 
 # Deployment to GCP
-To deploy into GCP (Google Cloud Platform) you can read this <a href="#">docs</a>
+To deploy into GCP (Google Cloud Platform) you can read this <a href="docs/deploy-gcp.md">docs</a>
 
 # API Documentation
 <p>You can checkout our API documentation in <a href="https://documenter.getpostman.com/view/27666286/2s93sc5YB7">here</a></p>

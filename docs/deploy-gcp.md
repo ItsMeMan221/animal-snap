@@ -87,7 +87,7 @@ gcloud sql databases create animal-snap --instance=animal-snap-instance
     - Note the IP, it will be used later
     - Click on import button on top side menu 
     - Click browse, then select the bucket and select .sql file
-    - On destination section, select database to ```bash animal-snap ```
+    - On destination section, select database to ``` animal-snap ```
 
 # Cloud Run deployment
 
