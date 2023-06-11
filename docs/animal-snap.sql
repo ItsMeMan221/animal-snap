@@ -17,15 +17,6 @@ SET time_zone = "+00:00";
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
 /*!40101 SET NAMES utf8mb4 */;
 
---
--- Database: `animal-snap`
---
-
--- --------------------------------------------------------
-
---
--- Table structure for table `animals`
---
 
 CREATE TABLE `animals` (
   `id` int(11) NOT NULL,
