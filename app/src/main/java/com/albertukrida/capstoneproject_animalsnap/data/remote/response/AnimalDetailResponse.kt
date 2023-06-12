@@ -2,7 +2,7 @@ package com.albertukrida.capstoneproject_animalsnap.data.remote.response
 
 import com.google.gson.annotations.SerializedName
 
-data class ClassifyResultResponse(
+data class AnimalDetailResponse(
 
 	@field:SerializedName("donasi")
 	val donasi: List<DonasiItem>,

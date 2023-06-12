@@ -11,22 +11,28 @@ import android.widget.*
 import androidx.activity.addCallback
 import androidx.appcompat.app.AlertDialog
 import com.albertukrida.capstoneproject_animalsnap.R
-import com.albertukrida.capstoneproject_animalsnap.data.remote.response.DonasiItem
-import com.albertukrida.capstoneproject_animalsnap.data.remote.response.HabitatItem
-import com.albertukrida.capstoneproject_animalsnap.databinding.ActivityClassifyResultBinding
+import com.albertukrida.capstoneproject_animalsnap.databinding.ActivityAnimalBinding
 import com.albertukrida.capstoneproject_animalsnap.helper.IntentHelper
 import com.albertukrida.capstoneproject_animalsnap.helper.Utils
+import com.albertukrida.capstoneproject_animalsnap.ui.ClassifyResultActivity.Companion.CLASS
+import com.albertukrida.capstoneproject_animalsnap.ui.ClassifyResultActivity.Companion.CLASS_DESC
+import com.albertukrida.capstoneproject_animalsnap.ui.ClassifyResultActivity.Companion.DESC
+import com.albertukrida.capstoneproject_animalsnap.ui.ClassifyResultActivity.Companion.DONATION
+import com.albertukrida.capstoneproject_animalsnap.ui.ClassifyResultActivity.Companion.HABITATS
+import com.albertukrida.capstoneproject_animalsnap.ui.ClassifyResultActivity.Companion.NAME
+import com.albertukrida.capstoneproject_animalsnap.ui.ClassifyResultActivity.Companion.PICT
+import com.albertukrida.capstoneproject_animalsnap.ui.ClassifyResultActivity.Companion.STATUS
 import com.squareup.picasso.Picasso
 
-class ClassifyResultActivity : AppCompatActivity() {
+class AnimalActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityClassifyResultBinding
+    private lateinit var binding: ActivityAnimalBinding
     private lateinit var habName: String
     private lateinit var habPict: String
     private lateinit var habDesc: String
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        supportActionBar?.title = resources.getString(R.string.classify)
+        supportActionBar?.title = resources.getString(R.string.detail)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         return true
     }
@@ -43,7 +49,7 @@ class ClassifyResultActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityClassifyResultBinding.inflate(layoutInflater)
+        binding = ActivityAnimalBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         if(HABITATS.size == 1){
@@ -65,17 +71,15 @@ class ClassifyResultActivity : AppCompatActivity() {
         binding.tvStatus.text = STATUS
         binding.tvHabitats.text = habName
         binding.tvDesc.text = DESC
-        Picasso.get().load(PICT_USER).into(binding.ivPictureUser)
         Picasso.get().load(PICT).into(binding.ivPicture)
 
-        binding.ivPictureUser.setOnClickListener{ Utils(this).showPicture(PICT_USER) }
         binding.ivPicture.setOnClickListener{ Utils(this).showPicture(PICT) }
         binding.tvClass.setOnClickListener{ showClassDesc() }
         binding.tvHabitats.setOnClickListener{ showHabitats() }
         binding.btnDonate.setOnClickListener{ showDonate() }
 
         onBackPressedDispatcher.addCallback(this) {
-            IntentHelper().goToHomePage(this@ClassifyResultActivity, "camera")
+            IntentHelper().goToHomePage(this@AnimalActivity, "home")
         }
     }
 
@@ -158,7 +162,7 @@ class ClassifyResultActivity : AppCompatActivity() {
                 left.visibility = View.GONE
                 right.visibility = View.GONE
             }else{
-                donate.text = resources.getString(R.string.donate_organization)
+                donate.text = resources.getString(R.string.donate_error)
                 var i = 0
                 setVisibility(i, right, left, type)
                 left.setOnClickListener{
@@ -196,17 +200,5 @@ class ClassifyResultActivity : AppCompatActivity() {
         }else{
             left.visibility = View.VISIBLE
         }
-    }
-
-    companion object{
-        lateinit var NAME: String
-        lateinit var CLASS: String
-        lateinit var STATUS: String
-        lateinit var PICT: String
-        lateinit var PICT_USER: String
-        lateinit var DESC: String
-        lateinit var CLASS_DESC: String
-        lateinit var DONATION: List<DonasiItem>
-        lateinit var HABITATS: List<HabitatItem>
     }
 }

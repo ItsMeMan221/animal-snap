@@ -20,15 +20,29 @@
         android:theme="@style/Theme.CapstoneProject_AnimalSnap"
         tools:targetApi="31">
         <activity
+            android:name=".ui.AnimalActivity"
+            android:screenOrientation="portrait"
+            android:exported="false"
+            android:launchMode="singleTop"
+            tools:ignore="LockedOrientationActivity" />
+        <activity
             android:name=".ui.ClassifyResultActivity"
-            android:exported="false" />
+            android:screenOrientation="portrait"
+            android:exported="false"
+            android:launchMode="singleTop"
+            tools:ignore="LockedOrientationActivity" />
         <activity
             android:name=".ui.CameraActivity"
-            android:exported="false" />
+            android:screenOrientation="portrait"
+            android:exported="false"
+            android:launchMode="singleTop"
+            tools:ignore="LockedOrientationActivity" />
         <activity
             android:name=".ui.SplashScreen"
+            android:screenOrientation="portrait"
             android:exported="true"
-            android:launchMode="singleTop">
+            android:launchMode="singleTop"
+            tools:ignore="LockedOrientationActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -37,16 +51,22 @@
         </activity>
         <activity
             android:name=".ui.RegisterActivity"
+            android:screenOrientation="portrait"
             android:exported="false"
-            android:launchMode="singleTop" />
+            android:launchMode="singleTop"
+            tools:ignore="LockedOrientationActivity" />
         <activity
             android:name=".ui.LoginActivity"
+            android:screenOrientation="portrait"
             android:exported="false"
-            android:launchMode="singleTop" />
+            android:launchMode="singleTop"
+            tools:ignore="LockedOrientationActivity" />
         <activity
             android:name=".ui.MainActivity"
+            android:screenOrientation="portrait"
             android:exported="false"
-            android:launchMode="singleTop" />
+            android:launchMode="singleTop"
+            tools:ignore="LockedOrientationActivity" />
     </application>
 
 </manifest>

@@ -15,6 +15,7 @@ import android.widget.EditText
 import android.widget.TextView.OnEditorActionListener
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.albertukrida.capstoneproject_animalsnap.R
 import com.albertukrida.capstoneproject_animalsnap.data.remote.retrofit.ApiCall
@@ -42,12 +43,19 @@ HomeFragment : Fragment() {
 
         optimizeSearchBar()
         getListHabitat()
+        getListAnimal()
     }
 
     private fun getListHabitat(){
         val recyclerView = binding.rvListHabitat
         recyclerView.layoutManager = LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false)
         ApiCall(mContext).getAllHabitats(mContext, recyclerView)
+    }
+
+    private fun getListAnimal(){
+        val recyclerView = binding.rvListAnimal
+        recyclerView.layoutManager = GridLayoutManager(mContext, 2)
+        ApiCall(mContext).getAllAnimal(requireActivity(), mContext, recyclerView)
     }
 
     @SuppressLint("ClickableViewAccessibility")

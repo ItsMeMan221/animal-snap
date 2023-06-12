@@ -1,133 +1,144 @@
 <resources>
+    <!-- General -->
     <string name="app_name">AnimalSnap</string>
     <string name="motto1">Know the Animals Around You\nwith One Snap Away</string>
-    <string name="motto">Act Now, \n Secure Tomorrow</string>
-    <string name="motto_desc">Preserving Endangered Animals for a Sustainable Future</string>
-    <string name="loading">Loading…</string>
+    <string name="loading">Memuat…</string>
 
-    <string name="name_hint">Enter your name</string>
-    <string name="email_hint">Enter your email</string>
-    <string name="pass_hint">Enter your password</string>
-    <string name="pass_hint_new">Enter your new password</string>
-    <string name="rep_pass_hint">Re-enter your password</string>
-    <string name="rep_pass_hint_new">Re-enter your new password</string>
+    <!-- Login and Registration -->
+    <string name="name_hint">Ketik nama Anda</string>
+    <string name="email_hint">Ketik email Anda</string>
+    <string name="pass_hint">Ketik kata sandi Anda</string>
+    <string name="pass_hint_new">Ketik kata sandi baru Anda</string>
+    <string name="rep_pass_hint">Ketik kembali kata sandi Anda</string>
+    <string name="rep_pass_hint_new">Ketik kembali kata sandi baru Anda</string>
 
-    <string name="name_error1">Enter only the alphabet</string>
-    <string name="name_error2">Name is too short</string>
-    <string name="email_error">Valid email is required</string>
-    <string name="pass_error">Password too short</string>
-    <string name="rep_pass_error">Password is different</string>
+    <!-- Login and Registration Error -->
+    <string name="name_error1">Hanya boleh memasukkan alphabet</string>
+    <string name="name_error2">Nama harus memiliki setidaknya 4 karakter</string>
+    <string name="email_error">Ketik alamat email yang valid</string>
+    <string name="pass_error">Kata sandi harus memiliki setidaknya 8 karakter</string>
+    <string name="rep_pass_error">Konfirmasi password salah</string>
 
-    <string name="name">Name:</string>
+    <!-- Login and Registration Label -->
+    <string name="name">Nama:</string>
     <string name="email">Email:</string>
-    <string name="password">Password:</string>
-    <string name="repeat_password">Confirm Password:</string>
-    <string name="show_password">Show Password</string>
-    <string name="resendEmail"><u>Resend the verification email?</u></string>
-    <string name="noData">Please Fill All Data!</string>
+    <string name="password">Kata Sandi:</string>
+    <string name="repeat_password">Konfirmasi Kata Sandi:</string>
+    <string name="show_password">Lihat Password</string>
+    <string name="resendEmail"><u>Kirim ulang email verifikasi?</u></string>
+    <string name="noData">Isi Semua Data!</string>
     <string name="login">Login</string>
-    <string name="register">Register</string>
+    <string name="register">Daftar</string>
     <string name="ok">OK</string>
 
-    <string name="reset_password_title">Reset Password?</string>
-    <string name="reset_password_msg">Enter your email to receive a reset link</string>
-    <string name="enter_email">Please enter your email</string>
-    <string name="reset_password">reset link has been sent to your email!</string>
-    <string name="yes">Yes</string>
-    <string name="no">No</string>
-    <string name="registration_complete">Your registration process is almost complete! Please check your email then click the link provided to verify your account. If you have not receive a verification email, please check spam or trash folder in your email.</string>
-    <string name="verify_email_title">Verify Your Email</string>
-    <string name="verify_email">Please verify your email address first! Check your spam or trash folder</string>
-    <string name="verify_email_sent">Verification email has been sent to </string>
-    <string name="regSuccess">Register Success! Please login to your account first</string>
-    <string name="loginSuccess">Login Success!</string>
+    <!-- Email Verification -->
+    <string name="registration_complete">Proses registrasi Anda hampir selesai! Silakan cek email Anda dan klik tautan yang disediakan untuk memverifikasi akun Anda. Jika Anda belum menerima email verifikasi, tolong cek folder spam atau sampah pada email Anda.</string>
+    <string name="verify_email_title">Verifikasi email Anda</string>
+    <string name="verify_email">Tolong verifikasi email Anda terlebih dahulu! Cek folder spam atau sampah pada email Anda.</string>
+    <string name="verify_email_sent">Email verifikasi telah dikirim ke </string>
 
-    <string name="home">Home</string>
+    <!-- Success Message -->
+    <string name="regSuccess">Pendaftaran Berhasil! Silakan login ke akun Anda terlebih dahulu</string>
+    <string name="loginSuccess">Login Berhasil!</string>
+
+    <!-- Navigation -->
+    <string name="home">Beranda</string>
     <string name="camera">Take a Snap!</string>
-    <string name="history">History</string>
-    <string name="profile">Profile</string>
+    <string name="history">Riwayat</string>
+    <string name="profile">Profil</string>
 
-    <string name="change_password">Change Password</string>
-    <string name="exitApp">Exit Application?</string>
-    <string name="confirmExit">Are you sure you want to close this application?</string>
+    <!-- Profile and Account Settings -->
+    <string name="change_password">Ubah Kata Sandi</string>
+    <string name="exitApp">Keluar Aplikasi?</string>
+    <string name="confirmExit">Apakah Anda yakin ingin menutup aplikasi?</string>
     <string name="logout">Logout</string>
-    <string name="logoutConfirm">Logout Confirm</string>
-    <string name="logoutConfirmText">Are you sure you want to logout from your account?</string>
+    <string name="logoutConfirm">Konfirmasi Logout</string>
+    <string name="logoutConfirmText">Apakah Anda yakin ingin keluar dari akun Anda?</string>
+    <string name="yes">Ya</string>
+    <string name="no">Tidak</string>
 
-    <string name="january">January</string>
-    <string name="february">February</string>
-    <string name="march">March</string>
+    <!-- Months -->
+    <string name="january">Januari</string>
+    <string name="february">Februari</string>
+    <string name="march">Maret</string>
     <string name="april">April</string>
-    <string name="may">May</string>
-    <string name="june">June</string>
-    <string name="july">July</string>
-    <string name="august">August</string>
+    <string name="may">Mei</string>
+    <string name="june">Juni</string>
+    <string name="july">Juli</string>
+    <string name="august">Agustus</string>
     <string name="september">September</string>
-    <string name="october">October</string>
+    <string name="october">Oktober</string>
     <string name="november">November</string>
-    <string name="december">December</string>
+    <string name="december">Desember</string>
 
-    <string name="old_password">Old Password</string>
-    <string name="old_pass_error1">Enter your old password</string>
-    <string name="old_pass_error2">Error! Wrong password</string>
-    <string name="new_password">New Password</string>
-    <string name="confirm_new_password">Confirm New Password</string>
-    <string name="confirm">Confirm</string>
-    <string name="cancel">Cancel</string>
-    <string name="change_pass_success">Your password has been successfully changed</string>
-    <string name="error_network">Connection Error! Please check your internet connection and try again!</string>
+    <!-- Change Password -->
+    <string name="old_password">Kata Sandi Lama</string>
+    <string name="old_pass_error1">Ketik kata sandi lama Anda</string>
+    <string name="old_pass_error2">Eror! Kata sandi salah</string>
+    <string name="new_password">Kata Sandi Baru</string>
+    <string name="confirm_new_password">Konfirmasi Kata Sandi Baru</string>
+    <string name="confirm">Konfirmasi</string>
+    <string name="cancel">Batal</string>
+    <string name="change_pass_success">Password Anda telah berhasil diganti</string>
     <string name="error">Error</string>
     <string name="success">Success</string>
 
-    <string name="profile_image">Profile Image</string>
-    <string name="profile_icon1">Profile Icon 1</string>
-    <string name="profile_icon2">Profile Icon 2</string>
-    <string name="profile_icon3">Profile Icon 3</string>
-    <string name="profile_icon4">Profile Icon 4</string>
-    <string name="profile_icon5">Profile Icon 5</string>
-    <string name="profile_icon6">Profile Icon 6</string>
-    <string name="profile_icon7">Profile Icon 7</string>
-    <string name="profile_icon8">Profile Icon 8</string>
-    <string name="profile_icon9">Profile Icon 9</string>
-    <string name="pick_from_gallery">Pick From Gallery</string>
-    <string name="edit_profile">Edit Profile</string>
+    <!-- Profile Picture and Avatar -->
+    <string name="profile_image">Gambar Profil</string>
+    <string name="profile_icon1">Ikon Profil 1</string>
+    <string name="profile_icon2">Ikon Profil 2</string>
+    <string name="profile_icon3">Ikon Profil 3</string>
+    <string name="profile_icon4">Ikon Profil 4</string>
+    <string name="profile_icon5">Ikon Profil 5</string>
+    <string name="profile_icon6">Ikon Profil 6</string>
+    <string name="profile_icon7">Ikon Profil 7</string>
+    <string name="profile_icon8">Ikon Profil 8</string>
+    <string name="profile_icon9">Ikon Profil 9</string>
+    <string name="pick_from_gallery">Ambil dari galeri</string>
+    <string name="edit_profile">Sunting Profil</string>
 
-    <string name="user_classify_picture">User Classify Picture</string>
-    <string name="classify">Classify Animal</string>
-    <string name="select_picture_from">Select Picture From</string>
-    <string name="pick_from_camera">Pick from camera</string>
-    <string name="select_from_gallery">Select from gallery</string>
-    <string name="delete_photo">Delete Picture</string>
-    <string name="delete_photo_text">Are you sure you want to delete this picture?</string>
-    <string name="switch_camera">Switch Camera</string>
-    <string name="capture_image">Capture Image</string>
-    <string name="capture_failed">Capture Failed</string>
-    <string name="camera_failed">Failed to open camera</string>
-    <string name="permission">Permission not granted</string>
-    <string name="permissionText">Allow access to camera on your setting to use this feature</string>
-    <string name="error_select_image">Please select an image first</string>
-    <string name="close">Close</string>
+    <!-- Animal Classification -->
+    <string name="user_classify_picture">Gambar Klasifikasi Pengguna</string>
+    <string name="classify">Klasifikasi Hewan</string>
+    <string name="detail">Detail Hewan</string>
+    <string name="select_picture_from">Ambil Gambar dari</string>
+    <string name="pick_from_camera">Ambil dengan kamera</string>
+    <string name="select_from_gallery">Pilih dari galeri</string>
+    <string name="delete_photo">Hapus Gambar</string>
+    <string name="delete_photo_text">Apakah kamu yakin ingin menghapus gambar ini?</string>
+    <string name="switch_camera">Ganti kamera</string>
+    <string name="capture_image">Ambil gambar</string>
+    <string name="capture_failed">Pengambilan gambar gagal</string>
+    <string name="camera_failed">Gagal membuka kamera</string>
+    <string name="permission">Izin tidak diberikan</string>
+    <string name="permissionText">Berikan izin untuk mengakses kamera Anda di pengaturan untuk menggunakan fitur ini</string>
+    <string name="error_select_image">Silakan masukkan gambar terlebih dahulu</string>
+    <string name="close">Tutup</string>
 
-    <string name="animal_class">Class: </string>
+    <!-- Animal Details -->
+    <string name="animal_class">Kelas: </string>
     <string name="animal_habitat">Habitat: </string>
     <string name="animal_status">Status: </string>
-    <string name="class_dialog">Animal Class</string>
-    <string name="habitat_dialog">Animal Habitats</string>
-    <string name="donate">Donate</string>
-    <string name="donate_error">Donation is not available because this animal is not in danger</string>
-    <string name="hab_picture">Habitat Picture</string>
-    <string name="next">Next</string>
-    <string name="previous">Previous</string>
-    <string name="empty_history">You don\'t have any classify history</string>
-    <string name="try_again">Try Again</string>
-    <string name="donate_motto">Protect Animals,\n Save Humanity</string>
-    <string name="donate_text">Donate to help us protect these animals!</string>
-    <string name="donate_organization">Let\'s donate through this organization</string>
-    <string name="donate_organizations">Let\'s donate through these organizations:</string>
-    <string name="photo">Photo</string>
+    <string name="class_dialog">Kelas Hewan</string>
+    <string name="habitat_dialog">Habitat Hewan</string>
+    <string name="donate">Donasi</string>
+    <string name="donate_error">Donasi tidak tersedia karena hewan ini tidak sedang dalam bahaya</string>
+    <string name="hab_picture">Gambar Habitat</string>
+    <string name="next">Selanjutnya</string>
+    <string name="previous">Sebelumnya</string>
+    <string name="empty_history">Anda tidak memiliki riwayat klasifikasi</string>
+    <string name="try_again">Coba Lagi</string>
 
-    <string name="banner">Animal Banner</string>
-    <string name="search_bar">Search animals or habitats</string>
-    <string name="list_habitat">Animal\'s Habitats</string>
+    <!-- Donasi -->
+    <string name="donate_motto">Protect Animals,\n Save Humanity</string>
+    <string name="donate_text">Donasi untuk membantu kami menyelamatkan hewan ini!</string>
+    <string name="donate_organization">Mari berdonasi melalui organisasi berikut:</string>
+    <string name="photo">Foto</string>
+
+    <string name="banner">Banner Hewan</string>
+    <string name="search_bar">Cari hewan atau habitat</string>
+    <string name="list_habitat">Habitat Hewan</string>
+    <string name="list_animal">Kenali Hewanmu!</string>
+    <string name="animal_image">Gambar Hewan</string>
 
 </resources>

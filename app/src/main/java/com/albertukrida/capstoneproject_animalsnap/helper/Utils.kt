@@ -64,8 +64,8 @@ class Utils(private val context: Context) {
         alertDialog = pdLoading.show(builder)
 
         fAuth.currentUser!!.sendEmailVerification().addOnCompleteListener { task ->
+            alertDialog.dismiss()
             if (task.isSuccessful) {
-                alertDialog.dismiss()
                 binding.tvResendEmail.visibility = View.GONE
                 Toast.makeText(context, context.resources.getString(R.string.verify_email_sent)
                         + " " + fAuth.currentUser!!.email + "!", Toast.LENGTH_LONG).show()

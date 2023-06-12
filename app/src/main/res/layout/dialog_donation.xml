@@ -38,7 +38,7 @@
         android:id="@+id/tv_donate"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/donate_organizations"
+        android:text="@string/donate_organization"
         android:textSize="14sp"
         android:textColor="@color/black"
         android:textAlignment="center" />

@@ -40,11 +40,11 @@ class HabitatAdapter(private var listHabitat: List<AllHabitatsResponseItem>) : R
             binding.tvItemName.text = name
 
             binding.item.setOnClickListener { view ->
-                showClassDesc(view)
+                showHabitatDetail(view)
             }
         }
 
-        private fun showClassDesc(view: View){
+        private fun showHabitatDetail(view: View){
             val showDialog = AlertDialog.Builder(view.context)
                 .setView(R.layout.dialog_class_desc)
                 .setTitle(view.context.resources.getString(R.string.habitat_dialog))

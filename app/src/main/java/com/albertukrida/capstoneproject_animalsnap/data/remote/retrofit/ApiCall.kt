@@ -13,6 +13,7 @@ import com.albertukrida.capstoneproject_animalsnap.databinding.FragmentCameraBin
 import com.albertukrida.capstoneproject_animalsnap.databinding.FragmentProfileBinding
 import com.albertukrida.capstoneproject_animalsnap.helper.ProgressBarHelper
 import com.albertukrida.capstoneproject_animalsnap.helper.Utils
+import com.albertukrida.capstoneproject_animalsnap.ui.AnimalActivity
 import com.albertukrida.capstoneproject_animalsnap.ui.ClassifyResultActivity
 import com.albertukrida.capstoneproject_animalsnap.ui.ClassifyResultActivity.Companion.CLASS
 import com.albertukrida.capstoneproject_animalsnap.ui.ClassifyResultActivity.Companion.CLASS_DESC
@@ -26,6 +27,7 @@ import com.albertukrida.capstoneproject_animalsnap.ui.ClassifyResultActivity.Com
 import com.albertukrida.capstoneproject_animalsnap.ui.LoginActivity
 import com.albertukrida.capstoneproject_animalsnap.ui.MainActivity.Companion.userModel
 import com.albertukrida.capstoneproject_animalsnap.ui.RegisterActivity
+import com.albertukrida.capstoneproject_animalsnap.ui.adapter.AnimalAdapter
 import com.albertukrida.capstoneproject_animalsnap.ui.adapter.HabitatAdapter
 import com.albertukrida.capstoneproject_animalsnap.ui.fragment.CameraFragment
 import com.google.firebase.auth.FirebaseAuth
@@ -128,39 +130,7 @@ class ApiCall(private val context: Context) {
                 }
             }
             override fun onFailure(call: Call<RefreshTokenResponse>, t: Throwable) {
-                Utils(context).errorDialog(t.message.toString())
-            }
-        })
-    }
-
-    fun postClassify(activity: Activity, imageMultipart: MultipartBody.Part) {
-        alertDialog = pdLoading.show(builder)
-        val client = ApiConfig.getApiService().postClassify(userModel.userId!!, imageMultipart)
-        client.enqueue(object : Callback<ClassifyResponse> {
-            override fun onResponse(
-                call: Call<ClassifyResponse>,
-                response: Response<ClassifyResponse>
-            ) {
-                if (response.isSuccessful) {
-                    alertDialog.dismiss()
-                    val responseBody = response.body()
-                    if (responseBody != null) {
-                        getClassifyResult(activity, responseBody.id)
-                    }
-                } else {
-                    alertDialog.dismiss()
-                    try {
-                        val data = response.errorBody()?.string()
-                        val jObjError = data?.let { JSONObject(it) }
-                        Utils(context).errorDialog(jObjError?.getString("message").toString())
-                    } catch (e: Exception) {
-                        Utils(context).errorDialog("Error! " + e.message)
-                    }
-                }
-            }
-            override fun onFailure(call: Call<ClassifyResponse>, t: Throwable) {
-                alertDialog.dismiss()
-                Utils(context).errorDialog(t.message.toString())
+                refreshToken()
             }
         })
     }
@@ -199,13 +169,121 @@ class ApiCall(private val context: Context) {
         })
     }
 
+    fun getAllAnimal(activity: Activity, context: Context, recyclerView: RecyclerView) {
+        alertDialog = pdLoading.show(builder)
+        val client = ApiConfig.getApiService().getAllAnimal()
+        client.enqueue(object : Callback<List<AllAnimalsResponseItem>> {
+            override fun onResponse(
+                call: Call<List<AllAnimalsResponseItem>>,
+                response: Response<List<AllAnimalsResponseItem>>
+            ) {
+                if (response.isSuccessful) {
+                    val responseBody = response.body()
+                    if (responseBody != null) {
+                        alertDialog.dismiss()
+                        // Set up your adapter and data
+                        val adapter = AnimalAdapter(responseBody, activity)
+                        recyclerView.adapter = adapter
+                    }
+                } else {
+                    alertDialog.dismiss()
+                    try {
+                        val data = response.errorBody()?.string()
+                        val jObjError = data?.let { JSONObject(it) }
+                        Utils(context).errorDialog(jObjError?.getString("msg").toString())
+                    } catch (e: Exception) {
+                        Utils(context).errorDialog("Error! " + e.message)
+                    }
+                }
+            }
+            override fun onFailure(call: Call<List<AllAnimalsResponseItem>>, t: Throwable) {
+                alertDialog.dismiss()
+                Utils(context).errorDialog(t.message.toString())
+            }
+        })
+    }
+
+    fun postClassify(activity: Activity, imageMultipart: MultipartBody.Part) {
+        alertDialog = pdLoading.show(builder)
+        val client = ApiConfig.getApiService().postClassify(userModel.userId!!, imageMultipart)
+        client.enqueue(object : Callback<ClassifyResponse> {
+            override fun onResponse(
+                call: Call<ClassifyResponse>,
+                response: Response<ClassifyResponse>
+            ) {
+                if (response.isSuccessful) {
+                    alertDialog.dismiss()
+                    val responseBody = response.body()
+                    if (responseBody != null) {
+                        getClassifyResult(activity, responseBody.id)
+                    }
+                } else {
+                    alertDialog.dismiss()
+                    try {
+                        val data = response.errorBody()?.string()
+                        val jObjError = data?.let { JSONObject(it) }
+                        Utils(context).errorDialog(jObjError?.getString("message").toString())
+                    } catch (e: Exception) {
+                        Utils(context).errorDialog("Error! " + e.message)
+                    }
+                }
+            }
+            override fun onFailure(call: Call<ClassifyResponse>, t: Throwable) {
+                alertDialog.dismiss()
+                Utils(context).errorDialog(t.message.toString())
+            }
+        })
+    }
+
+    fun getAnimalById(activity: Activity, id: String) {
+        alertDialog = pdLoading.show(builder)
+        val client = ApiConfig.getApiService().getAnimalById(id)
+        client.enqueue(object : Callback<AnimalDetailResponse> {
+            override fun onResponse(
+                call: Call<AnimalDetailResponse>,
+                response: Response<AnimalDetailResponse>
+            ) {
+                if (response.isSuccessful) {
+                    val responseBody = response.body()
+                    if (responseBody != null) {
+                        alertDialog.dismiss()
+                        NAME = responseBody.namaHewan
+                        CLASS = responseBody.namaClass
+                        STATUS = responseBody.statusHewan
+                        PICT = responseBody.gambarHewan
+                        DESC = responseBody.deskripsiHewan
+                        CLASS_DESC = responseBody.deskripsiClass
+                        DONATION = responseBody.donasi
+                        HABITATS = responseBody.habitat
+                        val intent = Intent(activity, AnimalActivity::class.java)
+                        activity.startActivity(intent)
+                        activity.overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
+                    }
+                } else {
+                    alertDialog.dismiss()
+                    try {
+                        val data = response.errorBody()?.string()
+                        val jObjError = data?.let { JSONObject(it) }
+                        Utils(context).errorDialog(jObjError?.getString("msg").toString())
+                    } catch (e: Exception) {
+                        Utils(context).errorDialog("Error! " + e.message)
+                    }
+                }
+            }
+            override fun onFailure(call: Call<AnimalDetailResponse>, t: Throwable) {
+                alertDialog.dismiss()
+                Utils(context).errorDialog(t.message.toString())
+            }
+        })
+    }
+
     fun getClassifyResult(activity: Activity, id: String) {
         alertDialog = pdLoading.show(builder)
         val client = ApiConfig.getApiService().getClassifyResult(id)
-        client.enqueue(object : Callback<ClassifyResultResponse> {
+        client.enqueue(object : Callback<AnimalDetailResponse> {
             override fun onResponse(
-                call: Call<ClassifyResultResponse>,
-                response: Response<ClassifyResultResponse>
+                call: Call<AnimalDetailResponse>,
+                response: Response<AnimalDetailResponse>
             ) {
                 if (response.isSuccessful) {
                     val responseBody = response.body()
@@ -236,7 +314,7 @@ class ApiCall(private val context: Context) {
                     }
                 }
             }
-            override fun onFailure(call: Call<ClassifyResultResponse>, t: Throwable) {
+            override fun onFailure(call: Call<AnimalDetailResponse>, t: Throwable) {
                 alertDialog.dismiss()
                 Utils(context).errorDialog(t.message.toString())
             }

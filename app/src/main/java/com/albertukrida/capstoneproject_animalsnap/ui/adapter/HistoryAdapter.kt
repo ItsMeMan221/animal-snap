@@ -53,7 +53,7 @@ class HistoryAdapter(private val activity: Activity) : PagingDataAdapter<DataIte
 
             if(status == "Rendah"){
                 binding.tvItemStatus.setTextColor(ContextCompat.getColor(mContext, R.color.green_700))
-            }else{
+            }else if(status == "Rentan" || status == "Terancam Punah"){
                 binding.tvItemStatus.setTextColor(ContextCompat.getColor(mContext, R.color.dark_red))
             }
 

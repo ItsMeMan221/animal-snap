@@ -26,12 +26,12 @@ interface ApiService {
     fun getAllHabitats(): Call<List<AllHabitatsResponseItem>>
 
     @GET("/animal")
-    fun getAllAnimal(): Call<AllAnimalsResponse>
+    fun getAllAnimal(): Call<List<AllAnimalsResponseItem>>
 
     @GET("/animal/{uid}")
-    fun getAllAnimalById(
+    fun getAnimalById(
         @Path("uid") uid: String
-    ): Call<AllAnimalsResponse>
+    ): Call<AnimalDetailResponse>
     
     @Multipart
     @POST("classify/{uid}")
@@ -43,7 +43,7 @@ interface ApiService {
     @GET("/classify/{classify_id}")
     fun getClassifyResult(
         @Path("classify_id") id: String
-    ): Call<ClassifyResultResponse>
+    ): Call<AnimalDetailResponse>
 
     @GET("/classify/history/{uid}")
     suspend fun getHistory(

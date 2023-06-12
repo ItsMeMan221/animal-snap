@@ -19,7 +19,6 @@ import com.albertukrida.capstoneproject_animalsnap.helper.*
 import com.albertukrida.capstoneproject_animalsnap.helper.UserPreferences
 import com.albertukrida.capstoneproject_animalsnap.ui.custom_view.MyButton
 import com.google.android.gms.tasks.Task
-import com.google.firebase.FirebaseNetworkException
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
 
@@ -91,11 +90,7 @@ class LoginActivity : AppCompatActivity() {
                 }
             } else {
                 alertDialog.dismiss()
-                if(task.exception is FirebaseNetworkException){
-                    Utils(this@LoginActivity).errorDialog(resources.getString(R.string.error_network))
-                }else {
-                    Utils(this@LoginActivity).errorDialog(task.exception!!.message.toString())
-                }
+                Utils(this@LoginActivity).errorDialog(task.exception!!.message.toString())
             }
         }
     }

@@ -4,6 +4,7 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/asus/CapstoneProject_AnimalSnap/app/src/main/res/drawable/border_circle_dashed.xml" value="0.1285" />
+        <entry key="..\:/Users/asus/CapstoneProject_AnimalSnap/app/src/main/res/drawable/border_gray.xml" value="0.1285" />
         <entry key="..\:/Users/asus/CapstoneProject_AnimalSnap/app/src/main/res/drawable/border_top_bottom.xml" value="0.1285" />
         <entry key="..\:/Users/asus/CapstoneProject_AnimalSnap/app/src/main/res/drawable/border_transparent.xml" value="0.1285" />
         <entry key="..\:/Users/asus/CapstoneProject_AnimalSnap/app/src/main/res/drawable/ic_baseline_arrow_left_24.xml" value="0.1285" />
@@ -27,6 +28,7 @@
         <entry key="..\:/Users/asus/CapstoneProject_AnimalSnap/app/src/main/res/drawable/shape_edit_text.xml" value="0.16" />
         <entry key="..\:/Users/asus/CapstoneProject_AnimalSnap/app/src/main/res/drawable/shape_search_bar.xml" value="0.1285" />
         <entry key="..\:/Users/asus/CapstoneProject_AnimalSnap/app/src/main/res/layout-v26/activity_classify_result.xml" value="0.2" />
+        <entry key="..\:/Users/asus/CapstoneProject_AnimalSnap/app/src/main/res/layout/activity_animal.xml" value="0.2" />
         <entry key="..\:/Users/asus/CapstoneProject_AnimalSnap/app/src/main/res/layout/activity_camera.xml" value="0.2" />
         <entry key="..\:/Users/asus/CapstoneProject_AnimalSnap/app/src/main/res/layout/activity_classify_result.xml" value="0.22" />
         <entry key="..\:/Users/asus/CapstoneProject_AnimalSnap/app/src/main/res/layout/activity_habitat.xml" value="0.19895833333333332" />
@@ -53,6 +55,7 @@
         <entry key="..\:/Users/asus/CapstoneProject_AnimalSnap/app/src/main/res/layout/fragment_camera.xml" value="0.22" />
         <entry key="..\:/Users/asus/CapstoneProject_AnimalSnap/app/src/main/res/layout/fragment_home.xml" value="0.25" />
         <entry key="..\:/Users/asus/CapstoneProject_AnimalSnap/app/src/main/res/layout/fragment_profile.xml" value="0.156412157153447" />
+        <entry key="..\:/Users/asus/CapstoneProject_AnimalSnap/app/src/main/res/layout/item_animal.xml" value="0.2" />
         <entry key="..\:/Users/asus/CapstoneProject_AnimalSnap/app/src/main/res/layout/item_habitat.xml" value="0.5" />
         <entry key="..\:/Users/asus/CapstoneProject_AnimalSnap/app/src/main/res/layout/item_history.xml" value="0.25" />
         <entry key="..\:/Users/asus/CapstoneProject_AnimalSnap/app/src/main/res/layout/item_loading.xml" value="0.25" />
