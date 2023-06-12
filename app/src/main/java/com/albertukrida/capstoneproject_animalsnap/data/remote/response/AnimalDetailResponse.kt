@@ -14,7 +14,7 @@ data class ClassifyResultResponse(
 	val habitat: List<HabitatItem>,
 
 	@field:SerializedName("gambar_hewan_user")
-	val gambarHewanUser: String,
+	val gambarHewanUser: String? = null,
 
 	@field:SerializedName("deskripsi_hewan")
 	val deskripsiHewan: String,

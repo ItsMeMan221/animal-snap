@@ -44,7 +44,7 @@ class HistoryAdapter(private val activity: Activity) : PagingDataAdapter<DataIte
             status = data.statusHewan
 
             Picasso.get().load(avatar).into(binding.ivItemPhoto)
-            binding.tvItemDate.text = getDate(date)
+            binding.tvItemDate.text = Utils(mContext).getDate(date)
             binding.tvItemName.text = name
             binding.tvItemStatus.text = buildString {
                 append("status: ")
@@ -59,18 +59,7 @@ class HistoryAdapter(private val activity: Activity) : PagingDataAdapter<DataIte
 
             binding.item.setOnClickListener {
                 ApiCall(mContext).getClassifyResult(activity, data.idClassification)
-//                showDetailDialog(view)
             }
-        }
-
-        private fun getDate(input: String): String {
-            val chars = input.toCharArray()
-
-            val date = "${chars[0]}${chars[1]}"                       // get date
-            val month = Utils(mContext).getMonth("${chars[3]}${chars[4]}")      // get month
-            val year = "${chars[6]}${chars[7]}${chars[8]}${chars[9]}"// get year
-
-            return "$date $month $year"
         }
     }
 

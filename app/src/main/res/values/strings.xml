@@ -126,4 +126,8 @@
     <string name="donate_organizations">Let\'s donate through these organizations:</string>
     <string name="photo">Photo</string>
 
+    <string name="banner">Animal Banner</string>
+    <string name="search_bar">Search animals or habitats</string>
+    <string name="list_habitat">Animal\'s Habitats</string>
+
 </resources>

@@ -87,12 +87,15 @@ class CameraFragment : Fragment() {
         }
 
         ApiCall(mContext).getHistory(this, binding)
-        binding.rvListHistory.layoutManager = LinearLayoutManager(context)
     }
 
     fun getListHistory() {
         val adapter = HistoryAdapter(requireActivity())
-        binding.rvListHistory.adapter = adapter.withLoadStateFooter(
+        val recyclerView = binding.rvListHistory
+        recyclerView.layoutManager = LinearLayoutManager(context)
+
+        // Set up your adapter and data
+        recyclerView.adapter = adapter.withLoadStateFooter(
             footer = LoadingStateAdapter { adapter.retry() }
         )
         mainViewModel.history.observe(requireActivity()) {

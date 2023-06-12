@@ -13,6 +13,7 @@ import com.albertukrida.capstoneproject_animalsnap.data.remote.response.DonasiIt
 import com.albertukrida.capstoneproject_animalsnap.data.remote.response.HabitatItem
 import com.albertukrida.capstoneproject_animalsnap.databinding.ActivityClassifyResultBinding
 import com.albertukrida.capstoneproject_animalsnap.helper.IntentHelper
+import com.albertukrida.capstoneproject_animalsnap.helper.Utils
 import com.squareup.picasso.Picasso
 
 class ClassifyResultActivity : AppCompatActivity() {
@@ -49,8 +50,8 @@ class ClassifyResultActivity : AppCompatActivity() {
         Picasso.get().load(PICT_USER).into(binding.ivPictureUser)
         Picasso.get().load(PICT).into(binding.ivPicture)
 
-        binding.ivPictureUser.setOnClickListener{ showPicture(PICT_USER) }
-        binding.ivPicture.setOnClickListener{ showPicture(PICT) }
+        binding.ivPictureUser.setOnClickListener{ Utils(this).showPicture(PICT_USER) }
+        binding.ivPicture.setOnClickListener{ Utils(this).showPicture(PICT) }
         binding.tvClass.setOnClickListener{ showClassDesc() }
         binding.tvHabitats.setOnClickListener{ showHabitats() }
         binding.btnDonate.setOnClickListener{ showDonate() }
@@ -58,16 +59,6 @@ class ClassifyResultActivity : AppCompatActivity() {
         onBackPressedDispatcher.addCallback(this) {
             IntentHelper().goToHomePage(this@ClassifyResultActivity, "camera")
         }
-    }
-
-    private fun showPicture(url: String){
-        val showDialog = AlertDialog.Builder(this)
-            .setView(R.layout.dialog_photo)
-            .create()
-        showDialog.show()
-
-        val picture = showDialog.findViewById<ImageView>(R.id.iv_detail_photo)!!
-        Picasso.get().load(url).into(picture)
     }
 
     private fun showClassDesc(){

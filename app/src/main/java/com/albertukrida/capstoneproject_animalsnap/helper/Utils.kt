@@ -11,10 +11,7 @@ import android.text.method.HideReturnsTransformationMethod
 import android.text.method.PasswordTransformationMethod
 import android.view.View
 import android.view.inputmethod.InputMethodManager
-import android.widget.CheckBox
-import android.widget.EditText
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import com.albertukrida.capstoneproject_animalsnap.R
 import com.albertukrida.capstoneproject_animalsnap.databinding.ActivityLoginBinding
@@ -165,14 +162,14 @@ class Utils(private val context: Context) {
     fun getDate(input: String): String {
         val chars = input.toCharArray()
 
-        val date = "${chars[3]}${chars[4]}"                       // get date
-        val month = getMonth("${chars[0]}${chars[1]}")      // get month
+        val date = "${chars[0]}${chars[1]}"                       // get date
+        val month = getMonth("${chars[3]}${chars[4]}")      // get month
         val year = "${chars[6]}${chars[7]}${chars[8]}${chars[9]}"// get year
 
         return "$date $month $year"
     }
 
-    fun getMonth(input: String): String {
+    private fun getMonth(input: String): String {
         var output = ""
         when (input) {
             "01" -> output = context.resources.getString(R.string.january)
@@ -205,6 +202,16 @@ class Utils(private val context: Context) {
                 .getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
             imm.hideSoftInputFromWindow(view.windowToken, 0)
         }
+    }
+
+    fun showPicture(url: String){
+        val showDialog = AlertDialog.Builder(context)
+            .setView(R.layout.dialog_photo)
+            .create()
+        showDialog.show()
+
+        val picture = showDialog.findViewById<ImageView>(R.id.iv_detail_photo)!!
+        Picasso.get().load(url).into(picture)
     }
 
     fun successDialog(text: String){

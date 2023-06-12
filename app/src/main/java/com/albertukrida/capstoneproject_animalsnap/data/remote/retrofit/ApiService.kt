@@ -22,6 +22,17 @@ interface ApiService {
     @POST("refresh_token")
     fun refreshToken(): Call<RefreshTokenResponse>
 
+    @GET("/habitat")
+    fun getAllHabitats(): Call<List<AllHabitatsResponseItem>>
+
+    @GET("/animal")
+    fun getAllAnimal(): Call<AllAnimalsResponse>
+
+    @GET("/animal/{uid}")
+    fun getAllAnimalById(
+        @Path("uid") uid: String
+    ): Call<AllAnimalsResponse>
+    
     @Multipart
     @POST("classify/{uid}")
     fun postClassify(

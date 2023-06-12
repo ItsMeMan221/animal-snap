@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.view.View
 import androidx.appcompat.app.AlertDialog
+import androidx.recyclerview.widget.RecyclerView
 import com.albertukrida.capstoneproject_animalsnap.R
 import com.albertukrida.capstoneproject_animalsnap.data.remote.response.*
 import com.albertukrida.capstoneproject_animalsnap.data.remote.response.DataResponse
@@ -25,6 +26,7 @@ import com.albertukrida.capstoneproject_animalsnap.ui.ClassifyResultActivity.Com
 import com.albertukrida.capstoneproject_animalsnap.ui.LoginActivity
 import com.albertukrida.capstoneproject_animalsnap.ui.MainActivity.Companion.userModel
 import com.albertukrida.capstoneproject_animalsnap.ui.RegisterActivity
+import com.albertukrida.capstoneproject_animalsnap.ui.adapter.HabitatAdapter
 import com.albertukrida.capstoneproject_animalsnap.ui.fragment.CameraFragment
 import com.google.firebase.auth.FirebaseAuth
 import okhttp3.MultipartBody
@@ -163,6 +165,40 @@ class ApiCall(private val context: Context) {
         })
     }
 
+    fun getAllHabitats(context: Context, recyclerView: RecyclerView) {
+        alertDialog = pdLoading.show(builder)
+        val client = ApiConfig.getApiService().getAllHabitats()
+        client.enqueue(object : Callback<List<AllHabitatsResponseItem>> {
+            override fun onResponse(
+                call: Call<List<AllHabitatsResponseItem>>,
+                response: Response<List<AllHabitatsResponseItem>>
+            ) {
+                if (response.isSuccessful) {
+                    val responseBody = response.body()
+                    if (responseBody != null) {
+                        alertDialog.dismiss()
+                        // Set up your adapter and data
+                        val adapter = HabitatAdapter(responseBody)
+                        recyclerView.adapter = adapter
+                    }
+                } else {
+                    alertDialog.dismiss()
+                    try {
+                        val data = response.errorBody()?.string()
+                        val jObjError = data?.let { JSONObject(it) }
+                        Utils(context).errorDialog(jObjError?.getString("msg").toString())
+                    } catch (e: Exception) {
+                        Utils(context).errorDialog("Error! " + e.message)
+                    }
+                }
+            }
+            override fun onFailure(call: Call<List<AllHabitatsResponseItem>>, t: Throwable) {
+                alertDialog.dismiss()
+                Utils(context).errorDialog(t.message.toString())
+            }
+        })
+    }
+
     fun getClassifyResult(activity: Activity, id: String) {
         alertDialog = pdLoading.show(builder)
         val client = ApiConfig.getApiService().getClassifyResult(id)
@@ -179,7 +215,7 @@ class ApiCall(private val context: Context) {
                         CLASS = responseBody.namaClass
                         STATUS = responseBody.statusHewan
                         PICT = responseBody.gambarHewan
-                        PICT_USER = responseBody.gambarHewanUser
+                        PICT_USER = responseBody.gambarHewanUser!!
                         DESC = responseBody.deskripsiHewan
                         CLASS_DESC = responseBody.deskripsiClass
                         DONATION = responseBody.donasi
