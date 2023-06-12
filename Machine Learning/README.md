@@ -4,7 +4,7 @@ This is our notebook for creating an endangered animals classification model. We
 
 C23-PS040 ML Teams.
 
-## Current Animal that can be detected:
+## Current animals that can be detected:
 1. Arctic Fox
 2. Butterfly
 3. Cat
