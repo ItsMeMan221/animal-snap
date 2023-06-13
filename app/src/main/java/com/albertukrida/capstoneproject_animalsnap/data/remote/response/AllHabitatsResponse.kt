@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName
 data class AllHabitatsResponseItem(
 
 	@field:SerializedName("nama")
-	val nama: String,
+	var nama: String,
 
 	@field:SerializedName("deskripsi")
 	val deskripsi: String,

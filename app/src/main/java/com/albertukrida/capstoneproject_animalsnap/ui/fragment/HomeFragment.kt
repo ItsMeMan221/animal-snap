@@ -25,7 +25,6 @@ class
 HomeFragment : Fragment() {
 
     private lateinit var binding: FragmentHomeBinding
-    private lateinit var mContext: Context
     private lateinit var mView: View
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -46,16 +45,16 @@ HomeFragment : Fragment() {
         getListAnimal()
     }
 
-    private fun getListHabitat(){
+    private fun getListHabitat(keyword: String? = null){
         val recyclerView = binding.rvListHabitat
         recyclerView.layoutManager = LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false)
-        ApiCall(mContext).getAllHabitats(mContext, recyclerView)
+        ApiCall(mContext).getAllHabitats(mContext, binding, recyclerView, keyword)
     }
 
-    private fun getListAnimal(){
+    private fun getListAnimal(keyword: String? = null){
         val recyclerView = binding.rvListAnimal
         recyclerView.layoutManager = GridLayoutManager(mContext, 2)
-        ApiCall(mContext).getAllAnimal(requireActivity(), mContext, recyclerView)
+        ApiCall(mContext).getAllAnimal(requireActivity(), mContext, binding, recyclerView, keyword)
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -64,6 +63,8 @@ HomeFragment : Fragment() {
         editText.setOnEditorActionListener(OnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
                 removeCursorAndKeyboard(binding.edSearchBar)
+                getListHabitat(binding.edSearchBar.text.toString())
+                getListAnimal(binding.edSearchBar.text.toString())
                 return@OnEditorActionListener true
             }
             false
@@ -99,5 +100,10 @@ HomeFragment : Fragment() {
             }
         }
         binding.edSearchBar.addTextChangedListener(watcher)
+    }
+
+    companion object{
+        @SuppressLint("StaticFieldLeak")
+        lateinit var mContext: Context
     }
 }

@@ -10,6 +10,7 @@ import com.albertukrida.capstoneproject_animalsnap.R
 import com.albertukrida.capstoneproject_animalsnap.data.remote.response.*
 import com.albertukrida.capstoneproject_animalsnap.data.remote.response.DataResponse
 import com.albertukrida.capstoneproject_animalsnap.databinding.FragmentCameraBinding
+import com.albertukrida.capstoneproject_animalsnap.databinding.FragmentHomeBinding
 import com.albertukrida.capstoneproject_animalsnap.databinding.FragmentProfileBinding
 import com.albertukrida.capstoneproject_animalsnap.helper.ProgressBarHelper
 import com.albertukrida.capstoneproject_animalsnap.helper.Utils
@@ -135,7 +136,7 @@ class ApiCall(private val context: Context) {
         })
     }
 
-    fun getAllHabitats(context: Context, recyclerView: RecyclerView) {
+    fun getAllHabitats(context: Context, binding: FragmentHomeBinding, recyclerView: RecyclerView, keyword: String? = null) {
         alertDialog = pdLoading.show(builder)
         val client = ApiConfig.getApiService().getAllHabitats()
         client.enqueue(object : Callback<List<AllHabitatsResponseItem>> {
@@ -148,8 +149,26 @@ class ApiCall(private val context: Context) {
                     if (responseBody != null) {
                         alertDialog.dismiss()
                         // Set up your adapter and data
-                        val adapter = HabitatAdapter(responseBody)
-                        recyclerView.adapter = adapter
+                        if(keyword != null){
+                            val tempList = ArrayList<AllHabitatsResponseItem>()
+                            for(habitat in responseBody){
+                                if(habitat.nama.contains(keyword, ignoreCase = true)){
+                                    tempList.add(habitat)
+                                }
+                            }
+                            if(tempList.isEmpty()){
+                                binding.tvEmptyHabitat.visibility = View.VISIBLE
+                                binding.rvListHabitat.visibility = View.GONE
+                            }else{
+                                binding.tvEmptyHabitat.visibility = View.GONE
+                                binding.rvListHabitat.visibility = View.VISIBLE
+                                val adapter = HabitatAdapter(tempList)
+                                recyclerView.adapter = adapter
+                            }
+                        } else{
+                            val adapter = HabitatAdapter(responseBody)
+                            recyclerView.adapter = adapter
+                        }
                     }
                 } else {
                     alertDialog.dismiss()
@@ -169,7 +188,7 @@ class ApiCall(private val context: Context) {
         })
     }
 
-    fun getAllAnimal(activity: Activity, context: Context, recyclerView: RecyclerView) {
+    fun getAllAnimal(activity: Activity, context: Context, binding: FragmentHomeBinding, recyclerView: RecyclerView, keyword: String? = null) {
         alertDialog = pdLoading.show(builder)
         val client = ApiConfig.getApiService().getAllAnimal()
         client.enqueue(object : Callback<List<AllAnimalsResponseItem>> {
@@ -182,8 +201,26 @@ class ApiCall(private val context: Context) {
                     if (responseBody != null) {
                         alertDialog.dismiss()
                         // Set up your adapter and data
-                        val adapter = AnimalAdapter(responseBody, activity)
-                        recyclerView.adapter = adapter
+                        if(keyword != null){
+                            val tempList = ArrayList<AllAnimalsResponseItem>()
+                            for(animal in responseBody){
+                                if(animal.nama.contains(keyword, ignoreCase = true)){
+                                    tempList.add(animal)
+                                }
+                            }
+                            if(tempList.isEmpty()){
+                                binding.tvEmptyAnimal.visibility = View.VISIBLE
+                                binding.rvListAnimal.visibility = View.GONE
+                            }else{
+                                binding.tvEmptyAnimal.visibility = View.GONE
+                                binding.rvListAnimal.visibility = View.VISIBLE
+                                val adapter = AnimalAdapter(tempList, activity)
+                                recyclerView.adapter = adapter
+                            }
+                        } else{
+                            val adapter = AnimalAdapter(responseBody, activity)
+                            recyclerView.adapter = adapter
+                        }
                     }
                 } else {
                     alertDialog.dismiss()

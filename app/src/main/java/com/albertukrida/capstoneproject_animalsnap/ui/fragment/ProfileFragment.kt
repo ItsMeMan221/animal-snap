@@ -255,7 +255,7 @@ class ProfileFragment : Fragment() {
                 userModel.token = null
                 userModel.session = null
                 userPreference.setUser(userModel)
-                activity?.let { IntentHelper().goToLoginPage(it) }
+                IntentHelper().goToLoginPage(requireActivity())
             }.setNegativeButton(resources.getString(R.string.no), null)
         confirmDialog.show()
     }

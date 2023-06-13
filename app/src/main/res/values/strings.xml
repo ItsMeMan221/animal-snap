@@ -114,6 +114,8 @@
     <string name="permissionText">Berikan izin untuk mengakses kamera Anda di pengaturan untuk menggunakan fitur ini</string>
     <string name="error_select_image">Silakan masukkan gambar terlebih dahulu</string>
     <string name="close">Tutup</string>
+    <string name="empty_habitat">Habitat tidak ditemukan</string>
+    <string name="empty_animal">Hewan tidak ditemukan</string>
 
     <!-- Animal Details -->
     <string name="animal_class">Kelas: </string>
