@@ -78,9 +78,7 @@ class AnimalActivity : AppCompatActivity() {
         binding.tvHabitats.setOnClickListener{ showHabitats() }
         binding.btnDonate.setOnClickListener{ showDonate() }
 
-        onBackPressedDispatcher.addCallback(this) {
-            IntentHelper().goToHomePage(this@AnimalActivity, "home")
-        }
+        onBackPressedDispatcher.addCallback(this) { finish() }
     }
 
     private fun showClassDesc(){
