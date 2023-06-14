@@ -16,7 +16,6 @@ import com.albertukrida.capstoneproject_animalsnap.data.remote.response.LoginRes
 import com.albertukrida.capstoneproject_animalsnap.data.remote.retrofit.ApiCall
 import com.albertukrida.capstoneproject_animalsnap.databinding.ActivityLoginBinding
 import com.albertukrida.capstoneproject_animalsnap.helper.*
-import com.albertukrida.capstoneproject_animalsnap.helper.UserPreferences
 import com.albertukrida.capstoneproject_animalsnap.ui.custom_view.MyButton
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult
@@ -69,23 +68,15 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-    fun loginWithFirebase(alertDialog: AlertDialog, responseBody: LoginResponse, password: String) {
+    fun loginWithFirebase(activity: LoginActivity, alertDialog: AlertDialog, responseBody: LoginResponse, password: String) {
         val fAuth = FirebaseAuth.getInstance()
         fAuth.signInWithEmailAndPassword(responseBody.email, password).addOnCompleteListener { task: Task<AuthResult?> ->
             if (task.isSuccessful) {
                 if (fAuth.currentUser!!.isEmailVerified) {
-                    val userId = responseBody.uid
-                    val email = responseBody.email
-                    val token = responseBody.token
-                    val refreshToken = responseBody.refreshToken
-                    saveUser(userId, email, password, token, refreshToken)
-
-                    alertDialog.dismiss()
-                    Utils(this@LoginActivity).successDialog(resources.getString(R.string.loginSuccess))
-                    IntentHelper().goToHomePage(this@LoginActivity, "home")
+                    ApiCall(this@LoginActivity).getProfile(activity, responseBody, password)
                 } else {
                     alertDialog.dismiss()
-                    Handler(Looper.getMainLooper()).postDelayed({ binding.tvResendEmail.visibility = View.VISIBLE }, 7000)
+                    Handler(Looper.getMainLooper()).postDelayed({ binding.tvResendEmail.visibility = View.VISIBLE }, 8000)
                     Utils(this@LoginActivity).errorDialog(resources.getString(R.string.verify_email))
                 }
             } else {
@@ -93,18 +84,6 @@ class LoginActivity : AppCompatActivity() {
                 Utils(this@LoginActivity).errorDialog(task.exception!!.message.toString())
             }
         }
-    }
-
-    private fun saveUser(userId: String, email: String, password: String, token: String, refreshToken: String) {
-        val userPreference = UserPreferences(this@LoginActivity)
-        val userModel = UserModel()
-        userModel.userId = userId
-        userModel.email = email
-        userModel.password = password
-        userModel.token = token
-        userModel.refresh_token = refreshToken
-        userModel.session = "LoggedIn"
-        userPreference.setUser(userModel)
     }
 
     private fun playAnimation() {

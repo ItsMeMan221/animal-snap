@@ -12,8 +12,8 @@ import com.albertukrida.capstoneproject_animalsnap.data.remote.response.DataResp
 import com.albertukrida.capstoneproject_animalsnap.databinding.FragmentCameraBinding
 import com.albertukrida.capstoneproject_animalsnap.databinding.FragmentHomeBinding
 import com.albertukrida.capstoneproject_animalsnap.databinding.FragmentProfileBinding
-import com.albertukrida.capstoneproject_animalsnap.helper.ProgressBarHelper
-import com.albertukrida.capstoneproject_animalsnap.helper.Utils
+import com.albertukrida.capstoneproject_animalsnap.helper.*
+import com.albertukrida.capstoneproject_animalsnap.helper.UserPreferences
 import com.albertukrida.capstoneproject_animalsnap.ui.AnimalActivity
 import com.albertukrida.capstoneproject_animalsnap.ui.ClassifyResultActivity
 import com.albertukrida.capstoneproject_animalsnap.ui.ClassifyResultActivity.Companion.CLASS
@@ -55,7 +55,7 @@ class ApiCall(private val context: Context) {
                 if (response.isSuccessful) {
                     val responseBody = response.body()
                     if (responseBody != null) {
-                        activity.loginWithFirebase(alertDialog, responseBody, password)
+                        activity.loginWithFirebase(activity, alertDialog, responseBody, password)
                     }
                 } else {
                     alertDialog.dismiss()
@@ -396,9 +396,9 @@ class ApiCall(private val context: Context) {
         })
     }
 
-    fun getProfile(binding: FragmentProfileBinding) {
+    fun getProfile(activity: LoginActivity, prevResponse: LoginResponse, password: String) {
         alertDialog = pdLoading.show(builder)
-        val client = ApiConfig.getApiService().getProfile(userModel.userId!!)
+        val client = ApiConfig.getApiService(prevResponse.token).getProfile(prevResponse.uid)
         client.enqueue(object : Callback<ProfileResponse> {
             override fun onResponse(
                 call: Call<ProfileResponse>,
@@ -407,16 +407,23 @@ class ApiCall(private val context: Context) {
                 if (response.isSuccessful) {
                     val responseBody = response.body()
                     if (responseBody != null) {
-                        val date = Utils(context).getDate(responseBody.dateJoined)
-                        Utils(context).updateProfPict(responseBody.profilePicture, binding)
-                        binding.tvUserId.text = buildString {
-                            append("User ID: ")
-                            append(userModel.userId)
-                        }
-                        binding.tvName.text = responseBody.nama
-                        binding.tvEmail.text = responseBody.email
-                        binding.tvDate.text = date
                         alertDialog.dismiss()
+                        // save to preferences
+                        val userPreference = UserPreferences(context)
+                        val userModel = UserModel()
+                        userModel.userId = prevResponse.uid
+                        userModel.picture = responseBody.profilePicture
+                        userModel.name = responseBody.nama
+                        userModel.email = responseBody.email
+                        userModel.password = password
+                        userModel.date = Utils(context).getDate(responseBody.dateJoined)
+                        userModel.token = prevResponse.token
+                        userModel.refresh_token = prevResponse.refreshToken
+                        userModel.session = "LoggedIn"
+                        userPreference.setUser(userModel)
+
+                        Utils(context).successDialog(context.resources.getString(R.string.loginSuccess))
+                        IntentHelper().goToHomePage(activity, "home")
                     }
                 } else {
                     alertDialog.dismiss()
@@ -436,7 +443,7 @@ class ApiCall(private val context: Context) {
         })
     }
 
-    fun updateProfPict(view: View, imageMultipart: MultipartBody.Part) {
+    fun updateProfPict(imageMultipart: MultipartBody.Part, imageUri: String) {
         alertDialog = pdLoading.show(builder)
         val client = ApiConfig.getApiService().updateProfPict(userModel.userId!!, imageMultipart)
         client.enqueue(object : Callback<DataResponse> {
@@ -448,8 +455,12 @@ class ApiCall(private val context: Context) {
                     val responseBody = response.body()
                     if (responseBody != null) {
                         alertDialog.dismiss()
+                        // save to preferences
+                        val userPreference = UserPreferences(context)
+                        userModel.picture = imageUri
+                        userPreference.setUser(userModel)
                         // success dialog
-                        Utils(context).successDialogProf(responseBody.message, view)
+                        Utils(context).successDialogProf(responseBody.message)
                     }
                 } else {
                     alertDialog.dismiss()
@@ -519,6 +530,11 @@ class ApiCall(private val context: Context) {
                     val responseBody = response.body()
                     if (responseBody != null) {
                         alertDialog.dismiss()
+                        // save to preferences
+                        val userPreference = UserPreferences(context)
+                        userModel.name = name
+                        userPreference.setUser(userModel)
+                        // show to user
                         binding.tvName.text = name
                         // success dialog
                         Utils(context).successDialog(responseBody.message)
@@ -545,8 +561,6 @@ class ApiCall(private val context: Context) {
         alertDialog = pdLoading.show(builder)
         val fAuth = FirebaseAuth.getInstance()
         fAuth.currentUser!!.updatePassword(newPass).addOnSuccessListener {
-            userModel.password = newPass
-
             val dataChangePass = DataClassChangePassword(oldPass, newPass, rePass)
             val client = ApiConfig.getApiService().changePassword(userModel.userId!!, dataChangePass)
             client.enqueue(object : Callback<DataResponse> {
@@ -558,6 +572,11 @@ class ApiCall(private val context: Context) {
                         val responseBody = response.body()
                         if (responseBody != null) {
                             alertDialog.dismiss()
+                            // save to preferences
+                            val userPreference = UserPreferences(context)
+                            userModel.password = newPass
+                            userPreference.setUser(userModel)
+                            // success dialog
                             Utils(context).successDialog(context.resources.getString(R.string.change_pass_success))
                         }
                     } else {

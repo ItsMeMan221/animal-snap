@@ -10,7 +10,6 @@ import android.os.Environment
 import android.text.method.HideReturnsTransformationMethod
 import android.text.method.PasswordTransformationMethod
 import android.view.View
-import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import com.albertukrida.capstoneproject_animalsnap.R
@@ -74,7 +73,7 @@ class Utils(private val context: Context) {
                 binding.cbPassword.isChecked = false
                 showPassword(binding.edLoginPassword, binding.cbPassword)
             } else {
-                Toast.makeText(context, "Error! " + task.exception!!.message, Toast.LENGTH_LONG).show()
+                Toast.makeText(context, context.resources.getString(R.string.resend_error), Toast.LENGTH_LONG).show()
             }
         }
     }
@@ -86,76 +85,54 @@ class Utils(private val context: Context) {
     fun updateProfPict(url: String?, binding: FragmentProfileBinding) {
         val circleProfileImage = binding.ivCircleProfileImage
         val squareProfileImage = binding.ivSquareProfileImage
+        val photoUrl = if(url == null || url == "") "profile_icon1.png" else url
         // save to preferences
         val userPreference = UserPreferences(context)
+        userModel.picture = photoUrl
+        userPreference.setUser(userModel)
         // show it to user
-        when (url) {
-            null -> {
-                userModel.picture = url
-                userPreference.setUser(userModel)
-                circleProfileImage.setImageResource(R.drawable.profile_icon1)
-                squareProfileImage.setImageResource(R.drawable.profile_icon1)
-            }
+        when (photoUrl) {
             "profile_icon1.png" -> {
-                userModel.picture = url
-                userPreference.setUser(userModel)
                 circleProfileImage.setImageResource(R.drawable.profile_icon1)
                 squareProfileImage.setImageResource(R.drawable.profile_icon1)
             }
             "profile_icon2.png" -> {
-                userModel.picture = url
-                userPreference.setUser(userModel)
                 circleProfileImage.setImageResource(R.drawable.profile_icon2)
                 squareProfileImage.setImageResource(R.drawable.profile_icon2)
             }
             "profile_icon3.png" -> {
-                userModel.picture = url
-                userPreference.setUser(userModel)
                 circleProfileImage.setImageResource(R.drawable.profile_icon3)
                 squareProfileImage.setImageResource(R.drawable.profile_icon3)
             }
             "profile_icon4.png" -> {
-                userModel.picture = url
-                userPreference.setUser(userModel)
                 circleProfileImage.setImageResource(R.drawable.profile_icon4)
                 squareProfileImage.setImageResource(R.drawable.profile_icon4)
             }
             "profile_icon5.png" -> {
-                userModel.picture = url
-                userPreference.setUser(userModel)
                 circleProfileImage.setImageResource(R.drawable.profile_icon5)
                 squareProfileImage.setImageResource(R.drawable.profile_icon5)
             }
             "profile_icon6.png" -> {
-                userModel.picture = url
-                userPreference.setUser(userModel)
                 circleProfileImage.setImageResource(R.drawable.profile_icon6)
                 squareProfileImage.setImageResource(R.drawable.profile_icon6)
             }
             "profile_icon7.png" -> {
-                userModel.picture = url
-                userPreference.setUser(userModel)
                 circleProfileImage.setImageResource(R.drawable.profile_icon7)
                 squareProfileImage.setImageResource(R.drawable.profile_icon7)
             }
             "profile_icon8.png" -> {
-                userModel.picture = url
-                userPreference.setUser(userModel)
                 circleProfileImage.setImageResource(R.drawable.profile_icon8)
                 squareProfileImage.setImageResource(R.drawable.profile_icon8)
             }
             "profile_icon9.png" -> {
-                userModel.picture = url
-                userPreference.setUser(userModel)
                 circleProfileImage.setImageResource(R.drawable.profile_icon9)
                 squareProfileImage.setImageResource(R.drawable.profile_icon9)
             }
             else -> {
-                userModel.picture = "custom"
-                userPreference.setUser(userModel)
-                Picasso.get().load(url).into(circleProfileImage)
-                Picasso.get().load(url).into(squareProfileImage)
+                Picasso.get().load(photoUrl).into(circleProfileImage)
+                Picasso.get().load(photoUrl).into(squareProfileImage)
             }
+
         }
     }
 
@@ -188,7 +165,7 @@ class Utils(private val context: Context) {
         return output
     }
 
-    fun successDialogProf(text: String, view: View) {
+    fun successDialogProf(text: String) {
         val successDialog = AlertDialog.Builder(context)
             .setView(R.layout.dialog_success)
             .create()
@@ -198,9 +175,6 @@ class Utils(private val context: Context) {
         successDialog.setOnDismissListener {
             // refresh profile fragment
             MainActivity.navView.selectedItemId = R.id.profile
-            val imm = context
-                .getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-            imm.hideSoftInputFromWindow(view.windowToken, 0)
         }
     }
 
@@ -282,47 +256,32 @@ class Utils(private val context: Context) {
         return file
     }
 
-    private fun getFileWidth(file: File): Int {
-        val options = BitmapFactory.Options()
-        options.inJustDecodeBounds = true
-        BitmapFactory.decodeFile(file.path, options)
-        return options.outWidth
-    }
-
-    fun centerCropImage(file: File): File? {
+    fun centerCropImage(file: File): File {
         try {
-            val width = getFileWidth(file)
             // Decode the input file into a Bitmap
             val options = BitmapFactory.Options()
             options.inJustDecodeBounds = true
             BitmapFactory.decodeFile(file.path, options)
 
-            // Calculate the scale factor to maintain the aspect ratio and center crop
-            var scaleFactor = 1
-            if (options.outWidth > width || options.outHeight > width) {
-                val widthScale = options.outWidth.toFloat() / width.toFloat()
-                val heightScale = options.outHeight.toFloat() / width.toFloat()
-                scaleFactor = widthScale.coerceAtLeast(heightScale).toInt()
-            }
+            // Calculate the size for center cropping
+            val imageSize = options.outWidth.coerceAtMost(options.outHeight)
+            val desiredSize = imageSize.coerceAtMost(options.outHeight)
 
             // Calculate the final dimensions for center cropping
-            val scaledWidth = options.outWidth / scaleFactor
-            val scaledHeight = options.outHeight / scaleFactor
-            val left = (scaledWidth - width) / 2
-            val top = (scaledHeight - width) / 2
+            val left = (options.outWidth - desiredSize) / 2
+            val top = (options.outHeight - desiredSize) / 2
 
-            // Decode the input file into a scaled Bitmap with the desired dimensions
+            // Decode the input file into a Bitmap with the desired dimensions
             options.inJustDecodeBounds = false
-            options.inSampleSize = scaleFactor
             val bitmap = BitmapFactory.decodeFile(file.path, options)
 
-            // Create a cropped bitmap using the calculated dimensions
-            val croppedBitmap = Bitmap.createBitmap(bitmap, left, top, width, width)
+            // Create a cropped Bitmap using the calculated dimensions
+            val croppedBitmap = Bitmap.createBitmap(bitmap, left, top, desiredSize, desiredSize)
 
             // Create a new File to save the cropped image
             val croppedFile = File(file.parent, "cropped_image.jpg")
 
-            // Compress the cropped bitmap to a file
+            // Compress the cropped Bitmap to a file
             val outputStream = FileOutputStream(croppedFile)
             croppedBitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream)
             outputStream.close()
@@ -334,7 +293,7 @@ class Utils(private val context: Context) {
             return croppedFile
         } catch (e: IOException) {
             e.printStackTrace()
-            return null
+            return file
         }
     }
 }

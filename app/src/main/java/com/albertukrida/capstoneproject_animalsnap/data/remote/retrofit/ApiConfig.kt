@@ -8,7 +8,7 @@ import retrofit2.converter.scalars.ScalarsConverterFactory
 
 class ApiConfig {
     companion object{
-        private const val baseUrl = "https://animal-snap-ftc4765tsq-et.a.run.app/"
+        private const val baseUrl = "https://animalsnap-3sgtt4qxma-et.a.run.app/"
         fun getApiService(token: String? = userModel.token): ApiService {
             val client = OkHttpClient.Builder()
                 .addInterceptor { chain ->

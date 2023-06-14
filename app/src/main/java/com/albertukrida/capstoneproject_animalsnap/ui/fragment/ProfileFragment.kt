@@ -48,7 +48,14 @@ class ProfileFragment : Fragment() {
 
         // get user profile data
         ApiCall(mContext).refreshToken()
-        ApiCall(mContext).getProfile(binding)
+        Utils(mContext).updateProfPict(userModel.picture, binding)
+        binding.tvUserId.text = buildString {
+            append("User ID: ")
+            append(userModel.userId)
+        }
+        binding.tvName.text = userModel.name
+        binding.tvEmail.text = userModel.email
+        binding.tvDate.text = userModel.date
 
         // change profile picture listener
         binding.ivCircleProfileImage.setOnClickListener{ changeProfilePictureDialog() }
@@ -146,7 +153,7 @@ class ProfileFragment : Fragment() {
                 file.name,
                 requestImageFile
             )
-            ApiCall(mContext).updateProfPict(mView, imageMultipart)
+            ApiCall(mContext).updateProfPict(imageMultipart, imageUri.toString())
         }
     }
 
@@ -233,6 +240,7 @@ class ProfileFragment : Fragment() {
         val changeName = changeNameDialog.findViewById<EditText>(R.id.ed_name)
         val btnNext = changeNameDialog.findViewById<TextView>(R.id.btn_next)
         val btnCancel = changeNameDialog.findViewById<TextView>(R.id.btn_cancel)
+        changeName.setText(userModel.name)
 
         btnNext.setOnClickListener {
             val txtChangeName = changeName.text.toString()

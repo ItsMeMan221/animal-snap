@@ -18,6 +18,7 @@
     <string name="email_error">Ketik alamat email yang valid</string>
     <string name="pass_error">Kata sandi harus memiliki setidaknya 8 karakter</string>
     <string name="rep_pass_error">Konfirmasi password salah</string>
+    <string name="resend_error">Eror! Coba beberapa detik lagi</string>
 
     <!-- Login and Registration Label -->
     <string name="name">Nama:</string>
