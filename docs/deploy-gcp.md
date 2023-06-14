@@ -74,8 +74,9 @@ gcloud services vpc-peerings connect \
 | Password         | mycapstoneprod                                       |
 | Database version | MySQL 8.0                                            |
 | Region           | asia-southeast2                                      |
-| Machine Type     | Lightweight 2vCPU, 3.75GB                            |
+| Machine Type     | Lightweight 1vCPU, 3.75GB                            |
 | Connection       | Check private IP, default network, uncheck public IP |
+| Storage          | HDD, 20 GB Capacity, Uncheck storage increase        |
 
 5. Create database
 ```bash
@@ -85,14 +86,14 @@ gcloud sql databases create animal-snap --instance=animal-snap-instance
 6. Import .sql
     - Click on your newly created instance to see it's detail
     - Note the IP, it will be used later
-    - Click on import button on top side menu 
+    - Click on import button on top side menu
     - Click browse, then select the bucket and select .sql file
     - On destination section, select database to ``` animal-snap ```
 
 # Cloud Run deployment
 
-1. Clone our repositories 
-``` bash 
+1. Clone our repositories
+``` bash
 git clone https://github.com/ItsMeMan221/animal-snap.git
 
 cd animal-snap/'Cloud Computing'
@@ -100,7 +101,7 @@ cd animal-snap/'Cloud Computing'
 
 2. Configure several files
     - Move the generated key earlier to Cloud Computing folder
-    ```bash 
+    ```bash
     mv ~/credentials.json ~/animal-snap/'Cloud Computing'
     ```
     - Create a app.yaml files
@@ -117,7 +118,7 @@ cd animal-snap/'Cloud Computing'
 
     - Move the model from machine learning folder to cloud computing folder
     ```bash
-    mv ~/animal-snap/'Machine Learning'/model_fix/model_14class_v2.h5 ~/animal-snap/'Cloud Computing'/model.h5
+    mv ~/animal-snap/'Machine Learning'/model_14class_v3.h5 ~/animal-snap/'Cloud Computing'/model.h5
     ```
     - Edit the modules/bucket_user
     ```bash
@@ -158,7 +159,7 @@ docker push asia-southeast2-docker.pkg.dev/$PROJECT_ID/animalsnap/animalsnap:v1
 Important note: if you get an error artifactregistry.repositories.uploadArtifacts" denied use this following command
 
 ```bash
-gcloud auth configure-docker easia-southeast2-docker.pkg.dev
+gcloud auth configure-docker asia-southeast2-docker.pkg.dev
 ```
 
 6. Deploy to cloud run
