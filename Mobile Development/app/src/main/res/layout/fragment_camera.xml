@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/android_view_container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    android:orientation="vertical" >
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="32dp"
+        android:layout_marginTop="24dp"
+        android:text="@string/classify"
+        android:textSize="24sp"
+        android:textAlignment="center"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        android:paddingHorizontal="16dp"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:layout_marginVertical="24dp">
+        <ImageView
+            android:id="@+id/iv_add_photo"
+            android:layout_width="120dp"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/border_circle_dashed"
+            android:contentDescription="@string/camera" />
+        <TextView
+            android:id="@+id/tv_add_photo_hint"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true"
+            android:text="@string/camera"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            app:drawableTopCompat="@drawable/ic_baseline_camera_alt_24"
+            app:drawableTint="@color/white"/>
+        <ImageView
+            android:id="@+id/iv_trash"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_toEndOf="@id/iv_add_photo"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="8dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_baseline_delete_24"
+            android:visibility="gone"
+            android:contentDescription="@string/delete_photo" />
+    </RelativeLayout>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/button_add"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="56dp"
+        android:layout_marginBottom="32dp"
+        android:background="@drawable/shape_button_gradient"
+        android:text="@string/classify"
+        android:textColor="@color/black" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="16dp"
+        android:paddingVertical="2dp"
+        android:text="@string/history"
+        android:background="@drawable/border_top_bottom"
+        android:textSize="18sp"
+        android:textColor="@color/black"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_list_history"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="12dp"
+        android:layout_marginBottom="16dp"
+        android:visibility="gone" />
+
+    <LinearLayout
+        android:id="@+id/tv_empty_history"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="12dp"
+        android:layout_marginBottom="16dp"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:padding="16dp"
+        android:visibility="gone"
+        tools:ignore="UseCompoundDrawables">
+
+        <ImageView
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_marginBottom="12dp"
+            android:src="@drawable/icon_empty_history"
+            android:contentDescription="@string/empty_history" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/empty_history"
+            android:textSize="24sp"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textStyle="bold" />
+    </LinearLayout>
+</LinearLayout>

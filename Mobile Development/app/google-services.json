@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "487535843035",
+    "project_id": "animalsnap-9455f",
+    "storage_bucket": "animalsnap-9455f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:487535843035:android:23a827447120d82f921efe",
+        "android_client_info": {
+          "package_name": "com.albertukrida.capstoneproject_animalsnap"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "487535843035-e3r2sbfmd4jv10n4c9snf21egcii5nhu.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.albertukrida.capstoneproject_animalsnap",
+            "certificate_hash": "a062dfe27ea3d52bd2c8879e0e4290e91baee067"
+          }
+        },
+        {
+          "client_id": "487535843035-541vvl71ba9kknchas9juhmdbhgmqmt6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBIER_kKf_-88IOh1NezgVl-XC8myxtj6A"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "487535843035-541vvl71ba9kknchas9juhmdbhgmqmt6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
