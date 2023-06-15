@@ -21,4 +21,7 @@ C23-PS040 ML Teams.
 14. Squirrel
 
 ## Our Dataset Link:
-- 
+- [Animals-10 | Kaggle ](https://www.kaggle.com/datasets/alessiocorrado99/animals10)
+- [Animal Image Dataset (90 Different Animals) | Kaggle] (https://www.kaggle.com/datasets/iamsouravbanerjee/animal-image-dataset-90-different-animals)
+- [Danger Of Extinction / Animal Image Set | Kaggle] (https://www.kaggle.com/datasets/brsdincer/danger-of-extinction-animal-image-set)
+
